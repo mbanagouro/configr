@@ -48,7 +48,7 @@ jobs:
       - name: Test
         env:
           CONFIGR_TEST_SQL_CONN: "Server=localhost,1433;Database=ConfigR_Test;User Id=sa;Password=Pass@123;TrustServerCertificate=True;"
-        run: dotnet test --no-build --verbosity normal
+        run: dotnet test ./tests/ConfigR.Tests/ConfigR.Tests.csproj --configuration Debug --verbosity normal
 
       - name: Upload test results
         if: always()
