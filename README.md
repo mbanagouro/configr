@@ -3,7 +3,7 @@
   <p align="center">Strongly-typed runtime configuration for modern .NET apps</p>
 
   <p align="center">
-    <img src="https://img.shields.io/badge/.NET-8.0-blueviolet" />
+    <img src="https://img.shields.io/badge/.NET-10.0-blueviolet" />
     <img src="https://img.shields.io/badge/license-MIT-green.svg" />
     <img src="https://github.com/mbanagouro/configr/actions/workflows/ci-cd.yml/badge.svg" />
     <img src="https://github.com/mbanagouro/configr/actions/workflows/docs.yml/badge.svg" />
@@ -104,8 +104,7 @@ await _configR.SaveAsync(checkout);
 |---------|--------|--------|
 | SQL Server | ConfigR.SqlServer | ✅ Incluído |
 | Redis | ConfigR.Redis | 🔜 Planejado |
-| FileSystem | ConfigR.FileSystem | 🔜 Planejado |
-| Azure (Table/Cosmos) | ConfigR.Azure | 🔜 Planejado |
+| MongoDB | ConfigR.MongoDB | 🔜 Planejado |
 
 ---
 
