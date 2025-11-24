@@ -46,7 +46,9 @@ Ideal para:
 
 ```bash
 dotnet add package ConfigR.Core
+
 dotnet add package ConfigR.SqlServer
+dotnet add package ConfigR.MongoDB
 dotnet add package ConfigR.Npgsql
 ```
 
@@ -80,7 +82,7 @@ builder.Services
 // Npgsql
 builder.Services
     .AddConfigR()
-    .UseMongoDb("mongodb://localhost:27017", "ConfigR");
+    .UseNpgsql(builder.Configuration.GetConnectionString("ConfigR"));
 ```
 
 ### 3. Leia a configuração tipada
@@ -126,6 +128,22 @@ CREATE TABLE [dbo].[ConfigR] (
 
 CREATE UNIQUE INDEX IX_ConfigR_Key_Scope
     ON [dbo].[ConfigR] ([Key], [Scope]);
+```
+
+---
+
+## 🗄 Estrutura da Tabela (Npsql)
+
+```sql
+CREATE SCHEMA IF NOT EXISTS public;
+
+CREATE TABLE IF NOT EXISTS public.configr (
+    id SERIAL PRIMARY KEY,
+    key TEXT NOT NULL,
+    value TEXT NOT NULL,
+    scope TEXT NULL,
+    UNIQUE(key, scope)
+);
 ```
 
 ---
