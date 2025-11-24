@@ -47,7 +47,7 @@ Ideal para:
 ```bash
 dotnet add package ConfigR.Core
 dotnet add package ConfigR.SqlServer
-dotnet add package ConfigR.MongoDB
+dotnet add package ConfigR.Npgsql
 ```
 
 ---
@@ -64,7 +64,7 @@ public sealed class CheckoutConfig
 }
 ```
 
-### 2. Registre o ConfigR no DI
+### 2. Registre o ConfigR no DI (Escolha o provider que deseja)
 
 ```csharp
 // SQL Server
@@ -73,6 +73,11 @@ builder.Services
     .UseSqlServer(builder.Configuration.GetConnectionString("ConfigR"));
 
 // MongoDB
+builder.Services
+    .AddConfigR()
+    .UseMongoDb("mongodb://localhost:27017", "ConfigR");
+
+// Npgsql
 builder.Services
     .AddConfigR()
     .UseMongoDb("mongodb://localhost:27017", "ConfigR");
@@ -104,6 +109,7 @@ await _configR.SaveAsync(checkout);
 |---------|--------|--------|
 | SQL Server | ConfigR.SqlServer | ✅ Incluído |
 | MongoDB | ConfigR.MongoDB | ✅ Incluído |
+| Npgsql | ConfigR.Npgsql | ✅ Incluído |
 | Redis | ConfigR.Redis | 🔜 Planejado |
 
 ---
@@ -130,7 +136,8 @@ CREATE UNIQUE INDEX IX_ConfigR_Key_Scope
 ConfigR.Abstractions  → Interfaces e contratos base
 ConfigR.Core          → Implementação padrão (cache, serializer, DI, key formatter)
 ConfigR.SqlServer     → Provider SQL Server (ADO.NET)
-ConfigR.MongoDB     → Provider MongoDB
+ConfigR.MongoDB       → Provider MongoDB
+ConfigR.Npgsql        → Provider Npgsql
 ```
 
 ---
@@ -149,13 +156,27 @@ Disponível em:
 dotnet test
 ```
 
-Para rodar integração manualmente:
+Para rodar integração manualmente (SQL Server):
 
 ```bash
 docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Pass@123" -p 1433:1433 \
   mcr.microsoft.com/mssql/server:2022-latest
+```
 
+Para rodar integração manualmente (MongoDB):
+
+```bash
 docker run -d -p 27017:27017 --name configr-mongo mongo:7
+```
+
+Para rodar integração manualmente (Npgsql)
+
+```bash
+docker run --name pg-configr -e POSTGRES_PASSWORD=123456 \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_DB=configr_test \
+  -p 5432:5432 -d postgres:16
+
 ```
 
 ---

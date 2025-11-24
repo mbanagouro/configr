@@ -7,7 +7,7 @@ using Xunit;
 
 namespace ConfigR.Tests.SqlServer;
 
-[Collection("SqlServerTests")]
+[Collection("SqlServerIntegration")]
 public sealed class SqlServerIntegrationTests
 {
     private async Task<DefaultConfigR> CreateSutAsync()

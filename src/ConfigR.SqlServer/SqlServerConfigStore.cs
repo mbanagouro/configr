@@ -162,22 +162,22 @@ public sealed class SqlServerConfigStore : IConfigStore
                 command.Transaction = (SqlTransaction)transaction;
                 command.CommandType = CommandType.Text;
                 command.CommandText = $@"
-                IF EXISTS (
-                    SELECT 1 FROM {_fullTableName}
-                    WHERE [Key] = @key
-                        AND ((@scope IS NULL AND [Scope] IS NULL) OR [Scope] = @scope)
-                )
-                BEGIN
-                    UPDATE {_fullTableName}
-                    SET [Value] = @value
-                    WHERE [Key] = @key
-                        AND ((@scope IS NULL AND [Scope] IS NULL) OR [Scope] = @scope);
-                END
-                ELSE
-                BEGIN
-                    INSERT INTO {_fullTableName} ([Key], [Value], [Scope])
-                    VALUES (@key, @value, @scope);
-                END";
+                    IF EXISTS (
+                        SELECT 1 FROM {_fullTableName}
+                        WHERE [Key] = @key
+                            AND ((@scope IS NULL AND [Scope] IS NULL) OR [Scope] = @scope)
+                    )
+                    BEGIN
+                        UPDATE {_fullTableName}
+                        SET [Value] = @value
+                        WHERE [Key] = @key
+                            AND ((@scope IS NULL AND [Scope] IS NULL) OR [Scope] = @scope);
+                    END
+                    ELSE
+                    BEGIN
+                        INSERT INTO {_fullTableName} ([Key], [Value], [Scope])
+                        VALUES (@key, @value, @scope);
+                    END";
 
                 var keyParam = new SqlParameter("@key", SqlDbType.NVarChar, 256);
                 var valueParam = new SqlParameter("@value", SqlDbType.NVarChar, -1);

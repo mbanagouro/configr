@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace ConfigR.MongoDb;
+namespace ConfigR.MongoDB;
 
 /// <summary>
 /// MongoDB implementation of the configuration store.
@@ -30,7 +30,7 @@ public sealed class MongoConfigStore : IConfigStore
             throw new ArgumentException("Database must be provided.", nameof(options));
         
         if (string.IsNullOrWhiteSpace(value.Collection))
-            value.Collection = "Configuracoes";
+            value.Collection = "ConfigR";
 
         var client = new MongoClient(value.ConnectionString);
         var database = client.GetDatabase(value.Database);
@@ -92,7 +92,7 @@ public sealed class MongoConfigStore : IConfigStore
     public async Task<IReadOnlyDictionary<string, ConfigEntry>> GetAllAsync(string? scope = null)
     {
         var filter = scope is null
-            ? Builders<BsonDocument>.Filter.Empty
+            ? Builders<BsonDocument>.Filter.Eq("Scope", BsonNull.Value)
             : Builders<BsonDocument>.Filter.Eq("Scope", scope);
 
         using var cursor = await _collection

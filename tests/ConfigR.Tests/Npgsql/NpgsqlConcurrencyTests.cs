@@ -1,61 +1,56 @@
 ﻿using ConfigR.Abstractions;
 using ConfigR.Core;
-using ConfigR.MongoDB;
+using ConfigR.Npgsql;
 using FluentAssertions;
 using Microsoft.Extensions.Options;
 using Xunit;
 
-namespace ConfigR.Tests.MongoDB;
+namespace ConfigR.Tests.Npgsql;
 
-[Collection("MongoConcurrency")]
-public sealed class MongoConcurrencyTests
+[Collection("NpgsqlConcurrency")]
+public sealed class NpgsqlConcurrencyTests
 {
     private async Task<DefaultConfigR> CreateSutAsync()
     {
-        await MongoTestDatabase.ClearCollectionAsync().ConfigureAwait(false);
+        await NpgsqlTestDatabase.ClearTableAsync();
 
-        var storeOptions = Options.Create(new MongoConfigStoreOptions
+        var storeOptions = Options.Create(new NpgsqlConfigStoreOptions
         {
-            ConnectionString = MongoTestDatabase.GetConnectionString(),
-            Database = MongoTestDatabase.GetDatabaseName(),
-            Collection = "ConfigR"
+            ConnectionString = NpgsqlTestDatabase.GetConnectionString(),
+            Schema = "public",
+            Table = "configr",
+            AutoCreateTable = true
         });
 
-        var store = new MongoConfigStore(storeOptions);
+        var store = new NpgsqlConfigStore(storeOptions);
         var cache = new MemoryConfigCache();
         var serializer = new DefaultConfigSerializer();
-        var keyFormatter = new DefaultConfigKeyFormatter();
-        var cfgOptions = Options.Create(new ConfigROptions());
+        var formatter = new DefaultConfigKeyFormatter();
+        var cfg = Options.Create(new ConfigROptions());
 
-        return new DefaultConfigR(store, cache, serializer, keyFormatter, cfgOptions);
+        return new DefaultConfigR(store, cache, serializer, formatter, cfg);
     }
 
     [Fact]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "xUnit1030:Do not call ConfigureAwait(false) in test method", Justification = "<Pending>")]
     public async Task ParallelReads_Should_Be_Consistent()
     {
-        var configR = await CreateSutAsync().ConfigureAwait(false);
+        var sut = await CreateSutAsync();
 
         var initial = new SampleConfig
         {
+            Name = "PgParallel",
             IntValue = 10,
-            Name = "ParallelMongo",
-            IsEnabled = true,
-            Tags = new() { "one", "two" },
-            Details = new NestedData { Level = 1, Description = "Parallel Mongo" }
+            Details = new NestedData { Level = 1, Description = "PG Test" }
         };
 
-        await configR.SaveAsync(initial).ConfigureAwait(false);
+        await sut.SaveAsync(initial);
 
-        var tasks = Enumerable.Range(0, 100)
-            .Select(async _ =>
-            {
-                var cfg = await configR.GetAsync<SampleConfig>().ConfigureAwait(false);
-                cfg.Should().NotBeNull();
-                cfg.Name.Should().Be("ParallelMongo");
-                cfg.Details.Should().NotBeNull();
-                cfg.Details.Description.Should().Be("Parallel Mongo");
-            });
+        var tasks = Enumerable.Range(0, 100).Select(async _ =>
+        {
+            var cfg = await sut.GetAsync<SampleConfig>();
+            cfg.Name.Should().Be("PgParallel");
+            cfg.Details.Description.Should().Be("PG Test");
+        });
 
         await Task.WhenAll(tasks);
     }
@@ -69,10 +64,10 @@ public sealed class MongoConcurrencyTests
         var initial = new SampleConfig
         {
             IntValue = 0,
-            Name = "CounterMongo",
+            Name = "CounterNpgsql",
             IsEnabled = true,
             Tags = new() { "start" },
-            Details = new NestedData { Level = 1, Description = "Counter Mongo" }
+            Details = new NestedData { Level = 1, Description = "Counter Npgsql" }
         };
 
         await configR.SaveAsync(initial).ConfigureAwait(false);
@@ -96,6 +91,6 @@ public sealed class MongoConcurrencyTests
         var finalCfg = await configR.GetAsync<SampleConfig>().ConfigureAwait(false);
         finalCfg.Tags.Should().NotBeNull();
         finalCfg.Details.Should().NotBeNull();
-        finalCfg.Name.Should().Be("CounterMongo");
+        finalCfg.Name.Should().Be("CounterNpgsql");
     }
 }

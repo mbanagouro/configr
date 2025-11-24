@@ -1,8 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
-using System.Text.Json;
 
-namespace ConfigR.Tests.MongoDb;
+namespace ConfigR.Tests.MongoDB;
 
 public static class MongoTestDatabase
 {
@@ -21,7 +20,7 @@ public static class MongoTestDatabase
     {
         var client = new MongoClient(GetConnectionString());
         var db = client.GetDatabase(GetDatabaseName());
-        var collection = db.GetCollection<BsonDocument>("Configuracoes");
+        var collection = db.GetCollection<BsonDocument>("ConfigR");
 
         await collection.DeleteManyAsync(FilterDefinition<BsonDocument>.Empty)
             .ConfigureAwait(false);

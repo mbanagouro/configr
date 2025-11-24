@@ -20,7 +20,7 @@ public sealed class SqlServerConfigStoreOptions
     /// Gets or sets the table name where configuration entries are stored.
     /// Defaults to "Configuracoes".
     /// </summary>
-    public string Table { get; set; } = "Configuracoes";
+    public string Table { get; set; } = "ConfigR";
 
     /// <summary>
     /// Gets or sets a value indicating whether to automatically create the configuration table if it does not exist.

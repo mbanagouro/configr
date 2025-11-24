@@ -1,26 +1,28 @@
-﻿using ConfigR.Abstractions;
-using ConfigR.MongoDB;
+using ConfigR.Abstractions;
+using ConfigR.SqlServer;
 using FluentAssertions;
 using Microsoft.Extensions.Options;
 using Xunit;
 
-namespace ConfigR.Tests.MongoDB;
+namespace ConfigR.Tests.SqlServer;
 
-[Collection("MongoConfigStore")]
-public sealed class MongoConfigStoreTests
+[Collection("SqlServerConfigStore")]
+public sealed class SqlServerConfigStoreTests
 {
-    private async Task<MongoConfigStore> CreateStoreAsync()
+    private async Task<SqlServerConfigStore> CreateStoreAsync()
     {
-        await MongoTestDatabase.ClearCollectionAsync().ConfigureAwait(false);
+        await SqlServerTestDatabase.EnsureDatabaseAndTableAsync().ConfigureAwait(false);
+        await SqlServerTestDatabase.ClearTableAsync().ConfigureAwait(false);
 
-        var options = Options.Create(new MongoConfigStoreOptions
+        var options = Options.Create(new SqlServerConfigStoreOptions
         {
-            ConnectionString = MongoTestDatabase.GetConnectionString(),
-            Database = MongoTestDatabase.GetDatabaseName(),
-            Collection = "ConfigR"
+            ConnectionString = SqlServerTestDatabase.GetConnectionString(),
+            Schema = "dbo",
+            Table = "ConfigR",
+            AutoCreateTable = true
         });
 
-        return new MongoConfigStore(options);
+        return new SqlServerConfigStore(options);
     }
 
     [Fact]

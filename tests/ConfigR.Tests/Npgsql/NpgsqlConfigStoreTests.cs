@@ -1,28 +1,27 @@
-using ConfigR.Abstractions;
-using ConfigR.SqlServer;
+﻿using ConfigR.Abstractions;
+using ConfigR.Npgsql;
 using FluentAssertions;
 using Microsoft.Extensions.Options;
 using Xunit;
 
-namespace ConfigR.Tests.SqlServer;
+namespace ConfigR.Tests.Npgsql;
 
-[Collection("SqlServerTests")]
-public sealed class SqlServerStoreTests
+[Collection("NpgsqlConfigStore")]
+public sealed class NpgsqlConfigStoreTests
 {
-    private async Task<SqlServerConfigStore> CreateStoreAsync()
+    private async Task<NpgsqlConfigStore> CreateStoreAsync()
     {
-        await SqlServerTestDatabase.EnsureDatabaseAndTableAsync().ConfigureAwait(false);
-        await SqlServerTestDatabase.ClearTableAsync().ConfigureAwait(false);
+        await NpgsqlTestDatabase.ClearTableAsync();
 
-        var options = Options.Create(new SqlServerConfigStoreOptions
+        var storeOptions = Options.Create(new NpgsqlConfigStoreOptions
         {
-            ConnectionString = SqlServerTestDatabase.GetConnectionString(),
-            Schema = "dbo",
-            Table = "ConfigR",
+            ConnectionString = NpgsqlTestDatabase.GetConnectionString(),
+            Schema = "public",
+            Table = "configr",
             AutoCreateTable = true
         });
 
-        return new SqlServerConfigStore(options);
+        return new NpgsqlConfigStore(storeOptions);
     }
 
     [Fact]

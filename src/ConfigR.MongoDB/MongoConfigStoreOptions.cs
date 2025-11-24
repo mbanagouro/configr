@@ -1,4 +1,4 @@
-﻿namespace ConfigR.MongoDb;
+﻿namespace ConfigR.MongoDB;
 
 /// <summary>
 /// Configuration options for the MongoDB configuration store.

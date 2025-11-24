@@ -1,27 +1,29 @@
 ﻿using ConfigR.Abstractions;
 using ConfigR.Core;
-using ConfigR.MongoDB;
+using ConfigR.SqlServer;
 using FluentAssertions;
 using Microsoft.Extensions.Options;
 using Xunit;
 
-namespace ConfigR.Tests.MongoDB;
+namespace ConfigR.Tests.SqlServer;
 
-[Collection("MongoConcurrency")]
-public sealed class MongoConcurrencyTests
+[Collection("SqlServerConcurrency")]
+public sealed class SqlServerConcurrencyTests
 {
     private async Task<DefaultConfigR> CreateSutAsync()
     {
-        await MongoTestDatabase.ClearCollectionAsync().ConfigureAwait(false);
+        await SqlServerTestDatabase.EnsureDatabaseAndTableAsync().ConfigureAwait(false);
+        await SqlServerTestDatabase.ClearTableAsync().ConfigureAwait(false);
 
-        var storeOptions = Options.Create(new MongoConfigStoreOptions
+        var storeOptions = Options.Create(new SqlServerConfigStoreOptions
         {
-            ConnectionString = MongoTestDatabase.GetConnectionString(),
-            Database = MongoTestDatabase.GetDatabaseName(),
-            Collection = "ConfigR"
+            ConnectionString = SqlServerTestDatabase.GetConnectionString(),
+            Schema = "dbo",
+            Table = "ConfigR",
+            AutoCreateTable = true
         });
 
-        var store = new MongoConfigStore(storeOptions);
+        var store = new SqlServerConfigStore(storeOptions);
         var cache = new MemoryConfigCache();
         var serializer = new DefaultConfigSerializer();
         var keyFormatter = new DefaultConfigKeyFormatter();
@@ -39,10 +41,10 @@ public sealed class MongoConcurrencyTests
         var initial = new SampleConfig
         {
             IntValue = 10,
-            Name = "ParallelMongo",
+            Name = "ParallelSqlServer",
             IsEnabled = true,
             Tags = new() { "one", "two" },
-            Details = new NestedData { Level = 1, Description = "Parallel Mongo" }
+            Details = new NestedData { Level = 1, Description = "Parallel SQL Server" }
         };
 
         await configR.SaveAsync(initial).ConfigureAwait(false);
@@ -52,9 +54,9 @@ public sealed class MongoConcurrencyTests
             {
                 var cfg = await configR.GetAsync<SampleConfig>().ConfigureAwait(false);
                 cfg.Should().NotBeNull();
-                cfg.Name.Should().Be("ParallelMongo");
+                cfg.Name.Should().Be("ParallelSqlServer");
                 cfg.Details.Should().NotBeNull();
-                cfg.Details.Description.Should().Be("Parallel Mongo");
+                cfg.Details.Description.Should().Be("Parallel SQL Server");
             });
 
         await Task.WhenAll(tasks);
@@ -69,10 +71,10 @@ public sealed class MongoConcurrencyTests
         var initial = new SampleConfig
         {
             IntValue = 0,
-            Name = "CounterMongo",
+            Name = "CounterSqlServer",
             IsEnabled = true,
             Tags = new() { "start" },
-            Details = new NestedData { Level = 1, Description = "Counter Mongo" }
+            Details = new NestedData { Level = 1, Description = "Counter SQL Server" }
         };
 
         await configR.SaveAsync(initial).ConfigureAwait(false);
@@ -96,6 +98,6 @@ public sealed class MongoConcurrencyTests
         var finalCfg = await configR.GetAsync<SampleConfig>().ConfigureAwait(false);
         finalCfg.Tags.Should().NotBeNull();
         finalCfg.Details.Should().NotBeNull();
-        finalCfg.Name.Should().Be("CounterMongo");
+        finalCfg.Name.Should().Be("CounterSqlServer");
     }
 }

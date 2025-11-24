@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace ConfigR.MongoDb;
+namespace ConfigR.MongoDB;
 
 /// <summary>
 /// Extension methods for configuring MongoDB as the configuration store.
