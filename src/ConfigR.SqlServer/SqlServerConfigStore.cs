@@ -5,6 +5,9 @@ using System.Data;
 
 namespace ConfigR.SqlServer;
 
+/// <summary>
+/// SQL Server implementation of the configuration store.
+/// </summary>
 public sealed class SqlServerConfigStore : IConfigStore
 {
     private readonly SqlServerConfigStoreOptions _options;
@@ -12,6 +15,12 @@ public sealed class SqlServerConfigStore : IConfigStore
     private readonly SemaphoreSlim _initSemaphore = new(1, 1);
     private bool _initialized;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SqlServerConfigStore"/> class.
+    /// </summary>
+    /// <param name="options">The SQL Server configuration store options.</param>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="options"/> is null or <paramref name="options"/>.Value is null.</exception>
+    /// <exception cref="InvalidOperationException">Thrown when the connection string is not configured.</exception>
     public SqlServerConfigStore(IOptions<SqlServerConfigStoreOptions> options)
     {
         ArgumentNullException.ThrowIfNull(options);
@@ -29,6 +38,13 @@ public sealed class SqlServerConfigStore : IConfigStore
         _fullTableName = $"[{schema}].[{table}]";
     }
 
+    /// <summary>
+    /// Gets a configuration entry by key and optional scope.
+    /// </summary>
+    /// <param name="key">The configuration key.</param>
+    /// <param name="scope">The optional scope.</param>
+    /// <returns>The configuration entry if found; otherwise, null.</returns>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="key"/> is null, empty, or whitespace.</exception>
     public async Task<ConfigEntry?> GetAsync(string key, string? scope = null)
     {
         if (string.IsNullOrWhiteSpace(key))
@@ -75,6 +91,11 @@ public sealed class SqlServerConfigStore : IConfigStore
         };
     }
 
+    /// <summary>
+    /// Gets all configuration entries for a given scope.
+    /// </summary>
+    /// <param name="scope">The optional scope.</param>
+    /// <returns>A read-only dictionary of configuration entries.</returns>
     public async Task<IReadOnlyDictionary<string, ConfigEntry>> GetAllAsync(string? scope = null)
     {
         await EnsureInitializedAsync().ConfigureAwait(false);
@@ -116,6 +137,13 @@ public sealed class SqlServerConfigStore : IConfigStore
         return result;
     }
 
+    /// <summary>
+    /// Inserts or updates configuration entries.
+    /// </summary>
+    /// <param name="entries">The configuration entries to upsert.</param>
+    /// <param name="scope">The optional scope.</param>
+    /// <returns>A task representing the asynchronous upsert operation.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="entries"/> is null.</exception>
     public async Task UpsertAsync(IEnumerable<ConfigEntry> entries, string? scope = null)
     {
         ArgumentNullException.ThrowIfNull(entries);
@@ -185,6 +213,10 @@ public sealed class SqlServerConfigStore : IConfigStore
         }
     }
 
+    /// <summary>
+    /// Ensures the store is initialized, creating the table if AutoCreateTable is enabled.
+    /// </summary>
+    /// <returns>A task representing the initialization operation.</returns>
     private async Task EnsureInitializedAsync()
     {
         if (_initialized)
@@ -213,6 +245,10 @@ public sealed class SqlServerConfigStore : IConfigStore
         }
     }
 
+    /// <summary>
+    /// Creates the configuration table in the database if it does not already exist.
+    /// </summary>
+    /// <returns>A task representing the table creation operation.</returns>
     private async Task CreateTableIfNotExistsAsync()
     {
         await using var connection = new SqlConnection(_options.ConnectionString);

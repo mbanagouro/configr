@@ -26,6 +26,7 @@ public sealed class SqlServerStoreTests
     }
 
     [Fact]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "xUnit1030:Do not call ConfigureAwait(false) in test method", Justification = "<Pending>")]
     public async Task UpsertAndGetAll_Works()
     {
         var store = await CreateStoreAsync().ConfigureAwait(false);
@@ -45,6 +46,7 @@ public sealed class SqlServerStoreTests
     }
 
     [Fact]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "xUnit1030:Do not call ConfigureAwait(false) in test method", Justification = "<Pending>")]
     public async Task Upsert_RespectsScope()
     {
         var store = await CreateStoreAsync().ConfigureAwait(false);
@@ -69,6 +71,7 @@ public sealed class SqlServerStoreTests
     }
 
     [Fact]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "xUnit1030:Do not call ConfigureAwait(false) in test method", Justification = "<Pending>")]
     public async Task GetAsync_ReturnsNull_WhenNotExists()
     {
         var store = await CreateStoreAsync().ConfigureAwait(false);
