@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\ConfigR.Abstractions\ConfigR.Abstractions.csproj" />
     <ProjectReference Include="..\..\src\ConfigR.Core\ConfigR.Core.csproj" />
+    <ProjectReference Include="..\..\src\ConfigR.MongoDB\ConfigR.MongoDB.csproj" />
     <ProjectReference Include="..\..\src\ConfigR.SqlServer\ConfigR.SqlServer.csproj" />
   </ItemGroup>
 

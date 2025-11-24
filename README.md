@@ -26,8 +26,7 @@ Ele permite salvar e carregar configurações em tempo de execução usando:
 
 - 🔥 Tipagem forte
 - 🚀 Cache em memória integrado
-- ⚡ Acesso rápido via ADO.NET
-- 🧩 Providers de armazenamento plugáveis (SQL Server incluso)
+- 🧩 Providers de armazenamento plugáveis
 - 🧱 Scopes multi-tenant
 - 🔧 Serialização customizável
 - 🧠 Zero reflection pesada ou mágica
@@ -48,6 +47,7 @@ Ideal para:
 ```bash
 dotnet add package ConfigR.Core
 dotnet add package ConfigR.SqlServer
+dotnet add package ConfigR.MongoDB
 ```
 
 ---
@@ -67,15 +67,15 @@ public sealed class CheckoutConfig
 ### 2. Registre o ConfigR no DI
 
 ```csharp
+// SQL Server
 builder.Services
-    .AddConfigR(options =>
-    {
-        options.DefaultScope = "loja-1"; // opcional
-    })
-    .UseSqlServer(builder.Configuration.GetConnectionString("ConfigR"), opt =>
-    {
-        opt.AutoCreateTable = true;
-    });
+    .AddConfigR()
+    .UseSqlServer(builder.Configuration.GetConnectionString("ConfigR"));
+
+// MongoDB
+builder.Services
+    .AddConfigR()
+    .UseMongoDb("mongodb://localhost:27017", "ConfigR");
 ```
 
 ### 3. Leia a configuração tipada
@@ -103,8 +103,8 @@ await _configR.SaveAsync(checkout);
 | Provider | Pacote | Status |
 |---------|--------|--------|
 | SQL Server | ConfigR.SqlServer | ✅ Incluído |
+| MongoDB | ConfigR.MongoDB | ✅ Incluído |
 | Redis | ConfigR.Redis | 🔜 Planejado |
-| MongoDB | ConfigR.MongoDB | 🔜 Planejado |
 
 ---
 
@@ -130,6 +130,7 @@ CREATE UNIQUE INDEX IX_ConfigR_Key_Scope
 ConfigR.Abstractions  → Interfaces e contratos base
 ConfigR.Core          → Implementação padrão (cache, serializer, DI, key formatter)
 ConfigR.SqlServer     → Provider SQL Server (ADO.NET)
+ConfigR.MongoDB     → Provider MongoDB
 ```
 
 ---
@@ -153,6 +154,8 @@ Para rodar integração manualmente:
 ```bash
 docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Pass@123" -p 1433:1433 \
   mcr.microsoft.com/mssql/server:2022-latest
+
+docker run -d -p 27017:27017 --name configr-mongo mongo:7
 ```
 
 ---

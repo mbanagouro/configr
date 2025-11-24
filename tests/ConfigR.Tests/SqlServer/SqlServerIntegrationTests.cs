@@ -33,6 +33,7 @@ public sealed class SqlServerIntegrationTests
     }
 
     [Fact]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "xUnit1030:Do not call ConfigureAwait(false) in test method", Justification = "<Pending>")]
     public async Task Should_Save_And_Load_SampleConfig_On_SqlServer()
     {
         var configR = await CreateSutAsync().ConfigureAwait(false);

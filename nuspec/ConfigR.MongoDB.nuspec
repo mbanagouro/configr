@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>ConfigR.MongoDB</id>
+    <version>1.0.0</version>
+    <title>ConfigR MongoDB Provider</title>
+    <authors>Michel Banagouro</authors>
+    <owners>Leanwork</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <projectUrl>https://github.com/mbanagouro/configr</projectUrl>
+    <repository type="git" url="https://github.com/mbanagouro/configr"/>
+    <description>MongoDB provider for ConfigR — strongly typed runtime configurations for .NET.</description>
+    <tags>configr mongodb configuration dotnet settings</tags>
+    <dependencies>
+      <dependency id="ConfigR.Abstractions" version="[1.0.0]" />
+      <dependency id="MongoDB.Driver" version="[2.27.0]" />
+    </dependencies>
+  </metadata>
+
+  <files>
+    <file src="..\src\ConfigR.MongoDB\bin\Release\net10.0\*.dll" target="lib\net10.0" />
+    <file src="..\LICENSE" target="" />
+  </files>
+</package>

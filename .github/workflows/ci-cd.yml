@@ -28,6 +28,16 @@ jobs:
           --health-timeout 5s
           --health-retries 10
 
+      mongo:
+        image: mongo:7
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongosh --eval 'db.runCommand({ ping: 1 })'"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -35,19 +45,28 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: '10.x'
 
       - name: Restore
         run: dotnet restore
 
       - name: Wait for SQL Server
         run: |
-          echo "Aguardando SQL Server subir..."
+          echo "Waiting SQL Server..."
           sleep 20
+
+          echo "Waiting MongoDB..."
+          for i in {1..20}; do
+            if mongosh "mongodb://localhost:27017" --eval "db.runCommand({ ping: 1 })" &>/dev/null; then
+              break
+            fi
+            sleep 2
+          done
 
       - name: Test
         env:
           CONFIGR_TEST_SQL_CONN: "Server=localhost,1433;Database=ConfigR_Test;User Id=sa;Password=Pass@123;TrustServerCertificate=True;"
+          CONFIGR_TEST_MONGO_CONN: "mongodb://localhost:27017"
         run: dotnet test ./tests/ConfigR.Tests/ConfigR.Tests.csproj --configuration Debug --verbosity normal
 
       - name: Upload test results

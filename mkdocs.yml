@@ -39,6 +39,7 @@ nav:
       - Configuração: configuration.md
   - Storage Providers:
       - SQL Server: storage/sql-server.md
+      - MongoDB: storage/mongodb.md
   - Conceitos Avançados:
       - Scopes: advanced/scopes.md
       - Cache: advanced/caching.md
