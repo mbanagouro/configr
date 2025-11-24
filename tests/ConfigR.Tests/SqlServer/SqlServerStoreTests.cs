@@ -11,12 +11,12 @@ public sealed class SqlServerStoreTests
 {
     private async Task<SqlServerConfigStore> CreateStoreAsync()
     {
-        await TestDatabase.EnsureDatabaseAndTableAsync().ConfigureAwait(false);
-        await TestDatabase.ClearTableAsync().ConfigureAwait(false);
+        await SqlServerTestDatabase.EnsureDatabaseAndTableAsync().ConfigureAwait(false);
+        await SqlServerTestDatabase.ClearTableAsync().ConfigureAwait(false);
 
         var options = Options.Create(new SqlServerConfigStoreOptions
         {
-            ConnectionString = TestDatabase.GetConnectionString(),
+            ConnectionString = SqlServerTestDatabase.GetConnectionString(),
             Schema = "dbo",
             Table = "ConfigR",
             AutoCreateTable = true

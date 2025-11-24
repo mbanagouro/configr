@@ -3,7 +3,7 @@ using System.Data;
 
 namespace ConfigR.Tests.SqlServer;
 
-public static class TestDatabase
+public static class SqlServerTestDatabase
 {
     public static string GetConnectionString()
     {
