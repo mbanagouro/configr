@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Authors>Leanwork</Authors>
+    <Company>Leanwork</Company>
+    <PackageId>ConfigR.SqlServer</PackageId>
+    <Description>SQL Server provider for ConfigR.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ConfigR.Abstractions\ConfigR.Abstractions.csproj" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
+  </ItemGroup>
+</Project>

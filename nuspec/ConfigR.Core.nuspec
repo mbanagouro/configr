@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>ConfigR.Core</id>
+    <version>1.0.0</version>
+    <authors>Michel Banagouro</authors>
+    <owners>Leanwork</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Core implementation of ConfigR, a strongly-typed configuration library with pluggable storage and caching.</description>
+    <license type="expression">MIT</license>
+    <tags>configuration config settings options</tags>
+    <dependencies>
+      <dependency id="ConfigR.Abstractions" version="1.0.0" />
+    </dependencies>
+  </metadata>
+</package>

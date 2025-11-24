@@ -1,0 +1,46 @@
+site_name: ConfigR Documentation
+site_description: Strongly typed runtime configuration for modern .NET apps.
+site_url: https://leanwork.github.io/ConfigR
+repo_name: leanwork/ConfigR
+repo_url: https://github.com/leanwork/ConfigR
+
+theme:
+  name: material
+  language: pt-BR
+  palette:
+    - scheme: default
+      primary: blue
+      accent: indigo
+    - scheme: slate
+      primary: blue
+      accent: indigo
+  features:
+    - navigation.instant
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - header.autohide
+    - search.suggest
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - toc:
+      permalink: true
+  - footnotes
+  - attr_list
+  - def_list
+  - md_in_html
+
+nav:
+  - Introdução: index.md
+  - Guia Rápido:
+      - Iniciando: getting-started.md
+      - Configuração: configuration.md
+  - Storage Providers:
+      - SQL Server: storage/sql-server.md
+  - Conceitos Avançados:
+      - Scopes: advanced/scopes.md
+      - Cache: advanced/caching.md
+      - Extensibilidade: advanced/extensibility.md
+  - Referência da API: api-reference.md

@@ -1,0 +1,88 @@
+name: ConfigR CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  release:
+    types: [published]
+
+jobs:
+
+  build-test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+
+    services:
+      sqlserver:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        ports:
+          - 1433:1433
+        env:
+          ACCEPT_EULA: "Y"
+          SA_PASSWORD: "Pass@123"
+        options: >-
+          --health-cmd "/opt/mssql-tools18/bin/sqlcmd -S 127.0.0.1 -U sa -P 'Pass@123' -C -Q 'SELECT 1'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Wait for SQL Server
+        run: |
+          echo "Aguardando SQL Server subir..."
+          sleep 20
+
+      - name: Test
+        env:
+          CONFIGR_TEST_SQL_CONN: "Server=localhost,1433;Database=ConfigR_Test;User Id=sa;Password=Pass@123;TrustServerCertificate=True;"
+        run: dotnet test --no-build --verbosity normal
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: "**/TestResults/**/*.trx"
+
+  publish-nuget:
+    name: Publish NuGet
+    needs: build-test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release' && startsWith(github.ref, 'refs/tags/v')
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Pack Abstractions
+        run: dotnet pack src/ConfigR.Abstractions/ConfigR.Abstractions.csproj -c Release -o ./nupkgs /p:PackageVersion=${GITHUB_REF#refs/tags/v}
+
+      - name: Pack Core
+        run: dotnet pack src/ConfigR.Core/ConfigR.Core.csproj -c Release -o ./nupkgs /p:PackageVersion=${GITHUB_REF#refs/tags/v}
+
+      - name: Pack SQL Server Provider
+        run: dotnet pack src/ConfigR.SqlServer/ConfigR.SqlServer.csproj -c Release -o ./nupkgs /p:PackageVersion=${GITHUB_REF#refs/tags/v}
+
+      - name: Publish to NuGet
+        run: dotnet nuget push "./nupkgs/*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json

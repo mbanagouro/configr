@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="src/ConfigR.Abstractions/ConfigR.Abstractions.csproj" />
+  <Project Path="src/ConfigR.Core/ConfigR.Core.csproj" />
+  <Project Path="src/ConfigR.SqlServer/ConfigR.SqlServer.csproj" />
+  <Project Path="tests/ConfigR.Tests/ConfigR.Tests.csproj" />
+</Solution>
