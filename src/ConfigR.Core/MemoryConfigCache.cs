@@ -35,10 +35,7 @@ public sealed class MemoryConfigCache : IConfigCache
     {
         scope ??= string.Empty;
 
-        if (entries is null)
-        {
-            throw new ArgumentNullException(nameof(entries));
-        }
+        ArgumentNullException.ThrowIfNull(entries);
 
         _cache[scope] = entries;
     }

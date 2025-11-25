@@ -1,4 +1,3 @@
-using System;
 using ConfigR.Abstractions;
 
 namespace ConfigR.Core;
