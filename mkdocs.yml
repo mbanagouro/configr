@@ -41,6 +41,7 @@ nav:
       - SQL Server: storage/sql-server.md
       - MongoDB: storage/mongodb.md
       - Npgsql: storage/npgsql.md
+      - Npgsql: storage/redis.md
   - Conceitos Avançados:
       - Scopes: advanced/scopes.md
       - Cache: advanced/caching.md

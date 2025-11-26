@@ -52,6 +52,16 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -89,11 +99,17 @@ jobs:
             sleep 2
           done
 
+      - name: Wait for Redis
+        run: |
+          echo "Waiting Redis..."
+          sleep 20
+
       - name: Test
         env:
           CONFIGR_TEST_SQL_CONN: "Server=localhost,1433;Database=ConfigR_Test;User Id=sa;Password=Pass@123;TrustServerCertificate=True;"
           CONFIGR_TEST_MONGO_CONN: "mongodb://localhost:27017"
           CONFIGR_TEST_POSTGRES_CONN: "Host=localhost;Port=5432;Database=configr_test;Username=postgres;Password=123456;"
+          CONFIGR_TEST_REDIS_CONN: "localhost:6379"
         run: dotnet test ./tests/ConfigR.Tests/ConfigR.Tests.csproj --configuration Debug --verbosity normal
 
       - name: Upload test results
@@ -135,6 +151,9 @@ jobs:
 
       - name: Pack Npgsql Provider
         run: dotnet pack src/ConfigR.Npgsql/ConfigR.Npgsql.csproj -c Release -o ./nupkgs /p:PackageVersion=${GITHUB_REF#refs/tags/v}
+
+      - name: Pack Redis Provider
+        run: dotnet pack src/ConfigR.Redis/ConfigR.Redis.csproj -c Release -o ./nupkgs /p:PackageVersion=${GITHUB_REF#refs/tags/v}
 
       - name: Publish to NuGet
         run: dotnet nuget push "./nupkgs/*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json

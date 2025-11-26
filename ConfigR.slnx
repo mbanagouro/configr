@@ -3,6 +3,7 @@
   <Project Path="src/ConfigR.Core/ConfigR.Core.csproj" />
   <Project Path="src/ConfigR.MongoDB/ConfigR.MongoDB.csproj" />
   <Project Path="src/ConfigR.Npgsql/ConfigR.Npgsql.csproj" />
+  <Project Path="src/ConfigR.Redis/ConfigR.Redis.csproj" Id="afd95125-8faa-431c-b723-ca948b50f9a6" />
   <Project Path="src/ConfigR.SqlServer/ConfigR.SqlServer.csproj" />
   <Project Path="tests/ConfigR.Tests/ConfigR.Tests.csproj" />
 </Solution>
