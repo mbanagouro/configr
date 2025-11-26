@@ -18,7 +18,7 @@ public sealed class MongoConcurrencyTests
         {
             ConnectionString = MongoTestDatabase.GetConnectionString(),
             Database = MongoTestDatabase.GetDatabaseName(),
-            Collection = "ConfigR"
+            Collection = "ConfigR_ConcurrencyTests"
         });
 
         var store = new MongoConfigStore(storeOptions);

@@ -18,7 +18,7 @@ public sealed class MongoIntegrationTests
         {
             ConnectionString = MongoTestDatabase.GetConnectionString(),
             Database = MongoTestDatabase.GetDatabaseName(),
-            Collection = "ConfigR"
+            Collection = "ConfigR_IntegrationTests"
         });
 
         var store = new MongoConfigStore(storeOptions);
@@ -32,7 +32,7 @@ public sealed class MongoIntegrationTests
 
     [Fact]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "xUnit1030:Do not call ConfigureAwait(false) in test method", Justification = "<Pending>")]
-    public async Task Should_Save_And_Load_SampleConfig_On_Mongo()
+    public async Task Should_Save_And_Load_Config()
     {
         var configR = await CreateSutAsync().ConfigureAwait(false);
 
@@ -86,13 +86,4 @@ public sealed class MongoIntegrationTests
         loaded.IntValue.Should().Be(2);
         loaded.Name.Should().Be("Second");
     }
-}
-
-[CollectionDefinition("MongoIntegration")]
-public sealed class MongoIntegrationCollection : ICollectionFixture<MongoIntegrationFixture>
-{
-}
-
-public sealed class MongoIntegrationFixture
-{
 }

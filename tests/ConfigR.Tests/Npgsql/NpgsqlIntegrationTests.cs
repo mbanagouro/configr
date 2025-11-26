@@ -18,7 +18,7 @@ public sealed class NpgsqlIntegrationTests
         {
             ConnectionString = NpgsqlTestDatabase.GetConnectionString(),
             Schema = "public",
-            Table = "configr",
+            Table = "configr_integration_tests",
             AutoCreateTable = true
         });
 
@@ -32,9 +32,10 @@ public sealed class NpgsqlIntegrationTests
     }
 
     [Fact]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "xUnit1030:Do not call ConfigureAwait(false) in test method", Justification = "<Pending>")]
     public async Task Should_Save_And_Load_Config()
     {
-        var configR = await CreateSutAsync();
+        var configR = await CreateSutAsync().ConfigureAwait(false);
 
         var expected = new SampleConfig
         {
@@ -55,5 +56,30 @@ public sealed class NpgsqlIntegrationTests
         loaded.IntValue.Should().Be(expected.IntValue);
         loaded.Name.Should().Be("postgresql");
         loaded.Details.Description.Should().Be("From Postgres");
+    }
+
+    [Fact]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "xUnit1030:Do not call ConfigureAwait(false) in test method", Justification = "<Pending>")]
+    public async Task Should_Override_Existing_Key_On_Upsert()
+    {
+        var configR = await CreateSutAsync().ConfigureAwait(false);
+
+        var cfg = new SampleConfig
+        {
+            IntValue = 1,
+            Name = "First"
+        };
+
+        await configR.SaveAsync(cfg).ConfigureAwait(false);
+
+        cfg.IntValue = 2;
+        cfg.Name = "Second";
+
+        await configR.SaveAsync(cfg).ConfigureAwait(false);
+
+        var loaded = await configR.GetAsync<SampleConfig>().ConfigureAwait(false);
+
+        loaded.IntValue.Should().Be(2);
+        loaded.Name.Should().Be("Second");
     }
 }

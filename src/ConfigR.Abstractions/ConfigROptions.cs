@@ -8,5 +8,5 @@ public sealed class ConfigROptions
     /// <summary>
     /// Gets or sets the default scope for configuration entries.
     /// </summary>
-    public string? DefaultScope { get; set; }
+    public Func<string> DefaultScope { get; set; } = () => "Default";
 }

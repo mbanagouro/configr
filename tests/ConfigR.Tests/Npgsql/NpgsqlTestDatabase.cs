@@ -18,8 +18,12 @@ public static class NpgsqlTestDatabase
         await conn.OpenAsync();
 
         await using var cmd = conn.CreateCommand();
-        cmd.CommandText = "DELETE FROM public.configr;";
-        try { await cmd.ExecuteNonQueryAsync(); }
+        cmd.CommandText = @"
+            DELETE FROM public.configr_concurrency_tests;
+            DELETE FROM public.configr_config_store_tests;
+            DELETE FROM public.configr_integration_tests;";
+        
+        try { await cmd.ExecuteNonQueryAsync().ConfigureAwait(false); }
         catch { }
     }
 }

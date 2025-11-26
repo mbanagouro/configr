@@ -19,7 +19,7 @@ public sealed class SqlServerConcurrencyTests
         {
             ConnectionString = SqlServerTestDatabase.GetConnectionString(),
             Schema = "dbo",
-            Table = "ConfigR",
+            Table = "ConfigR_ConcurrencyTests",
             AutoCreateTable = true
         });
 

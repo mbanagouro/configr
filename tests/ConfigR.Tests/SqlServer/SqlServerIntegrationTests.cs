@@ -19,7 +19,7 @@ public sealed class SqlServerIntegrationTests
         {
             ConnectionString = SqlServerTestDatabase.GetConnectionString(),
             Schema = "dbo",
-            Table = "ConfigR",
+            Table = "ConfigR_IntegrationTests",
             AutoCreateTable = true
         });
 
@@ -34,7 +34,7 @@ public sealed class SqlServerIntegrationTests
 
     [Fact]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "xUnit1030:Do not call ConfigureAwait(false) in test method", Justification = "<Pending>")]
-    public async Task Should_Save_And_Load_SampleConfig_On_SqlServer()
+    public async Task Should_Save_And_Load_Config()
     {
         var configR = await CreateSutAsync().ConfigureAwait(false);
 
@@ -63,13 +63,29 @@ public sealed class SqlServerIntegrationTests
         loaded.Details.Level.Should().Be(expected.Details.Level);
         loaded.Details.Description.Should().Be(expected.Details.Description);
     }
-}
 
-[CollectionDefinition("SqlServerTests")]
-public sealed class SqlServerTestsCollection : ICollectionFixture<SqlServerTestsFixture>
-{
-}
+    [Fact]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "xUnit1030:Do not call ConfigureAwait(false) in test method", Justification = "<Pending>")]
+    public async Task Should_Override_Existing_Key_On_Upsert()
+    {
+        var configR = await CreateSutAsync().ConfigureAwait(false);
 
-public sealed class SqlServerTestsFixture
-{
+        var cfg = new SampleConfig
+        {
+            IntValue = 1,
+            Name = "First"
+        };
+
+        await configR.SaveAsync(cfg).ConfigureAwait(false);
+
+        cfg.IntValue = 2;
+        cfg.Name = "Second";
+
+        await configR.SaveAsync(cfg).ConfigureAwait(false);
+
+        var loaded = await configR.GetAsync<SampleConfig>().ConfigureAwait(false);
+
+        loaded.IntValue.Should().Be(2);
+        loaded.Name.Should().Be("Second");
+    }
 }

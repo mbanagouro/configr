@@ -20,9 +20,16 @@ public static class MongoTestDatabase
     {
         var client = new MongoClient(GetConnectionString());
         var db = client.GetDatabase(GetDatabaseName());
-        var collection = db.GetCollection<BsonDocument>("ConfigR");
 
-        await collection.DeleteManyAsync(FilterDefinition<BsonDocument>.Empty)
-            .ConfigureAwait(false);
+        var cursor = await db.ListCollectionNamesAsync().ConfigureAwait(false);
+
+        foreach (var collectionName in cursor.ToList())
+        {
+            var collection = db.GetCollection<BsonDocument>(collectionName);
+            
+            await collection
+                .DeleteManyAsync(FilterDefinition<BsonDocument>.Empty)
+                .ConfigureAwait(false);
+        }
     }
 }

@@ -168,7 +168,7 @@ public sealed class DefaultConfigR : IConfigR
     /// <returns>The scope or null if no scope is configured.</returns>
     private string? GetScopeOrNull()
     {
-        var scope = _options.Value.DefaultScope;
+        var scope = _options.Value.DefaultScope is null ? null : _options.Value.DefaultScope();
         return string.IsNullOrWhiteSpace(scope) ? null : scope;
     }
 

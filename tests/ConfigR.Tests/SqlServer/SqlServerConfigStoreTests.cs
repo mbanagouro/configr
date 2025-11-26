@@ -18,7 +18,7 @@ public sealed class SqlServerConfigStoreTests
         {
             ConnectionString = SqlServerTestDatabase.GetConnectionString(),
             Schema = "dbo",
-            Table = "ConfigR",
+            Table = "ConfigR_ConfigStoreTests",
             AutoCreateTable = true
         });
 

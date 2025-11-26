@@ -17,7 +17,7 @@ public sealed class MongoConfigStoreTests
         {
             ConnectionString = MongoTestDatabase.GetConnectionString(),
             Database = MongoTestDatabase.GetDatabaseName(),
-            Collection = "ConfigR"
+            Collection = "ConfigR_ConfigStoreTests"
         });
 
         return new MongoConfigStore(options);

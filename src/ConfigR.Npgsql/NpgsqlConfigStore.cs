@@ -74,7 +74,9 @@ public sealed class NpgsqlConfigStore : IConfigStore
         cmd.Parameters.AddWithValue("scope", (object?)scope ?? DBNull.Value);
 
         var result = await cmd.ExecuteScalarAsync();
-        
+        if (result == null || result == DBNull.Value)
+            return null;
+
         return new ConfigEntry
         {
             Key = key,
@@ -95,7 +97,7 @@ public sealed class NpgsqlConfigStore : IConfigStore
 
         await using var cmd = conn.CreateCommand();
         cmd.CommandText = scope is null
-            ? $"SELECT key, value FROM {FullTable}"
+            ? $"SELECT key, value FROM {FullTable} WHERE scope IS NULL"
             : $"SELECT key, value FROM {FullTable} WHERE scope = @scope";
 
         if (scope != null)

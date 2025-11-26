@@ -18,7 +18,7 @@ public sealed class NpgsqlConcurrencyTests
         {
             ConnectionString = NpgsqlTestDatabase.GetConnectionString(),
             Schema = "public",
-            Table = "configr",
+            Table = "configr_concurrency_tests",
             AutoCreateTable = true
         });
 

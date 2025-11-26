@@ -68,7 +68,12 @@ public static class SqlServerTestDatabase
 
         await using var command = connection.CreateCommand();
         command.CommandType = CommandType.Text;
-        command.CommandText = "DELETE FROM [dbo].[ConfigR];";
-        await command.ExecuteNonQueryAsync().ConfigureAwait(false);
+        command.CommandText = @"
+            DELETE FROM [dbo].[ConfigR_ConcurrencyTests];
+            DELETE FROM [dbo].[ConfigR_ConfigStoreTests];
+            DELETE FROM [dbo].[ConfigR_IntegrationTests];";
+        
+        try { await command.ExecuteNonQueryAsync().ConfigureAwait(false); }
+        catch { }
     }
 }

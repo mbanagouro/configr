@@ -17,7 +17,7 @@ public sealed class NpgsqlConfigStoreTests
         {
             ConnectionString = NpgsqlTestDatabase.GetConnectionString(),
             Schema = "public",
-            Table = "configr",
+            Table = "configr_config_store_tests",
             AutoCreateTable = true
         });
 
