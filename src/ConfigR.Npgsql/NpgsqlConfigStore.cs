@@ -44,6 +44,7 @@ public sealed class NpgsqlConfigStore : IConfigStore
                 scope TEXT NULL,
                 UNIQUE(key, scope)
             );";
+
         cmd.ExecuteNonQuery();
     }
 

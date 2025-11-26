@@ -33,7 +33,7 @@ public sealed class SqlServerConfigStore : IConfigStore
         }
 
         var schema = string.IsNullOrWhiteSpace(_options.Schema) ? "dbo" : _options.Schema;
-        var table = string.IsNullOrWhiteSpace(_options.Table) ? "Configuracoes" : _options.Table;
+        var table = string.IsNullOrWhiteSpace(_options.Table) ? "ConfigR" : _options.Table;
 
         _fullTableName = $"[{schema}].[{table}]";
     }
@@ -255,7 +255,7 @@ public sealed class SqlServerConfigStore : IConfigStore
         await connection.OpenAsync().ConfigureAwait(false);
 
         var schema = string.IsNullOrWhiteSpace(_options.Schema) ? "dbo" : _options.Schema;
-        var table = string.IsNullOrWhiteSpace(_options.Table) ? "Configuracoes" : _options.Table;
+        var table = string.IsNullOrWhiteSpace(_options.Table) ? "ConfigR" : _options.Table;
 
         var commandText = $@"
             IF NOT EXISTS (

@@ -18,7 +18,7 @@ public static class ConfigRBuilderMongoExtensions
     /// <param name="configure">Optional action to configure MongoDB options.</param>
     /// <returns>The <see cref="IConfigRBuilder"/> for method chaining.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="builder"/> is null.</exception>
-    public static IConfigRBuilder UseMongoDb(
+    public static IConfigRBuilder UseMongoDB(
         this IConfigRBuilder builder,
         string connectionString,
         string database,
@@ -44,7 +44,7 @@ public static class ConfigRBuilderMongoExtensions
     /// <param name="configure">Action to configure MongoDB options.</param>
     /// <returns>The <see cref="IConfigRBuilder"/> for method chaining.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="builder"/> or <paramref name="configure"/> is null.</exception>
-    public static IConfigRBuilder UseMongoDb(
+    public static IConfigRBuilder UseMongoDB(
         this IConfigRBuilder builder,
         Action<MongoConfigStoreOptions> configure)
     {
