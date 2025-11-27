@@ -2,6 +2,7 @@
   <Project Path="src/ConfigR.Abstractions/ConfigR.Abstractions.csproj" />
   <Project Path="src/ConfigR.Core/ConfigR.Core.csproj" />
   <Project Path="src/ConfigR.MongoDB/ConfigR.MongoDB.csproj" />
+  <Project Path="src/ConfigR.MySql/ConfigR.MySql.csproj" Id="cf485591-c1fb-4e72-a9a9-d8594796806e" />
   <Project Path="src/ConfigR.Npgsql/ConfigR.Npgsql.csproj" />
   <Project Path="src/ConfigR.Redis/ConfigR.Redis.csproj" Id="afd95125-8faa-431c-b723-ca948b50f9a6" />
   <Project Path="src/ConfigR.SqlServer/ConfigR.SqlServer.csproj" />

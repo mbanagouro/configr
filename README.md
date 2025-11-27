@@ -48,8 +48,9 @@ Ideal para:
 dotnet add package ConfigR.Core
 
 dotnet add package ConfigR.SqlServer
-dotnet add package ConfigR.MongoDB
+dotnet add package ConfigR.MySql
 dotnet add package ConfigR.Npgsql
+dotnet add package ConfigR.MongoDB
 dotnet add package ConfigR.Redis
 ```
 
@@ -75,15 +76,20 @@ builder.Services
     .AddConfigR()
     .UseSqlServer(builder.Configuration.GetConnectionString("ConfigR"));
 
-// MongoDB
+// MySQL
 builder.Services
     .AddConfigR()
-    .UseMongoDb("mongodb://localhost:27017", "ConfigR");
+    .UseMySql(builder.Configuration.GetConnectionString("ConfigR"));
 
 // Npgsql
 builder.Services
     .AddConfigR()
     .UseNpgsql(builder.Configuration.GetConnectionString("ConfigR"));
+
+// MongoDB
+builder.Services
+    .AddConfigR()
+    .UseMongoDb("mongodb://localhost:27017", "ConfigR");
 
 // Redis
 builder.Services
@@ -116,10 +122,10 @@ await _configR.SaveAsync(checkout);
 | Provider | Pacote | Status |
 |---------|--------|--------|
 | SQL Server | ConfigR.SqlServer | ✅ Incluído |
-| MongoDB | ConfigR.MongoDB | ✅ Incluído |
+| MySQL | ConfigR.MySQL | ✅ Incluído |
 | Npgsql | ConfigR.Npgsql | ✅ Incluído |
+| MongoDB | ConfigR.MongoDB | ✅ Incluído |
 | Redis | ConfigR.Redis | ✅ Incluído |
-| MySQL | ConfigR.MySQL | 🔜 Planejado |
 | RavenDB | ConfigR.RavenDB | 🔜 Planejado |
 
 ---
@@ -136,6 +142,20 @@ CREATE TABLE [dbo].[ConfigR] (
 
 CREATE UNIQUE INDEX IX_ConfigR_Key_Scope
     ON [dbo].[ConfigR] ([Key], [Scope]);
+```
+
+---
+
+## 🗄 Estrutura da Tabela (MySQL)
+
+```sql
+CREATE TABLE IF NOT EXISTS configr (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    cfg_key VARCHAR(255) NOT NULL,
+    cfg_value TEXT NOT NULL,
+    scope VARCHAR(255) NULL,
+    UNIQUE KEY uk_config (cfg_key, scope)
+);
 ```
 
 ---
@@ -161,10 +181,11 @@ CREATE TABLE IF NOT EXISTS public.configr (
 ```
 ConfigR.Abstractions  → Interfaces e contratos base
 ConfigR.Core          → Implementação padrão (cache, serializer, DI, key formatter)
-ConfigR.SqlServer     → Provider SQL Server (ADO.NET)
-ConfigR.MongoDB       → Provider MongoDB
+ConfigR.SqlServer     → Provider SQL Server
+ConfigR.MySql         → Provider MySQL
 ConfigR.Npgsql        → Provider Npgsql
-ConfigR.Redis        → Provider Redis
+ConfigR.MongoDB       → Provider MongoDB
+ConfigR.Redis         → Provider Redis
 ```
 
 ---
@@ -189,10 +210,10 @@ Para rodar integração manualmente (SQL Server):
 docker run --name sqlserver-configr -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Pass@123" -p 1433:1433 mcr.microsoft.com/mssql/server:2022-latest
 ```
 
-Para rodar integração manualmente (MongoDB):
+Para rodar integração manualmente (MySQL):
 
 ```bash
-docker run -d --name mongo-configr -p 27017:27017 mongo:7
+docker run -d --name mysql-configr -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_DATABASE=configr_test -p 3306:3306 mysql:8
 ```
 
 Para rodar integração manualmente (Npgsql)
@@ -200,6 +221,12 @@ Para rodar integração manualmente (Npgsql)
 ```bash
 docker run --name pg-configr -e POSTGRES_PASSWORD=123456 -e POSTGRES_USER=postgres -e POSTGRES_DB=configr_test -p 5432:5432 -d postgres:16
 
+```
+
+Para rodar integração manualmente (MongoDB):
+
+```bash
+docker run -d --name mongo-configr -p 27017:27017 mongo:7
 ```
 
 Para rodar integração manualmente (Redis)

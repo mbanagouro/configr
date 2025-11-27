@@ -39,8 +39,9 @@ nav:
       - Configuração: configuration.md
   - Storage Providers:
       - SQL Server: storage/sql-server.md
-      - MongoDB: storage/mongodb.md
+      - MySQL: storage/mysql.md
       - Npgsql: storage/npgsql.md
+      - MongoDB: storage/mongodb.md
       - Npgsql: storage/redis.md
   - Conceitos Avançados:
       - Scopes: advanced/scopes.md
