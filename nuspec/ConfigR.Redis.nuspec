@@ -1,26 +1,21 @@
 <?xml version="1.0"?>
-<package >
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
 	<metadata>
-		<id>ConfigR.MongoDB</id>
+		<id>ConfigR.Redis</id>
 		<version>1.0.0</version>
-		<title>ConfigR MongoDB Provider</title>
-		<description>MongoDB provider for ConfigR.</description>		
+		<title>Redis Provider</title>
+		<description>Redis provider for ConfigR.</description>
 		<authors>Michel Banagouro</authors>
 		<owners>Leanwork</owners>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<license type="expression">MIT</license>
 		<projectUrl>https://github.com/mbanagouro/configr</projectUrl>
 		<repository type="git" url="https://github.com/mbanagouro/configr"/>
-		<tags>configuration config settings options mongodb</tags>
+		<tags>configuration config settings options redis</tags>
 		<dependencies>
 			<dependency id="ConfigR.Abstractions" version="1.0.0" />
 			<dependency id="ConfigR.Core" version="1.0.0" />
-			<dependency id="MongoDB.Driver" version="3.5.1" />
+			<dependency id="StackExchange.Redis" version="2.10.1" />
 		</dependencies>
 	</metadata>
-
-	<files>
-		<file src="..\src\ConfigR.MongoDB\bin\Release\net10.0\*.dll" target="lib\net10.0" />
-		<file src="..\LICENSE" target="" />
-	</files>
 </package>

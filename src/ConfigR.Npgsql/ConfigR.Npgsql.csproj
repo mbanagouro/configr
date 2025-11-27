@@ -1,20 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
 	<PropertyGroup>
 		<TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
-
 	<ItemGroup>
 		<PackageReference Include="Npgsql" Version="10.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Options" Version="10.0.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.0" />
 	</ItemGroup>
-
 	<ItemGroup>
 	  <ProjectReference Include="..\ConfigR.Abstractions\ConfigR.Abstractions.csproj" />
 	</ItemGroup>
-
 </Project>
