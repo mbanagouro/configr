@@ -186,38 +186,26 @@ dotnet test
 Para rodar integração manualmente (SQL Server):
 
 ```bash
-docker run --name sqlserver-configr \
-  -e "ACCEPT_EULA=Y" \
-  -e "SA_PASSWORD=Pass@123" \
-  -p 1433:1433 \
-  mcr.microsoft.com/mssql/server:2022-latest
+docker run --name sqlserver-configr -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Pass@123" -p 1433:1433 mcr.microsoft.com/mssql/server:2022-latest
 ```
 
 Para rodar integração manualmente (MongoDB):
 
 ```bash
-docker run -d --name mongo-configr \ 
-  -p 27017:27017 \
-  mongo:7
+docker run -d --name mongo-configr -p 27017:27017 mongo:7
 ```
 
 Para rodar integração manualmente (Npgsql)
 
 ```bash
-docker run --name pg-configr \ 
-  -e POSTGRES_PASSWORD=123456 \
-  -e POSTGRES_USER=postgres \
-  -e POSTGRES_DB=configr_test \
-  -p 5432:5432 -d postgres:16
+docker run --name pg-configr -e POSTGRES_PASSWORD=123456 -e POSTGRES_USER=postgres -e POSTGRES_DB=configr_test -p 5432:5432 -d postgres:16
 
 ```
 
 Para rodar integração manualmente (Redis)
 
 ```bash
-docker run -d --name redis-configr \
-  -p 6379:6379 \
-  redis:7
+docker run -d --name redis-configr -p 6379:6379 redis:7
 
 ```
 

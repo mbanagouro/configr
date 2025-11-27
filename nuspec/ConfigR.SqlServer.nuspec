@@ -1,18 +1,21 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
-  <metadata>
-    <id>ConfigR.SqlServer</id>
-    <version>1.0.0</version>
-    <authors>Michel Banagouro</authors>
-    <owners>Leanwork</owners>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>SQL Server provider for ConfigR.</description>
-    <license type="expression">MIT</license>
-    <tags>configuration config settings options sqlserver</tags>
-    <dependencies>
-      <dependency id="ConfigR.Abstractions" version="1.0.0" />
-      <dependency id="ConfigR.Core" version="1.0.0" />
-      <dependency id="Microsoft.Data.SqlClient" version="5.2.0" />
-    </dependencies>
-  </metadata>
+	<metadata>
+		<id>ConfigR.SqlServer</id>
+		<version>1.0.0</version>
+		<title>SQL Server Provider</title>
+		<description>SQL Server provider for ConfigR.</description>
+		<authors>Michel Banagouro</authors>
+		<owners>Leanwork</owners>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<license type="expression">MIT</license>
+		<projectUrl>https://github.com/mbanagouro/configr</projectUrl>
+		<repository type="git" url="https://github.com/mbanagouro/configr"/>
+		<tags>configuration config settings options sqlserver</tags>
+		<dependencies>
+			<dependency id="ConfigR.Abstractions" version="1.0.0" />
+			<dependency id="ConfigR.Core" version="1.0.0" />
+			<dependency id="Microsoft.Data.SqlClient" version="6.1.3" />
+		</dependencies>
+	</metadata>
 </package>
