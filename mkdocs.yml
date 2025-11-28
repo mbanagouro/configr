@@ -42,9 +42,10 @@ nav:
       - MySQL: storage/mysql.md
       - Npgsql: storage/npgsql.md
       - MongoDB: storage/mongodb.md
-      - Npgsql: storage/redis.md
+      - Redis: storage/redis.md
   - Conceitos Avançados:
       - Scopes: advanced/scopes.md
       - Cache: advanced/caching.md
       - Extensibilidade: advanced/extensibility.md
+  - Testes: testing.md
   - Referência da API: api-reference.md

@@ -119,14 +119,14 @@ await _configR.SaveAsync(checkout);
 
 ## 🧩 Providers de Armazenamento
 
-| Provider | Pacote | Status |
-|---------|--------|--------|
-| SQL Server | ConfigR.SqlServer | ✅ Incluído |
-| MySQL | ConfigR.MySQL | ✅ Incluído |
-| Npgsql | ConfigR.Npgsql | ✅ Incluído |
-| MongoDB | ConfigR.MongoDB | ✅ Incluído |
-| Redis | ConfigR.Redis | ✅ Incluído |
-| RavenDB | ConfigR.RavenDB | 🔜 Planejado |
+| Provider | Pacote | Status | Docs |
+|---------|--------|--------|------|
+| SQL Server | ConfigR.SqlServer | ✅ Incluído | [📖](docs/storage/sql-server.md) |
+| MySQL | ConfigR.MySql | ✅ Incluído | [📖](docs/storage/mysql.md) |
+| PostgreSQL (Npgsql) | ConfigR.Npgsql | ✅ Incluído | [📖](docs/storage/npgsql.md) |
+| MongoDB | ConfigR.MongoDB | ✅ Incluído | [📖](docs/storage/mongodb.md) |
+| Redis | ConfigR.Redis | ✅ Incluído | [📖](docs/storage/redis.md) |
+| RavenDB | ConfigR.RavenDB | 🔜 Planejado | - |
 
 ---
 
@@ -160,7 +160,7 @@ CREATE TABLE IF NOT EXISTS configr (
 
 ---
 
-## 🗄 Estrutura da Tabela (Npsql)
+## 🗄 Estrutura da Tabela (PostgreSQL)
 
 ```sql
 CREATE SCHEMA IF NOT EXISTS public;
@@ -183,7 +183,7 @@ ConfigR.Abstractions  → Interfaces e contratos base
 ConfigR.Core          → Implementação padrão (cache, serializer, DI, key formatter)
 ConfigR.SqlServer     → Provider SQL Server
 ConfigR.MySql         → Provider MySQL
-ConfigR.Npgsql        → Provider Npgsql
+ConfigR.Npgsql        → Provider PostgreSQL
 ConfigR.MongoDB       → Provider MongoDB
 ConfigR.Redis         → Provider Redis
 ```
@@ -196,53 +196,67 @@ Disponível em:
 
 👉 **https://mbanagouro.github.io/configr**
 
+### Guias Rápidos
+
+- 🚀 [Iniciando](https://mbanagouro.github.io/configr/getting-started/)
+- 🔧 [Configuração](https://mbanagouro.github.io/configr/configuration/)
+- 🧪 [Testes](TESTING_GUIDE.md) - Guia completo com Docker Compose
+- 📚 [API Reference](https://mbanagouro.github.io/configr/api-reference/)
+
 ---
 
 ## 🧪 Testes
 
-```bash
-dotnet test
-```
-
-Para rodar integração manualmente (SQL Server):
+### Quickstart com Docker Compose
 
 ```bash
-docker run --name sqlserver-configr -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Pass@123" -p 1433:1433 mcr.microsoft.com/mssql/server:2022-latest
+# Clone e entre na pasta
+git clone https://github.com/mbanagouro/configr.git
+cd configr
+
+# Inicie todos os serviços (SQL Server, MySQL, PostgreSQL, MongoDB, Redis)
+docker-compose up -d
+
+# Aguarde ~30 segundos para os serviços ficarem prontos
+
+# Execute todos os testes
+dotnet test ./tests/ConfigR.Tests/ConfigR.Tests.csproj
+
+# Pare os serviços
+docker-compose down
 ```
 
-Para rodar integração manualmente (MySQL):
+### Scripts Auxiliares
 
+**Windows:**
 ```bash
-docker run -d --name mysql-configr -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_DATABASE=configr_test -p 3306:3306 mysql:8
+test-all.bat up              # Iniciar serviços
+test-all.bat test            # Rodar testes
+test-all.bat test-mysql      # Rodar apenas testes MySQL
+test-all.bat down            # Parar serviços
+test-all.bat clean           # Limpar tudo
 ```
 
-Para rodar integração manualmente (Npgsql)
-
+**Linux/macOS:**
 ```bash
-docker run --name pg-configr -e POSTGRES_PASSWORD=123456 -e POSTGRES_USER=postgres -e POSTGRES_DB=configr_test -p 5432:5432 -d postgres:16
-
+./test-all.sh up             # Iniciar serviços
+./test-all.sh test           # Rodar testes
+./test-all.sh test-mysql     # Rodar apenas testes MySQL
+./test-all.sh down           # Parar serviços
+./test-all.sh clean          # Limpar tudo
 ```
 
-Para rodar integração manualmente (MongoDB):
+### Testes Manuais por Provider
 
-```bash
-docker run -d --name mongo-configr -p 27017:27017 mongo:7
-```
-
-Para rodar integração manualmente (Redis)
-
-```bash
-docker run -d --name redis-configr -p 6379:6379 redis:7
-
-```
+Para rodar testes de um provider específico sem Docker Compose, veja [TESTING_GUIDE.md](TESTING_GUIDE.md#execução-manual-por-provider).
 
 ---
 
 ## 🚀 CI/CD
 
-- Build + Testes
-- Publicação automática no NuGet em novas releases
-- Deploy automático da documentação
+- ✅ Build + Testes (todos os 5 providers)
+- ✅ Publicação automática no NuGet em novas releases
+- ✅ Deploy automático da documentação
 
 ---
 

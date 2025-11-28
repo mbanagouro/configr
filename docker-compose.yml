@@ -1,0 +1,89 @@
+version: '3.8'
+
+services:
+  # SQL Server 2022
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: configr-sqlserver
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Pass@123"
+      MSSQL_PID: "Developer"
+    ports:
+      - "1433:1433"
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S 127.0.0.1 -U sa -P 'Pass@123' -C -Q 'SELECT 1' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - configr-network
+
+  # MySQL 8
+  mysql:
+    image: mysql:8
+    container_name: configr-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: "ConfigR_Test"
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p123456"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - configr-network
+
+  # PostgreSQL 16
+  postgres:
+    image: postgres:16
+    container_name: configr-postgres
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "configr_test"
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - configr-network
+
+  # MongoDB 7
+  mongo:
+    image: mongo:7
+    container_name: configr-mongo
+    environment:
+      MONGO_INITDB_DATABASE: "ConfigR"
+    ports:
+      - "27017:27017"
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.runCommand({ ping: 1 })"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - configr-network
+
+  # Redis 7
+  redis:
+    image: redis:7
+    container_name: configr-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - configr-network
+
+networks:
+  configr-network:
+    driver: bridge
