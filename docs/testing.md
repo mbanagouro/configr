@@ -168,14 +168,51 @@ dotnet test
 
 ---
 
+## Testes de integra��ǜo com RavenDB (Docker)
+
+Para executar os testes de integra��ǜo do provider RavenDB, suba um container Docker:
+
+```bash
+docker run -d --name ravendb-configr \
+  -p 8080:8080 \
+  -e RAVEN_Setup_Mode=None \
+  -e RAVEN_License_Eula_Accepted=true \
+  -e RAVEN_Security_UnsecuredAccessAllowed=PublicNetwork \
+  ravendb/ravendb:6.0-ubuntu-latest
+```
+
+A URL padrǜo usada nos testes Ǹ:
+
+```text
+http://localhost:8080
+```
+
+Se quiser sobrescrever, defina as vari��veis de ambiente:
+
+```bash
+set CONFIGR_TEST_RAVEN_URLS=http://localhost:8080
+set CONFIGR_TEST_RAVEN_DB=ConfigR_Test
+dotnet test
+```
+
+Em Linux/macOS:
+
+```bash
+export CONFIGR_TEST_RAVEN_URLS="http://localhost:8080"
+export CONFIGR_TEST_RAVEN_DB="ConfigR_Test"
+dotnet test
+```
+
+---
+
 ## Rodar todos os testes com Docker Compose
 
 Para rodar todos os testes simultaneamente com todos os provedores, use docker-compose:
 
 ```bash
-docker-compose -f docker-compose.test.yml up -d
+docker-compose up -d
 dotnet test
-docker-compose -f docker-compose.test.yml down
+docker-compose down
 ```
 
 ---

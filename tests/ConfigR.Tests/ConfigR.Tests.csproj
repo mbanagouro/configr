@@ -12,6 +12,7 @@
     <ProjectReference Include="..\..\src\ConfigR.MongoDB\ConfigR.MongoDB.csproj" />
     <ProjectReference Include="..\..\src\ConfigR.MySql\ConfigR.MySql.csproj" />
     <ProjectReference Include="..\..\src\ConfigR.Npgsql\ConfigR.Npgsql.csproj" />
+    <ProjectReference Include="..\..\src\ConfigR.RavenDB\ConfigR.RavenDB.csproj" />
     <ProjectReference Include="..\..\src\ConfigR.Redis\ConfigR.Redis.csproj" />
     <ProjectReference Include="..\..\src\ConfigR.SqlServer\ConfigR.SqlServer.csproj" />
   </ItemGroup>

@@ -43,6 +43,7 @@ nav:
       - Npgsql: storage/npgsql.md
       - MongoDB: storage/mongodb.md
       - Redis: storage/redis.md
+      - RavenDB: storage/ravendb.md
   - Conceitos Avançados:
       - Scopes: advanced/scopes.md
       - Cache: advanced/caching.md

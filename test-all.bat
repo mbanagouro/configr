@@ -17,6 +17,7 @@ if "%1"=="" (
     echo   test-postgres    - Run PostgreSQL tests only
     echo   test-mongo       - Run MongoDB tests only
     echo   test-redis       - Run Redis tests only
+    echo   test-raven       - Run RavenDB tests only
     echo   clean            - Stop containers and remove all data
     echo   help             - Show this help message
     echo.
@@ -85,6 +86,12 @@ if "%1"=="test-redis" (
     goto :eof
 )
 
+if "%1"=="test-raven" (
+    echo Running RavenDB tests...
+    dotnet test ./tests/ConfigR.Tests/ConfigR.Tests.csproj -k "Raven" --configuration Debug --verbosity normal
+    goto :eof
+)
+
 if "%1"=="clean" (
     echo Stopping and removing all containers...
     docker-compose down -v
@@ -116,6 +123,7 @@ echo   test-mysql       - Run MySQL tests only
 echo   test-postgres    - Run PostgreSQL tests only
 echo   test-mongo       - Run MongoDB tests only
 echo   test-redis       - Run Redis tests only
+echo   test-raven       - Run RavenDB tests only
 echo   clean            - Stop containers and remove all data
 echo   help             - Show this help message
 echo.

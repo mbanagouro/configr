@@ -1,28 +1,28 @@
-# ?? Guia Completo de Testes do ConfigR
+Ôªø# ?? Guia Completo de Testes do ConfigR
 
-Este documento explica como configurar e executar todos os testes do ConfigR com suporte a 5 providers de banco de dados.
+Este documento explica como configurar e executar todos os testes do ConfigR com suporte a 6 providers de banco de dados.
 
 ---
 
-## ?? Õndice
+## ?? √çndice
 
-- [PrÈ-requisitos](#prÈ-requisitos)
+- [Pr√©-requisitos](#pr√©-requisitos)
 - [Quickstart com Docker Compose](#quickstart-com-docker-compose)
-- [ExecuÁ„o Manual por Provider](#execuÁ„o-manual-por-provider)
-- [Vari·veis de Ambiente](#vari·veis-de-ambiente)
+- [Execu√ß√£o Manual por Provider](#execu√ß√£o-manual-por-provider)
+- [Vari√°veis de Ambiente](#vari√°veis-de-ambiente)
 - [Troubleshooting](#troubleshooting)
 - [Scripts Auxiliares](#scripts-auxiliares)
 
 ---
 
-## ?? PrÈ-requisitos
+## ?? Pr√©-requisitos
 
-### ObrigatÛrio
+### Obrigat√≥rio
 - **.NET 8.0+** (recomendado: 10.0)
 - **Docker** e **Docker Compose**
-- **Git** (para clonar o repositÛrio)
+- **Git** (para clonar o reposit√≥rio)
 
-### Verificar instalaÁ„o
+### Verificar instala√ß√£o
 ```bash
 dotnet --version
 docker --version
@@ -33,14 +33,14 @@ docker-compose --version
 
 ## ?? Quickstart com Docker Compose
 
-### 1?? Clonar o RepositÛrio
+### 1?? Clonar o Reposit√≥rio
 
 ```bash
 git clone https://github.com/mbanagouro/configr.git
 cd configr
 ```
 
-### 2?? Iniciar Todos os ServiÁos
+### 2?? Iniciar Todos os Servi√ßos
 
 ```bash
 # Windows
@@ -69,7 +69,7 @@ test-all.bat test
 dotnet test ./tests/ConfigR.Tests/ConfigR.Tests.csproj
 ```
 
-### 4?? Parar os ServiÁos
+### 4?? Parar os Servi√ßos
 
 ```bash
 # Windows
@@ -84,7 +84,7 @@ docker-compose down
 
 ---
 
-## ??? ExecuÁ„o Manual por Provider
+## ??? Execu√ß√£o Manual por Provider
 
 ### SQL Server
 
@@ -163,9 +163,29 @@ docker stop configr-redis && docker rm configr-redis
 
 ---
 
-## ?? Vari·veis de Ambiente
+### RavenDB
 
-As vari·veis de ambiente permitem customizar as connection strings dos testes.
+```bash
+# Iniciar container
+docker run -d --name configr-ravendb \
+  -p 8080:8080 \
+  -e RAVEN_Setup_Mode=None \
+  -e RAVEN_License_Eula_Accepted=true \
+  -e RAVEN_Security_UnsecuredAccessAllowed=PublicNetwork \
+  ravendb/ravendb:6.0-ubuntu-latest
+
+# Executar testes
+dotnet test ./tests/ConfigR.Tests/ConfigR.Tests.csproj -k "Raven"
+
+# Parar
+docker stop configr-ravendb && docker rm configr-ravendb
+```
+
+---
+
+## ?? Vari√°veis de Ambiente
+
+As vari√°veis de ambiente permitem customizar as connection strings dos testes.
 
 ### Copiar arquivo de exemplo
 
@@ -173,7 +193,7 @@ As vari·veis de ambiente permitem customizar as connection strings dos testes.
 cp .env.example .env
 ```
 
-### Vari·veis disponÌveis
+### Vari√°veis dispon√≠veis
 
 ```env
 # SQL Server
@@ -190,9 +210,13 @@ CONFIGR_TEST_MONGO_CONN=mongodb://localhost:27017
 
 # Redis
 CONFIGR_TEST_REDIS_CONN=localhost:6379
+
+# RavenDB
+CONFIGR_TEST_RAVEN_URLS=http://localhost:8080
+CONFIGR_TEST_RAVEN_DB=ConfigR_Test
 ```
 
-### Usar vari·veis customizadas
+### Usar vari√°veis customizadas
 
 **Windows (PowerShell)**
 ```powershell
@@ -216,10 +240,10 @@ dotnet test
 
 ## ?? Estrutura dos Testes
 
-Cada provider possui trÍs categorias de testes:
+Cada provider possui tr√™s categorias de testes:
 
 ### 1. ConfigStoreTests
-- Testes de operaÁıes CRUD b·sicas
+- Testes de opera√ß√µes CRUD b√°sicas
 - Testes de scopes/multi-tenant
 - Tratamento de valores nulos e edge cases
 
@@ -230,8 +254,8 @@ Cada provider possui trÍs categorias de testes:
 
 ### 2. IntegrationTests
 - Fluxo completo de save/load
-- SerializaÁ„o de tipos complexos
-- Testes com classes aninhadas e coleÁıes
+- Serializa√ß√£o de tipos complexos
+- Testes com classes aninhadas e cole√ß√µes
 - Sobrescrita de valores existentes
 
 **Exemplos:**
@@ -241,7 +265,7 @@ Cada provider possui trÍs categorias de testes:
 ### 3. ConcurrencyTests
 - Leituras paralelas (100+ tarefas)
 - Leitura/escrita concorrente
-- VerificaÁ„o de integridade sob press„o
+- Verifica√ß√£o de integridade sob press√£o
 - Thread-safety
 
 **Exemplos:**
@@ -254,25 +278,25 @@ Cada provider possui trÍs categorias de testes:
 
 ### Erro: "Connection refused"
 
-**Causa**: Containers n„o est„o rodando ou ainda est„o iniciando.
+**Causa**: Containers n√£o est√£o rodando ou ainda est√£o iniciando.
 
-**SoluÁ„o**:
+**Solu√ß√£o**:
 ```bash
-# Verificar se containers est„o rodando
+# Verificar se containers est√£o rodando
 docker ps
 
 # Aguardar um pouco mais
 sleep 30
 
-# Verificar sa˙de dos containers
+# Verificar sa√∫de dos containers
 docker-compose ps
 ```
 
 ### Erro: "Port already in use"
 
-**Causa**: Porta j· est· em uso por outro processo.
+**Causa**: Porta j√° est√° em uso por outro processo.
 
-**SoluÁ„o**:
+**Solu√ß√£o**:
 ```bash
 # Encontrar processo na porta (exemplo: 3306)
 # Windows
@@ -288,21 +312,21 @@ lsof -i :3306
 
 **Causa**: Credentials incorretas nas connection strings.
 
-**SoluÁ„o**:
-1. Verificar `.env` com vari·veis corretas
+**Solu√ß√£o**:
+1. Verificar `.env` com vari√°veis corretas
 2. Verificar credenciais no `docker-compose.yml`
-3. Verificar se container tem permissıes corretas
+3. Verificar se container tem permiss√µes corretas
 
 ### Testes falham intermitentemente
 
 **Causa**: Timing issues ou recursos insuficientes.
 
-**SoluÁ„o**:
+**Solu√ß√£o**:
 1. Aumentar timeouts no `docker-compose.yml`
-2. Verificar recursos do Docker (memÛria, CPU)
+2. Verificar recursos do Docker (mem√≥ria, CPU)
 3. Verificar logs dos containers: `docker-compose logs`
 
-### Teste com um provider especÌfico
+### Teste com um provider espec√≠fico
 
 ```bash
 # Filtrar por nome de classe
@@ -322,10 +346,10 @@ dotnet test --filter "ClassName~MySql&Name~ConfigStore"
 ### Windows (test-all.bat)
 
 ```batch
-test-all.bat up              # Iniciar serviÁos
+test-all.bat up              # Iniciar servi√ßos
 test-all.bat test            # Rodar todos os testes
 test-all.bat test-mysql      # Rodar apenas testes MySQL
-test-all.bat down            # Parar serviÁos
+test-all.bat down            # Parar servi√ßos
 test-all.bat clean           # Limpar tudo
 test-all.bat logs            # Ver logs
 ```
@@ -333,10 +357,10 @@ test-all.bat logs            # Ver logs
 ### Linux/macOS (test-all.sh)
 
 ```bash
-./test-all.sh up             # Iniciar serviÁos
+./test-all.sh up             # Iniciar servi√ßos
 ./test-all.sh test           # Rodar todos os testes
 ./test-all.sh test-mysql     # Rodar apenas testes MySQL
-./test-all.sh down           # Parar serviÁos
+./test-all.sh down           # Parar servi√ßos
 ./test-all.sh clean          # Limpar tudo
 ./test-all.sh logs           # Ver logs
 ```
@@ -344,16 +368,16 @@ test-all.bat logs            # Ver logs
 ### Comandos Manual
 
 ```bash
-# Ver status dos serviÁos
+# Ver status dos servi√ßos
 docker-compose ps
 
-# Ver logs de um serviÁo especÌfico
+# Ver logs de um servi√ßo espec√≠fico
 docker-compose logs mysql
 
 # Acessar shell de um container
 docker-compose exec mysql mysql -u root -proot
 
-# Reiniciar um serviÁo
+# Reiniciar um servi√ßo
 docker-compose restart mysql
 
 # Remover volumes (limpar dados)
@@ -377,9 +401,9 @@ docker-compose down -v
 ## ?? Fluxo Recomendado de Teste
 
 ```
-1. Clone o repositÛrio
+1. Clone o reposit√≥rio
    ?
-2. Inicie os serviÁos (docker-compose up -d)
+2. Inicie os servi√ßos (docker-compose up -d)
    ?
 3. Aguarde 30 segundos
    ?
@@ -389,14 +413,14 @@ docker-compose down -v
    ?
 6. Verifique resultados
    ?
-7. Pause os serviÁos (docker-compose down)
+7. Pause os servi√ßos (docker-compose down)
 ```
 
 ---
 
 ## ?? Dicas de Performance
 
-### Para m·quinas com recursos limitados
+### Para m√°quinas com recursos limitados
 
 ```bash
 # Executar testes de um provider por vez
@@ -405,7 +429,7 @@ dotnet test --filter "ClassName~SqlServer"
 dotnet test --filter "ClassName~MySql"
 ```
 
-### Para m·quinas com muitos recursos
+### Para m√°quinas com muitos recursos
 
 ```bash
 # Rodar testes em paralelo
@@ -422,33 +446,33 @@ dotnet test
 
 ---
 
-## ?? ReferÍncias
+## ?? Refer√™ncias
 
-- [DocumentaÁ„o oficial ConfigR](https://mbanagouro.github.io/configr)
+- [Documenta√ß√£o oficial ConfigR](https://mbanagouro.github.io/configr)
 - [Docker Compose Reference](https://docs.docker.com/compose/compose-file/)
 - [xUnit Documentation](https://xunit.net/)
-- [DocumentaÁ„o do .NET](https://docs.microsoft.com/dotnet/)
+- [Documenta√ß√£o do .NET](https://docs.microsoft.com/dotnet/)
 
 ---
 
 ## ? FAQ
 
-**P: Preciso executar todos os 5 providers?**
-R: N„o! Use `--filter` para executar apenas o provider que precisa testar.
+**P: Preciso executar todos os 6 providers?**
+R: N√£o! Use `--filter` para executar apenas o provider que precisa testar.
 
 **P: Como testar com um banco de dados remoto?**
-R: Defina a connection string na vari·vel de ambiente (ex: `CONFIGR_TEST_MYSQL_CONN`).
+R: Defina a connection string na vari√°vel de ambiente (ex: `CONFIGR_TEST_MYSQL_CONN`).
 
-**P: Os testes deletam dados de produÁ„o?**
-R: N„o! Os testes usam bancos de dados especÌficos (`ConfigR_Test`). Certifique-se de usar as vari·veis de ambiente corretas.
+**P: Os testes deletam dados de produ√ß√£o?**
+R: N√£o! Os testes usam bancos de dados espec√≠ficos (`ConfigR_Test`). Certifique-se de usar as vari√°veis de ambiente corretas.
 
 **P: Quanto tempo leva para rodar todos os testes?**
-R: ~5-10 minutos dependendo do hardware. Testes de concorrÍncia s„o os mais lentos.
+R: ~5-10 minutos dependendo do hardware. Testes de concorr√™ncia s√£o os mais lentos.
 
 ---
 
-## ?? PrÛximos Passos
+## ?? Pr√≥ximos Passos
 
-1. Consulte a [DocumentaÁ„o Oficial](https://mbanagouro.github.io/configr)
+1. Consulte a [Documenta√ß√£o Oficial](https://mbanagouro.github.io/configr)
 2. Veja exemplos de uso em [docs/getting-started.md](../docs/getting-started.md)
-3. Explore providers especÌficos em `docs/storage/`
+3. Explore providers espec√≠ficos em `docs/storage/`

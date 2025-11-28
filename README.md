@@ -52,6 +52,7 @@ dotnet add package ConfigR.MySql
 dotnet add package ConfigR.Npgsql
 dotnet add package ConfigR.MongoDB
 dotnet add package ConfigR.Redis
+dotnet add package ConfigR.RavenDB
 ```
 
 ---
@@ -95,6 +96,11 @@ builder.Services
 builder.Services
     .AddConfigR()
     .UseRedis("localhost:6379");
+
+// RavenDB
+builder.Services
+    .AddConfigR()
+    .UseRavenDb(new[] { "http://localhost:8080" }, "ConfigR");
 ```
 
 ### 3. Leia a configuração tipada
@@ -126,7 +132,7 @@ await _configR.SaveAsync(checkout);
 | PostgreSQL (Npgsql) | ConfigR.Npgsql | ✅ Incluído | [📖](docs/storage/npgsql.md) |
 | MongoDB | ConfigR.MongoDB | ✅ Incluído | [📖](docs/storage/mongodb.md) |
 | Redis | ConfigR.Redis | ✅ Incluído | [📖](docs/storage/redis.md) |
-| RavenDB | ConfigR.RavenDB | 🔜 Planejado | - |
+| RavenDB | ConfigR.RavenDB | Pronto | [docs/storage/ravendb.md](docs/storage/ravendb.md) |
 
 ---
 
@@ -186,6 +192,7 @@ ConfigR.MySql         → Provider MySQL
 ConfigR.Npgsql        → Provider PostgreSQL
 ConfigR.MongoDB       → Provider MongoDB
 ConfigR.Redis         → Provider Redis
+ConfigR.RavenDB       → Provider RavenDB
 ```
 
 ---
@@ -214,7 +221,7 @@ Disponível em:
 git clone https://github.com/mbanagouro/configr.git
 cd configr
 
-# Inicie todos os serviços (SQL Server, MySQL, PostgreSQL, MongoDB, Redis)
+# Inicie todos os serviços (SQL Server, MySQL, PostgreSQL, MongoDB, Redis, RavenDB)
 docker-compose up -d
 
 # Aguarde ~30 segundos para os serviços ficarem prontos
@@ -232,7 +239,12 @@ docker-compose down
 ```bash
 test-all.bat up              # Iniciar serviços
 test-all.bat test            # Rodar testes
+test-all.bat test-sql        # Rodar testes SQL Server
 test-all.bat test-mysql      # Rodar apenas testes MySQL
+test-all.bat test-postgres   # Rodar testes PostgreSQL
+test-all.bat test-mongo      # Rodar testes MongoDB
+test-all.bat test-redis      # Rodar testes Redis
+test-all.bat test-raven      # Rodar testes RavenDB
 test-all.bat down            # Parar serviços
 test-all.bat clean           # Limpar tudo
 ```
@@ -241,7 +253,12 @@ test-all.bat clean           # Limpar tudo
 ```bash
 ./test-all.sh up             # Iniciar serviços
 ./test-all.sh test           # Rodar testes
+./test-all.sh test-sql       # Rodar testes SQL Server
 ./test-all.sh test-mysql     # Rodar apenas testes MySQL
+./test-all.sh test-postgres  # Rodar testes PostgreSQL
+./test-all.sh test-mongo     # Rodar testes MongoDB
+./test-all.sh test-redis     # Rodar testes Redis
+./test-all.sh test-raven     # Rodar testes RavenDB
 ./test-all.sh down           # Parar serviços
 ./test-all.sh clean          # Limpar tudo
 ```

@@ -19,6 +19,7 @@ Commands:
   test-postgres    - Run PostgreSQL tests only
   test-mongo       - Run MongoDB tests only
   test-redis       - Run Redis tests only
+  test-raven       - Run RavenDB tests only
   clean            - Stop containers and remove all data
   help             - Show this help message
 
@@ -78,6 +79,11 @@ case "$1" in
     test-redis)
         echo "Running Redis tests..."
         dotnet test ./tests/ConfigR.Tests/ConfigR.Tests.csproj --filter "ClassName~Redis" --configuration Debug --verbosity normal
+        ;;
+    
+    test-raven)
+        echo "Running RavenDB tests..."
+        dotnet test ./tests/ConfigR.Tests/ConfigR.Tests.csproj --filter "ClassName~Raven" --configuration Debug --verbosity normal
         ;;
     
     clean)

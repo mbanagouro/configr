@@ -84,6 +84,24 @@ services:
     networks:
       - configr-network
 
+  # RavenDB 6
+  ravendb:
+    image: ravendb/ravendb:6.0-ubuntu-latest
+    container_name: configr-ravendb
+    environment:
+      RAVEN_Setup_Mode: "None"
+      RAVEN_License_Eula_Accepted: "true"
+      RAVEN_Security_UnsecuredAccessAllowed: "PublicNetwork"
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - configr-network
+
 networks:
   configr-network:
     driver: bridge
