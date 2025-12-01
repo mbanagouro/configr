@@ -172,7 +172,7 @@ Se encontrar uma vulnerabilidade de segurança:
 
 Ao contribuir, você concorda que seu código será licenciado sob a MIT License.
 
-## ?? Agradecimentos
+## 🙏 Agradecimentos
 
 Muito obrigado por contribuir! Seu trabalho ajuda a melhorar ConfigR para todos.
 

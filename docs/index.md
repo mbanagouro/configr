@@ -1,62 +1,62 @@
-﻿# ðŸš€ ConfigR - DocumentaÃ§Ã£o
+﻿# 🚀 ConfigR - Documentação
 
-Bem-vindo Ã  documentaÃ§Ã£o do **ConfigR**, uma biblioteca leve, extensÃ­vel e altamente performÃ¡tica para **configuraÃ§Ãµes tipadas em runtime** em aplicaÃ§Ãµes .NET.
+Bem-vindo à documentação do **ConfigR**, uma biblioteca leve, extensível e altamente performática para **configurações tipadas em runtime** em aplicações .NET.
 
-## ðŸ“š NavegaÃ§Ã£o RÃ¡pida
+## 📚 Navegação Rápida
 
-### âš¡ ComeÃ§ar RÃ¡pido
+### ⚡ Começar Rápido
 
-- **[InÃ­cio RÃ¡pido](getting-started.md)** - Instale e configure em 5 minutos
-- **[ConfiguraÃ§Ã£o](configuration.md)** - Configure o ConfigR no seu projeto
+- **[Início Rápido](getting-started.md)** - Instale e configure em 5 minutos
+- **[Configuração](configuration.md)** - Configure o ConfigR no seu projeto
 
-### ðŸ—„ï¸ Providers de Armazenamento
+### 🗄️ Providers de Armazenamento
 
 Escolha o backend que melhor se encaixa na sua infraestrutura:
 
-- **[SQL Server](storage/sql-server.md)** - PadrÃ£o, recomendado para a maioria dos casos
+- **[SQL Server](storage/sql-server.md)** - Padrão, recomendado para a maioria dos casos
 - **[MySQL](storage/mysql.md)** - Alternativa leve e popular
 - **[PostgreSQL (Npgsql)](storage/npgsql.md)** - Open source e robusto
 - **[MongoDB](storage/mongodb.md)** - Banco de dados NoSQL
-- **[Redis](storage/redis.md)** - Cache em memÃ³ria de alta performance
+- **[Redis](storage/redis.md)** - Cache em memória de alta performance
 - **[RavenDB](storage/ravendb.md)** - Banco de dados multi-modelo
 
-### ðŸŽ¯ Conceitos AvanÃ§ados
+### 🎯 Conceitos Avançados
 
-- **[Scopes](advanced/scopes.md)** - Multi-tenant e isolamento de configuraÃ§Ãµes
-- **[Cache](advanced/caching.md)** - Entenda como o cache em memÃ³ria funciona
+- **[Scopes](advanced/scopes.md)** - Multi-tenant e isolamento de configurações
+- **[Cache](advanced/caching.md)** - Entenda como o cache em memória funciona
 - **[Extensibilidade](advanced/extensibility.md)** - Crie providers personalizados
 
-### ðŸ§ª Testes e Qualidade
+### 🧪 Testes e Qualidade
 
-- **[Testes](testing.md)** - Como testar sua aplicaÃ§Ã£o com ConfigR
-- **[API Reference](api-reference.md)** - DocumentaÃ§Ã£o completa da API
+- **[Testes](testing.md)** - Como testar sua aplicação com ConfigR
+- **[API Reference](api-reference.md)** - Documentação completa da API
 
 ---
 
-## ðŸŽ¯ Para que serve o ConfigR?
+## 🎯 Para que serve o ConfigR?
 
-### âœ… Ideal para:
+### ✅ Ideal para:
 
-- **Backoffices configurÃ¡veis** - Altere comportamentos sem deploy
-- **Plataformas multi-tenant** - Isolamento de configuraÃ§Ãµes por cliente
+- **Backoffices configuráveis** - Altere comportamentos sem deploy
+- **Plataformas multi-tenant** - Isolamento de configurações por cliente
 - **Feature flags** - Ative/desative funcionalidades dinamicamente
-- **Sistemas evolutivos** - ConfiguraÃ§Ãµes que mudam em runtime
+- **Sistemas evolutivos** - Configurações que mudam em runtime
 - **E-commerce, ERP, SaaS** - Plataformas que precisam de flexibilidade
 
-### ðŸŽ CaracterÃ­sticas Principais
+### 🎁 Características Principais
 
-| CaracterÃ­stica | BenefÃ­cio |
+| Característica | Benefício |
 |---|---|
-| ðŸ”¥ Tipagem Forte | Type-safe, sem magic strings |
-| ðŸš€ Cache em MemÃ³ria | Performance otimizada |
-| ðŸ§© Providers PlugÃ¡veis | Escolha o backend desejado |
-| ðŸ§± Multi-tenant | Isolamento de dados por escopo |
-| ðŸ”§ CustomizÃ¡vel | SerializaÃ§Ã£o e comportamento flexÃ­veis |
-| ðŸ§  Simples | Zero reflection pesada ou mÃ¡gica |
+| 💪 Tipagem Forte | Type-safe, sem magic strings |
+| 🚀 Cache em Memória | Performance otimizada |
+| 🧩 Providers Plugáveis | Escolha o backend desejado |
+| 🧱 Multi-tenant | Isolamento de dados por escopo |
+| 🔧 Customizável | Serialização e comportamento flexíveis |
+| 🧠 Simples | Zero reflection pesada ou mágica |
 
 ---
 
-## ðŸš€ ComeÃ§ar em 1 Minuto
+## 🚀 Começar em 1 Minuto
 
 ### 1. Instale
 
@@ -78,7 +78,7 @@ builder.Services
 ```csharp
 public sealed class MeuConfig
 {
-    public string Valor { get; set; } = "padrÃ£o";
+    public string Valor { get; set; } = "padrão";
 }
 
 // Ler
@@ -91,8 +91,8 @@ await configR.SaveAsync(config);
 
 ---
 
-## ðŸ“– PrÃ³ximos Passos
+## 📖 Próximos Passos
 
-- ðŸ‘‰ **Comece agora**: [Guia de InÃ­cio RÃ¡pido](getting-started.md)
-- ðŸ”§ **Configure seu provider**: [ConfiguraÃ§Ã£o](configuration.md)
-- ðŸ“š **Aprenda conceitos avanÃ§ados**: [Scopes](advanced/scopes.md)
+- 👉 **Comece agora**: [Guia de Início Rápido](getting-started.md)
+- 🔧 **Configure seu provider**: [Configuração](configuration.md)
+- 📚 **Aprenda conceitos avançados**: [Scopes](advanced/scopes.md)

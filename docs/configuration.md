@@ -1,8 +1,8 @@
-﻿# ConfiguraÃ§Ã£o
+﻿# Configuração
 
 Entenda como configurar o ConfigR para suas necessidades.
 
-## ðŸ”§ ConfiguraÃ§Ã£o BÃ¡sica
+## 🔧 Configuração Básica
 
 ### Registrar no DI
 
@@ -13,9 +13,9 @@ builder.Services
     .UseSqlServer(builder.Configuration.GetConnectionString("ConfigR"));
 ```
 
-## ðŸ§© Escolher um Provider
+## 🧩 Escolher um Provider
 
-### SQL Server (PadrÃ£o)
+### SQL Server (Padrão)
 
 ```csharp
 builder.Services
@@ -69,28 +69,28 @@ builder.Services
     );
 ```
 
-## ðŸ“ Definir Classe de ConfiguraÃ§Ã£o
+## 📝 Definir Classe de Configuração
 
 ```csharp
-// Sua classe de configuraÃ§Ã£o
+// Sua classe de configuração
 public sealed class MyConfig
 {
-    // Propriedades com valores padrÃ£o
+    // Propriedades com valores padrão
     public string Feature { get; set; } = "enabled";
     public int Timeout { get; set; } = 30;
     public bool Debug { get; set; } = false;
 }
 ```
 
-### Boas PrÃ¡ticas
+### Boas Práticas
 
-- âœ… Use classes `sealed` para evitar heranÃ§a
-- âœ… Sempre forneÃ§a valores padrÃ£o (`= default;`)
-- âœ… Use tipos simples quando possÃ­vel (string, int, bool, decimal)
-- âœ… Nomeie a classe com sufixo `Config`: `CheckoutConfig`, `PaymentConfig`
-- âœ… Propriedades public com get/set
+- ✅ Use classes `sealed` para evitar herança
+- ✅ Sempre forneça valores padrão (`= default;`)
+- ✅ Use tipos simples quando possível (string, int, bool, decimal)
+- ✅ Nomeie a classe com sufixo `Config`: `CheckoutConfig`, `PaymentConfig`
+- ✅ Propriedades public com get/set
 
-## ðŸ—„ï¸ appsettings.json
+## 🗄️ appsettings.json
 
 Configure a connection string:
 
@@ -107,7 +107,7 @@ Configure a connection string:
 }
 ```
 
-## ðŸš€ Uso em Controllers/Services
+## 🚀 Uso em Controllers/Services
 
 ### Injetar IConfigR
 
@@ -138,7 +138,7 @@ public class ConfigController : ControllerBase
 }
 ```
 
-## ðŸ§± Usando Scopes
+## 🧱 Usando Scopes
 
 Para multi-tenant, use scopes:
 
@@ -152,7 +152,7 @@ await _configR.SaveAsync(config, "tenant-123");
 
 Veja [Scopes](advanced/scopes.md) para mais detalhes.
 
-## âš™ï¸ OpÃ§Ãµes AvanÃ§adas
+## ⚙️ Opções Avançadas
 
 ### Configurar Cache
 
@@ -165,7 +165,7 @@ builder.Services
     .UseSqlServer(builder.Configuration.GetConnectionString("ConfigR"));
 ```
 
-### Configurar SerializaÃ§Ã£o
+### Configurar Serialização
 
 ```csharp
 builder.Services
@@ -180,27 +180,27 @@ builder.Services
     .UseSqlServer(builder.Configuration.GetConnectionString("ConfigR"));
 ```
 
-## ðŸ” Troubleshooting
+## 🔍 Troubleshooting
 
 ### Erro: "Connection refused"
 
-- Verifique se o banco de dados estÃ¡ rodando
+- Verifique se o banco de dados está rodando
 - Confirme a connection string em `appsettings.json`
-- Teste a conexÃ£o manualmente
+- Teste a conexão manualmente
 
-### Erro: "Tabela nÃ£o existe"
+### Erro: "Tabela não existe"
 
 - Crie a tabela manualmente (veja seu provider)
 - Ou configure `AutoCreateTable = true` (se suportado)
 
-### Erro: "SerializaÃ§Ã£o falhou"
+### Erro: "Serialização falhou"
 
-- Verifique se sua classe tem um construtor sem parÃ¢metros
-- Confirme que as propriedades sÃ£o pÃºblicas
+- Verifique se sua classe tem um construtor sem parâmetros
+- Confirme que as propriedades são públicas
 - Use tipos simples ou complexos (JSON-serializable)
 
-## ðŸ“š PrÃ³ximos Passos
+## 📚 Próximos Passos
 
-- ðŸ§± [Aprenda sobre Scopes](advanced/scopes.md)
-- ðŸš€ [Otimize com Cache](advanced/caching.md)
-- ðŸ§© [Escolha um Provider](storage/sql-server.md)
+- 🧱 [Aprenda sobre Scopes](advanced/scopes.md)
+- 🚀 [Otimize com Cache](advanced/caching.md)
+- 🧩 [Escolha um Provider](storage/sql-server.md)

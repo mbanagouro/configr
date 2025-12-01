@@ -4,7 +4,7 @@ Uso do provider MySQL no ConfigR.
 
 ---
 
-## ðŸš€ InstalaÃ§Ã£o
+## 🚀 Instalação
 
 ```bash
 dotnet add package ConfigR.MySql
@@ -12,7 +12,7 @@ dotnet add package ConfigR.MySql
 
 ---
 
-## ðŸ”§ ConfiguraÃ§Ã£o
+## 🔧 Configuração
 
 ### Registrar no DI
 
@@ -34,7 +34,7 @@ builder.Services
 
 ---
 
-## ðŸ“Š Estrutura da Tabela
+## 📊 Estrutura da Tabela
 
 ```sql
 CREATE TABLE IF NOT EXISTS configr (
@@ -48,20 +48,20 @@ CREATE TABLE IF NOT EXISTS configr (
 
 ### Campos
 
-- **id**: Identificador Ãºnico auto-incremento
-- **cfg_key**: Chave da configuraÃ§Ã£o (atÃ© 255 caracteres)
-- **cfg_value**: Valor da configuraÃ§Ã£o (texto livre, suporta JSON)
-- **scope**: Escopo opcional para multi-tenant (atÃ© 255 caracteres)
+- **id**: Identificador único auto-incremento
+- **cfg_key**: Chave da configuração (até 255 caracteres)
+- **cfg_value**: Valor da configuração (texto livre, suporta JSON)
+- **scope**: Escopo opcional para multi-tenant (até 255 caracteres)
 
 ---
 
-## âš™ï¸ OpÃ§Ãµes de ConfiguraÃ§Ã£o
+## ⚙️ Opções de Configuração
 
 ```csharp
 var options = Options.Create(new MySqlConfigStoreOptions
 {
     ConnectionString = "Server=localhost;Database=configr;User Id=root;Password=root;",
-    Table = "configr"  // Nome da tabela (padrÃ£o: "configr")
+    Table = "configr"  // Nome da tabela (padrão: "configr")
 });
 
 var store = new MySqlConfigStore(options);
@@ -69,10 +69,10 @@ var store = new MySqlConfigStore(options);
 
 ---
 
-## ðŸ“ Exemplo Completo
+## 📝 Exemplo Completo
 
 ```csharp
-// Classe de configuraÃ§Ã£o
+// Classe de configuração
 public sealed class CheckoutConfig
 {
     public bool LoginRequired { get; set; } = true;
@@ -82,7 +82,7 @@ public sealed class CheckoutConfig
 // Program.cs
 builder.Services
     .AddConfigR()
-    .UseMySql(builder.Configuration.GetConnectionString("ConfigR"));
+    .UseMySql(builder.Configuration.GetConnectionString("ConfigR"))
 
 // Uso em controller/service
 var checkout = await _configR.GetAsync<CheckoutConfig>();
@@ -98,11 +98,11 @@ await _configR.SaveAsync(checkout);
 
 ---
 
-## ðŸ§ª Testes
+## 🧪 Testes
 
 O provider MySQL possui testes completos incluindo:
 
-- **ConfigStoreTests**: Testes de CRUD bÃ¡sico e scopes
+- **ConfigStoreTests**: Testes de CRUD básico e scopes
 - **IntegrationTests**: Testes de fluxo completo com tipos complexos
 - **ConcurrencyTests**: Testes de leitura/escrita paralela
 
@@ -121,9 +121,9 @@ docker stop mysql-configr && docker rm mysql-configr
 
 ---
 
-## ðŸ’¡ ConsideraÃ§Ãµes de Performance
+## 💡 Considerações de Performance
 
-- Ãndice Ãºnico em `(cfg_key, scope)` garante integridade e performance
+- Índice único em `(cfg_key, scope)` garante integridade e performance
 - Use scopes para isolamento multi-tenant
-- Cache em memÃ³ria (ConfigR.Core) reduz queries ao banco
-- Textos longos sÃ£o suportados com `TEXT`
+- Cache em memória (ConfigR.Core) reduz queries ao banco
+- Textos longos são suportados com `TEXT`

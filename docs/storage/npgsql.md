@@ -4,7 +4,7 @@ Uso do provider PostgreSQL (Npgsql) no ConfigR.
 
 ---
 
-## ðŸš€ InstalaÃ§Ã£o
+## 🚀 Instalação
 
 ```bash
 dotnet add package ConfigR.Npgsql
@@ -12,7 +12,7 @@ dotnet add package ConfigR.Npgsql
 
 ---
 
-## ðŸ”§ ConfiguraÃ§Ã£o
+## 🔧 Configuração
 
 ### Registrar no DI
 
@@ -34,7 +34,7 @@ builder.Services
 
 ---
 
-## ðŸ“Š Estrutura da Tabela
+## 📊 Estrutura da Tabela
 
 ```sql
 CREATE SCHEMA IF NOT EXISTS public;
@@ -50,14 +50,14 @@ CREATE TABLE IF NOT EXISTS public.configr (
 
 ### Campos
 
-- **id**: Identificador Ãºnico com auto-incremento (SERIAL)
-- **key**: Chave da configuraÃ§Ã£o (texto livre)
-- **value**: Valor da configuraÃ§Ã£o (texto livre, suporta JSON)
+- **id**: Identificador único com auto-incremento (SERIAL)
+- **key**: Chave da configuração (texto livre)
+- **value**: Valor da configuração (texto livre, suporta JSON)
 - **scope**: Escopo opcional para multi-tenant
 
 ---
 
-## âš™ï¸ OpÃ§Ãµes de ConfiguraÃ§Ã£o
+## ⚙️ Opções de Configuração
 
 ```csharp
 var options = Options.Create(new NpgsqlConfigStoreOptions
@@ -73,10 +73,10 @@ var store = new NpgsqlConfigStore(options);
 
 ---
 
-## ðŸ“ Exemplo Completo
+## 📝 Exemplo Completo
 
 ```csharp
-// Classe de configuraÃ§Ã£o
+// Classe de configuração
 public sealed class CheckoutConfig
 {
     public bool LoginRequired { get; set; } = true;
@@ -102,11 +102,11 @@ await _configR.SaveAsync(checkout);
 
 ---
 
-## ðŸ§ª Testes
+## 🧪 Testes
 
 O provider PostgreSQL possui testes completos incluindo:
 
-- **ConfigStoreTests**: Testes de CRUD bÃ¡sico e scopes
+- **ConfigStoreTests**: Testes de CRUD básico e scopes
 - **IntegrationTests**: Testes de fluxo completo com tipos complexos
 - **ConcurrencyTests**: Testes de leitura/escrita paralela
 
@@ -129,11 +129,11 @@ docker stop postgres-configr && docker rm postgres-configr
 
 ---
 
-## ðŸ’¡ ConsideraÃ§Ãµes de Performance
+## 💡 Considerações de Performance
 
-- Ãndice Ãºnico em `(key, scope)` garante integridade e performance
+- Índice único em `(key, scope)` garante integridade e performance
 - Suporta valores muito grandes com `TEXT`
 - Use scopes para isolamento multi-tenant
-- Cache em memÃ³ria (ConfigR.Core) reduz queries ao banco
-- PostgreSQL Ã© altamente otimizado para leitura/escrita paralela
-- Considere usar `JSONB` para configuraÃ§Ãµes complexas com `json_agg`
+- Cache em memória (ConfigR.Core) reduz queries ao banco
+- PostgreSQL é altamente otimizado para leitura/escrita paralela
+- Considere usar `JSONB` para configurações complexas com `json_agg`

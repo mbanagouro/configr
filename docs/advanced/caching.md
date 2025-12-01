@@ -2,31 +2,31 @@
 
 Entenda como o cache em memória do ConfigR funciona e como otimizá-lo.
 
-## ?? Como Funciona o Cache
+## 🎯 Como Funciona o Cache
 
 O ConfigR implementa cache em memória automático para melhorar performance:
 
 ```
-???????????????????????
-?   Sua Aplicação     ?
-???????????????????????
-           ?
+┌─────────────────────┐
+│  Sua Aplicação      │
+└─────────────────────┘
+         │
       Solicita config
-           ?
-           ?
-???????????????????????
-?   Cache em Memória  ????? Rápido! (< 1ms)
-?      (IMemoryCache) ?
-???????????????????????
-           ? Se não encontrado
-           ?
-???????????????????????
-?   Backend Storage   ????? Mais lento (~50ms)
-?   (SQL, MySQL, etc) ?
-???????????????????????
+         │
+         ▼
+┌─────────────────────┐
+│  Cache em Memória   │ ◄─── Rápido! (< 1ms)
+│  (IMemoryCache)     │
+└─────────────────────┘
+         │ Se não encontrado
+         ▼
+┌─────────────────────┐
+│  Backend Storage    │ ◄─── Mais lento (~50ms)
+│  (SQL, MySQL, etc)  │
+└─────────────────────┘
 ```
 
-## ?? Duração do Cache
+## ⏱️ Duração do Cache
 
 Cada configuração é cacheada por um tempo configurável. Após expirar, a próxima leitura busca do banco:
 
@@ -49,7 +49,7 @@ builder.Services
 | Constantes | 1-2 horas | Raramente mudam |
 | Valores críticos | 1 minuto | Precisam de atualização rápida |
 
-## ?? Invalidação de Cache
+## 🔄 Invalidação de Cache
 
 Quando você salva uma configuração, o cache é **automaticamente invalidado**:
 
@@ -59,15 +59,15 @@ var config = await _configR.GetAsync<CheckoutConfig>();
 
 // Atualiza e salva
 config.MaxItems = 50;
-await _configR.SaveAsync(config);  // ??? Cache invalidado aqui!
+await _configR.SaveAsync(config);  // ✅ Cache invalidado aqui!
 
 // Próxima leitura vem do banco
 var newConfig = await _configR.GetAsync<CheckoutConfig>();  // Sempre fresco
 ```
 
-## ?? Estratégias de Cache
+## 📊 Estratégias de Cache
 
-### 1?? Cache Curto (Alta Disponibilidade)
+### 1️⃣ Cache Curto (Alta Disponibilidade)
 
 ```csharp
 // Atualiza a cada 1 minuto
@@ -84,7 +84,7 @@ builder.Services
 - Feature flags ativas
 - Configurações críticas
 
-### 2?? Cache Longo (Máxima Performance)
+### 2️⃣ Cache Longo (Máxima Performance)
 
 ```csharp
 // Cacheado por 1 hora
@@ -101,7 +101,7 @@ builder.Services
 - Constantes da aplicação
 - Valores de inicialização
 
-### 3?? Sem Cache (Sempre Fresco)
+### 3️⃣ Sem Cache (Sempre Fresco)
 
 ```csharp
 // Nunca cacheia
@@ -113,9 +113,9 @@ builder.Services
     .UseSqlServer(connectionString);
 ```
 
-**?? Use com cuidado:** Pode sobrecarregar o banco de dados!
+**⚠️ Use com cuidado:** Pode sobrecarregar o banco de dados!
 
-## ?? Monitore o Cache
+## 📈 Monitore o Cache
 
 ### Logs
 
@@ -141,23 +141,23 @@ public class CacheMetrics
 }
 ```
 
-## ?? Boas Práticas
+## ✅ Boas Práticas
 
-### ? Faça
+### ✅ Faça
 
 - Escolha duração apropriada para seu caso de uso
 - Monitore hit/miss ratio do cache
 - Invalide cache quando necessário
 - Documente estratégia de cache
 
-### ? Evite
+### ❌ Evite
 
 - Cache muito longo para dados críticos
 - Cache zero em produção (performance)
 - Misturar estratégias sem motivo
 - Confiar exclusivamente no cache
 
-## ?? Otimizações
+## 🚀 Otimizações
 
 ### Usar Diferentes Durações por Tipo
 
@@ -192,8 +192,8 @@ await configR.GetAsync<PaymentConfig>();       // Precarga
 await configR.GetAsync<ShippingConfig>();      // Precarga
 ```
 
-## ?? Próximos Passos
+## 📚 Próximos Passos
 
-- ?? [Aprenda sobre Scopes](scopes.md)
-- ?? [Crie Providers Personalizados](extensibility.md)
-- ?? [Voltar para Configuração](../configuration.md)
+- 🧱 [Aprenda sobre Scopes](scopes.md)
+- 🧩 [Crie Providers Personalizados](extensibility.md)
+- 🔧 [Voltar para Configuração](../configuration.md)

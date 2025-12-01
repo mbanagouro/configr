@@ -4,7 +4,7 @@ Uso do provider Redis no ConfigR.
 
 ---
 
-## ðŸš€ InstalaÃ§Ã£o
+## 🚀 Instalação
 
 ```bash
 dotnet add package ConfigR.Redis
@@ -12,7 +12,7 @@ dotnet add package ConfigR.Redis
 
 ---
 
-## ðŸ”§ ConfiguraÃ§Ã£o
+## 🔧 Configuração
 
 ### Registrar no DI
 
@@ -34,9 +34,9 @@ builder.Services
 
 ---
 
-## ðŸ“Š Estrutura de Armazenamento
+## 📊 Estrutura de Armazenamento
 
-O Redis armazena as configuraÃ§Ãµes como strings serializadas em JSON:
+O Redis armazena as configurações como strings serializadas em JSON:
 
 ```
 Key (no Redis): "ConfigR:checkout.loginrequired:null"
@@ -46,26 +46,26 @@ Key (no Redis): "ConfigR:checkout.loginrequired:loja-1"
 Value: "{\"loginRequired\":false}"
 ```
 
-### PadrÃ£o de Chave
+### Padrão de Chave
 
 ```
 ConfigR:{config-key}:{scope}
 ```
 
-- **ConfigR**: Prefixo padrÃ£o
-- **{config-key}**: Chave da configuraÃ§Ã£o
+- **ConfigR**: Prefixo padrão
+- **{config-key}**: Chave da configuração
 - **{scope}**: Escopo (ou "null" se sem escopo)
 
 ---
 
-## âš™ï¸ OpÃ§Ãµes de ConfiguraÃ§Ã£o
+## ⚙️ Opções de Configuração
 
 ```csharp
 var options = Options.Create(new RedisConfigStoreOptions
 {
     ConnectionString = "localhost:6379",
-    KeyPrefix = "ConfigR",    // Prefixo das chaves (padrÃ£o: "ConfigR")
-    ExpirationMinutes = null  // TTL em minutos (null = sem expiraÃ§Ã£o)
+    KeyPrefix = "ConfigR",    // Prefixo das chaves (padrão: "ConfigR")
+    ExpirationMinutes = null  // TTL em minutos (null = sem expiração)
 });
 
 var store = new RedisConfigStore(options);
@@ -73,10 +73,10 @@ var store = new RedisConfigStore(options);
 
 ---
 
-## ðŸ“ Exemplo Completo
+## 📝 Exemplo Completo
 
 ```csharp
-// Classe de configuraÃ§Ã£o
+// Classe de configuração
 public sealed class CheckoutConfig
 {
     public bool LoginRequired { get; set; } = true;
@@ -102,11 +102,11 @@ await _configR.SaveAsync(checkout);
 
 ---
 
-## ðŸ§ª Testes
+## 🧪 Testes
 
 O provider Redis possui testes completos incluindo:
 
-- **ConfigStoreTests**: Testes de CRUD bÃ¡sico e scopes
+- **ConfigStoreTests**: Testes de CRUD básico e scopes
 - **IntegrationTests**: Testes de fluxo completo com tipos complexos
 - **ConcurrencyTests**: Testes de leitura/escrita paralela
 
@@ -126,13 +126,13 @@ docker stop redis-configr && docker rm redis-configr
 
 ---
 
-## ðŸ’¡ ConsideraÃ§Ãµes de Performance
+## 💡 Considerações de Performance
 
-- Redis Ã© extremamente rÃ¡pido para leitura/escrita (em memÃ³ria)
-- Ideal para configuraÃ§Ãµes com alta frequÃªncia de acesso
+- Redis é extremamente rápido para leitura/escrita (em memória)
+- Ideal para configurações com alta frequência de acesso
 - Use scopes para isolamento multi-tenant
-- Cache duplo: Redis (persistÃªncia) + MemoryCache (aplicaÃ§Ã£o)
-- TTL automÃ¡tico para limpeza de chaves antigas
-- Suporta pub/sub para notificaÃ§Ãµes de mudanÃ§as
+- Cache duplo: Redis (persistência) + MemoryCache (aplicação)
+- TTL automático para limpeza de chaves antigas
+- Suporta pub/sub para notificações de mudanças
 - Considere usar Redis Cluster para alta disponibilidade
-- âš ï¸ Dados residem em memÃ³ria - nÃ£o ideal para grandes volumes
+- ⚠️ Dados residem em memória - não ideal para grandes volumes

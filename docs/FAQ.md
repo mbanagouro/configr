@@ -1,8 +1,8 @@
-﻿# ? Perguntas Frequentes (FAQ)
+﻿# ❓ Perguntas Frequentes (FAQ)
 
 Respostas para perguntas comuns sobre ConfigR.
 
-## ?? Instalação e Setup
+## 📦 Instalação e Setup
 
 ### P: Qual é a versão mínima de .NET suportada?
 
@@ -26,7 +26,7 @@ Respostas para perguntas comuns sobre ConfigR.
 
 **R:** Não simultaneamente. Registre apenas um provider por aplicação.
 
-## ?? Uso
+## 🎯 Uso
 
 ### P: Posso usar múltiplas classes de configuração?
 
@@ -56,10 +56,10 @@ public sealed class AdvancedConfig
 **R:** Não é recomendado. Use composição:
 
 ```csharp
-// ? Evitar
+// ❌ Evitar
 public class MyConfig : BaseConfig { }
 
-// ? Fazer
+// ✅ Fazer
 public class MyConfig
 {
     public BaseSettings Base { get; set; }
@@ -77,7 +77,7 @@ var config = await configR.GetAsync<CheckoutConfig>();
 // Retorna: new CheckoutConfig { LoginRequired = true, MaxItems = 20 }
 ```
 
-## ?? Cache e Performance
+## ⏱️ Cache e Performance
 
 ### P: Como funciona o cache?
 
@@ -104,7 +104,7 @@ builder.Services.AddConfigR(options =>
 })
 ```
 
-?? Use com cuidado em produção!
+⚠️ Use com cuidado em produção!
 
 ### P: Como monitoro a performance?
 
@@ -118,7 +118,7 @@ builder.Services.AddLogging(config =>
 });
 ```
 
-## ?? Multi-tenant
+## 🌐 Multi-tenant
 
 ### P: Como uso ConfigR em aplicação multi-tenant?
 
@@ -162,7 +162,7 @@ if (tenantConfig == null)
 }
 ```
 
-## ?? Segurança
+## 🔒 Segurança
 
 ### P: As configurações são criptografadas?
 
@@ -193,7 +193,7 @@ var apiKey = Decrypt(saved.ApiKey);
 
 **R:** Não recomendado. ConfigR é para configurações de negócio, não dados pessoais.
 
-## ?? Testes
+## 🧪 Testes
 
 ### P: Como testo com ConfigR?
 
@@ -218,7 +218,7 @@ dotnet test
 docker-compose down
 ```
 
-## ?? Migração
+## 🔄 Migração
 
 ### P: Como migro de appsettings.json para ConfigR?
 
@@ -254,7 +254,7 @@ var staticConfig = configuration.GetSection("StaticSettings");
 var dynamicConfig = await configR.GetAsync<DynamicSettings>();
 ```
 
-## ?? Documentação
+## 📖 Documentação
 
 ### P: Onde encontro documentação?
 
@@ -268,7 +268,7 @@ var dynamicConfig = await configR.GetAsync<DynamicSettings>();
 
 **R:** Veja [Guia de Contribuição](CONTRIBUTING.md)
 
-## ?? Troubleshooting
+## 🔧 Troubleshooting
 
 ### P: Recebo erro "Connection refused"
 
@@ -295,11 +295,11 @@ var dynamicConfig = await configR.GetAsync<DynamicSettings>();
 2. Analise queries no banco
 3. Considere aumentar `CacheDuration`
 
-## ? Ainda tem dúvidas?
+## ❓ Ainda tem dúvidas?
 
-- ?? Abra uma [discussion](https://github.com/mbanagouro/configr/discussions)
-- ?? Reporte um [bug](https://github.com/mbanagouro/configr/issues)
-- ?? Entre em contato com autor
+- 💬 Abra uma [discussion](https://github.com/mbanagouro/configr/discussions)
+- 🐛 Reporte um [bug](https://github.com/mbanagouro/configr/issues)
+- 📧 Entre em contato com autor
 
 ---
 

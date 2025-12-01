@@ -4,7 +4,7 @@ Uso do provider RavenDB no ConfigR.
 
 ---
 
-## âœ… InstalaÃ§Ã£o
+## ✅ Instalação
 
 ```bash
 dotnet add package ConfigR.RavenDB
@@ -12,7 +12,7 @@ dotnet add package ConfigR.RavenDB
 
 ---
 
-## âš™ï¸ ConfiguraÃ§Ã£o
+## ⚙️ Configuração
 
 ### Registrar no DI
 
@@ -35,9 +35,9 @@ builder.Services
 
 ---
 
-## ðŸ—„ Estrutura de Documentos
+## 🗄️ Estrutura de Documentos
 
-O RavenDB armazena cada chave de configuraÃ§Ã£o como um documento:
+O RavenDB armazena cada chave de configuração como um documento:
 
 ```json
 {
@@ -55,7 +55,7 @@ O RavenDB armazena cada chave de configuraÃ§Ã£o como um documento:
 
 ---
 
-## ðŸ”§ OpÃ§Ãµes de ConfiguraÃ§Ã£o
+## 🔧 Opções de Configuração
 
 ```csharp
 var documentStore = new DocumentStore
@@ -75,10 +75,10 @@ var options = Options.Create(new RavenDbConfigStoreOptions
 
 ---
 
-## ðŸš€ Exemplo Completo
+## 🚀 Exemplo Completo
 
 ```csharp
-// Classe de configuraÃ§Ã£o
+// Classe de configuração
 public sealed class CheckoutConfig
 {
     public bool LoginRequired { get; set; } = true;
@@ -99,9 +99,9 @@ await _configR.SaveAsync(checkout);
 
 ---
 
-## ðŸ§ª Testes
+## 🧪 Testes
 
-O provider RavenDB possui testes de ConfigStore, integraÃ§Ã£o e concorrÃªncia.
+O provider RavenDB possui testes de ConfigStore, integração e concorrência.
 
 ```bash
 docker run -d --name ravendb-configr \
@@ -118,10 +118,10 @@ docker stop ravendb-configr && docker rm ravendb-configr
 
 ---
 
-## ðŸ“ˆ ConsideraÃ§Ãµes de Performance
+## 📈 Considerações de Performance
 
-- Armazenamento orientado a documentos, ideal para configuraÃ§Ãµes complexas
-- IDs Ãºnicos por chave/escopo evitam duplicidade
-- Consultas usam `WaitForNonStaleResults` para consistÃªncia imediata nos testes
-- Cache em memÃ³ria do ConfigR reduz leituras no cluster
-- Configure rÃ©plicas do RavenDB para alta disponibilidade
+- Armazenamento orientado a documentos, ideal para configurações complexas
+- IDs únicos por chave/escopo evitam duplicidade
+- Consultas usam `WaitForNonStaleResults` para consistência imediata nos testes
+- Cache em memória do ConfigR reduz leituras no cluster
+- Configure réplicas do RavenDB para alta disponibilidade

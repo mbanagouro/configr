@@ -1,23 +1,23 @@
-﻿# ??? Storage Providers - Visão Geral
+﻿# 🗄️ Storage Providers - Visão Geral
 
 Escolha o backend de armazenamento que melhor se encaixa na sua infraestrutura.
 
-## ?? Comparação de Providers
+## 📊 Comparação de Providers
 
 | Característica | SQL Server | MySQL | PostgreSQL | MongoDB | Redis | RavenDB |
 |---|:---:|:---:|:---:|:---:|:---:|:---:|
 | **Tipo** | Relacional | Relacional | Relacional | NoSQL | Cache | Multi-modelo |
-| **Performance** | ???? | ??? | ???? | ???? | ????? | ???? |
-| **Escalabilidade** | ???? | ??? | ???? | ????? | ???? | ???? |
-| **Facilidade** | ???? | ????? | ???? | ??? | ???? | ??? |
-| **Custo** | ???? | ?? | ?? | ?? | ?? | ???? |
-| **Persistência** | ? | ? | ? | ? | ?? | ? |
+| **Performance** | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
+| **Escalabilidade** | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
+| **Facilidade** | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ |
+| **Custo** | ⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐ | ⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐ |
+| **Persistência** | ✅ | ✅ | ✅ | ✅ | ⚠️ | ✅ |
 
-## ?? Recomendações por Cenário
+## 🎯 Recomendações por Cenário
 
-### ?? Empresas e Produção
+### 🏢 Empresas e Produção
 
-**?? Recomendado: SQL Server ou PostgreSQL**
+**✅ Recomendado: SQL Server ou PostgreSQL**
 
 ```bash
 dotnet add package ConfigR.SqlServer
@@ -32,9 +32,9 @@ dotnet add package ConfigR.Npgsql
 - Transações ACID garantidas
 - Backup e recovery robustos
 
-### ?? Startups e Escalabilidade
+### 🚀 Startups e Escalabilidade
 
-**?? Recomendado: MongoDB ou PostgreSQL**
+**✅ Recomendado: MongoDB ou PostgreSQL**
 
 ```bash
 dotnet add package ConfigR.MongoDB
@@ -48,9 +48,9 @@ dotnet add package ConfigR.Npgsql
 - Replicação nativa
 - Performance sob alta demanda
 
-### ? Alta Performance
+### ⚡ Alta Performance
 
-**?? Recomendado: Redis**
+**✅ Recomendado: Redis**
 
 ```bash
 dotnet add package ConfigR.Redis
@@ -62,9 +62,9 @@ dotnet add package ConfigR.Redis
 - Ideal para cache crítico
 - Suporta features avançadas
 
-### ?? Low-cost / Prototipagem
+### 💰 Low-cost / Prototipagem
 
-**?? Recomendado: MySQL**
+**✅ Recomendado: MySQL**
 
 ```bash
 dotnet add package ConfigR.MySql
@@ -76,9 +76,9 @@ dotnet add package ConfigR.MySql
 - Fácil de configurar
 - Suporte vasto
 
-### ?? Segurança Crítica
+### 🔒 Segurança Crítica
 
-**?? Recomendado: RavenDB**
+**✅ Recomendado: RavenDB**
 
 ```bash
 dotnet add package ConfigR.RavenDB
@@ -92,65 +92,65 @@ dotnet add package ConfigR.RavenDB
 
 ---
 
-## ?? Detalhes por Provider
+## 📖 Detalhes por Provider
 
 ### [SQL Server](sql-server.md)
 
 O padrão, recomendado para a maioria dos casos.
 
-- ? Melhor performance em workloads OLTP
-- ? Índices otimizados
-- ? Enterprise-ready
-- ? Pode ser caro
+- ✅ Melhor performance em workloads OLTP
+- ✅ Índices otimizados
+- ✅ Enterprise-ready
+- ⚠️ Pode ser caro
 
 ### [MySQL](mysql.md)
 
 Leveza e compatibilidade universal.
 
-- ? Mais leve que SQL Server
-- ? Altamente compatível
-- ? Fácil de hospedar
-- ? Menos recursos avançados
+- ✅ Mais leve que SQL Server
+- ✅ Altamente compatível
+- ✅ Fácil de hospedar
+- ⚠️ Menos recursos avançados
 
 ### [PostgreSQL (Npgsql)](npgsql.md)
 
 Open-source robusto e poderoso.
 
-- ? Open source
-- ? Features avançadas (JSON, arrays)
-- ? Excelente performance
-- ? Replicação nativa
+- ✅ Open source
+- ✅ Features avançadas (JSON, arrays)
+- ✅ Excelente performance
+- ✅ Replicação nativa
 
 ### [MongoDB](mongodb.md)
 
 NoSQL flexível e escalável.
 
-- ? Schema flexível
-- ? Escalabilidade horizontal
-- ? Ótimo para dados semi-estruturados
-- ? Menos eficiente que relacional para este caso
+- ✅ Schema flexível
+- ✅ Escalabilidade horizontal
+- ✅ Ótimo para dados semi-estruturados
+- ⚠️ Menos eficiente que relacional para este caso
 
 ### [Redis](redis.md)
 
 Cache ultra-rápido em memória.
 
-- ? Latência mínima
-- ? Altíssimo throughput
-- ? Perfect para cache crítico
-- ?? Sem persistência por padrão
+- ✅ Latência mínima
+- ✅ Altíssimo throughput
+- ✅ Perfect para cache crítico
+- ⚠️ Sem persistência por padrão
 
 ### [RavenDB](ravendb.md)
 
 Multi-modelo enterprise com recursos avançados.
 
-- ? Segurança built-in
-- ? ACID distribuído
-- ? Replicação transparente
-- ? Menos comum, comunidade menor
+- ✅ Segurança built-in
+- ✅ ACID distribuído
+- ✅ Replicação transparente
+- ⚠️ Menos comum, comunidade menor
 
 ---
 
-## ?? Quick Start por Provider
+## 💻 Quick Start por Provider
 
 ### SQL Server
 
@@ -202,7 +202,7 @@ builder.Services
 
 ---
 
-## ?? Migrar Entre Providers
+## 🔄 Migrar Entre Providers
 
 Você pode migrar dados entre providers:
 
@@ -221,9 +221,9 @@ foreach (var config in allConfigs)
 
 ---
 
-## ?? Boas Práticas
+## ✅ Boas Práticas
 
-### ? Faça
+### ✅ Faça
 
 - Escolha o provider baseado em seus requisitos
 - Teste a performance com seus dados reais
@@ -231,7 +231,7 @@ foreach (var config in allConfigs)
 - Monitore a saúde do banco de dados
 - Use replicação para alta disponibilidade
 
-### ? Evite
+### ❌ Evite
 
 - Trocar de provider sem planejar
 - Usar Redis como persistência principal
@@ -241,8 +241,8 @@ foreach (var config in allConfigs)
 
 ---
 
-## ?? Próximos Passos
+## 📚 Próximos Passos
 
-- ?? [Escolha seu Provider](../configuration.md)
-- ?? [Início Rápido](../getting-started.md)
-- ?? [Referência da API](../api-reference.md)
+- 🔧 [Escolha seu Provider](../configuration.md)
+- 🚀 [Início Rápido](../getting-started.md)
+- 📖 [Referência da API](../api-reference.md)

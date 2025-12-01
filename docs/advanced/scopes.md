@@ -2,7 +2,7 @@
 
 Entenda como usar scopes para isolar configurações em aplicações multi-tenant.
 
-## ?? O que é um Scope?
+## 🎯 O que é um Scope?
 
 Um **scope** é um identificador que permite isolar configurações por contexto. Perfeito para:
 
@@ -11,7 +11,7 @@ Um **scope** é um identificador que permite isolar configurações por contexto
 - **Ambientes**: Produção, staging, desenvolvimento com configurações diferentes
 - **Regiões**: Diferentes configurações por localização
 
-## ?? Uso Básico
+## 📝 Uso Básico
 
 ### Salvar com Scope
 
@@ -39,7 +39,7 @@ var acmeConfig = await _configR.GetAsync<CheckoutConfig>("acme-corp");
 var defaultConfig = await _configR.GetAsync<CheckoutConfig>();
 ```
 
-## ?? Padrão: Fallback para Padrão
+## 🔄 Padrão: Fallback para Padrão
 
 Implemente um padrão de fallback para configurações não encontradas:
 
@@ -59,7 +59,7 @@ public async Task<CheckoutConfig> GetCheckoutConfig(string tenantId)
 }
 ```
 
-## ?? Exemplo: Multi-tenant em Middleware
+## 🌐 Exemplo: Multi-tenant em Middleware
 
 ```csharp
 // Middleware para extrair tenant do header
@@ -96,7 +96,7 @@ public class CheckoutService
 }
 ```
 
-## ??? Estrutura no Banco de Dados
+## 🗄️ Estrutura no Banco de Dados
 
 Os scopes são armazenados junto com a chave no banco:
 
@@ -112,7 +112,7 @@ SELECT * FROM ConfigR WHERE Key = 'CheckoutConfig' AND Scope = 'acme-corp';
 SELECT * FROM ConfigR WHERE Scope = 'acme-corp';
 ```
 
-## ?? Listar Scopes Disponíveis
+## 📋 Listar Scopes Disponíveis
 
 Para recuperar todos os scopes cadastrados:
 
@@ -121,26 +121,26 @@ Para recuperar todos os scopes cadastrados:
 var sql = "SELECT DISTINCT Scope FROM ConfigR WHERE Scope IS NOT NULL";
 ```
 
-## ?? Boas Práticas
+## ✅ Boas Práticas
 
-### ? Faça
+### ✅ Faça
 
 - Use nomes significativos: `"acme-corp"`, `"loja-sp"`, `"producao"`
 - Sempre implemente fallback para padrão
 - Documente quais scopes sua app usa
 - Use UUID ou identificadores únicos para tenants
 
-### ? Evite
+### ❌ Evite
 
 - Nomes ambíguos: `"tenant1"`, `"config2"`
 - Esquecer de gerenciar o ciclo de vida dos scopes
 - Misturar separação de dados com scopes (use multitenancy adequadamente)
 - Armazenar dados sensíveis em scopes públicos
 
-## ?? Segurança
+## 🔒 Segurança
 
 ```csharp
-// ? Sempre validar se o tenant tem acesso
+// ✅ Sempre validar se o tenant tem acesso
 public async Task<CheckoutConfig> GetTenantConfig(string tenantId)
 {
     // Validar se o usuário atual tem permissão para este tenant
@@ -153,8 +153,8 @@ public async Task<CheckoutConfig> GetTenantConfig(string tenantId)
 }
 ```
 
-## ?? Próximos Passos
+## 📚 Próximos Passos
 
-- ?? [Otimize com Cache](caching.md)
-- ?? [Crie Providers Personalizados](extensibility.md)
-- ?? [Voltar para Configuração](../configuration.md)
+- 🚀 [Otimize com Cache](caching.md)
+- 🧩 [Crie Providers Personalizados](extensibility.md)
+- 🔧 [Voltar para Configuração](../configuration.md)
