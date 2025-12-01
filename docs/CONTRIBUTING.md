@@ -1,10 +1,10 @@
-﻿# ?? Guia de Contribuição
+﻿# Guia de Contribuição
 
 Agradecemos seu interesse em contribuir para o ConfigR! Este guia vai ajudar você a colaborar efetivamente.
 
-## ?? Como Contribuir
+## Como Contribuir
 
-### 1?? Fork e Clone
+### 1. Fork e Clone
 
 ```bash
 # Fork o repositório no GitHub
@@ -12,7 +12,7 @@ git clone https://github.com/seu-usuario/configr.git
 cd configr
 ```
 
-### 2?? Crie uma Branch
+### 2. Crie uma Branch
 
 ```bash
 git checkout -b feature/minha-feature
@@ -20,13 +20,13 @@ git checkout -b feature/minha-feature
 git checkout -b bugfix/meu-bug
 ```
 
-### 3?? Faça Suas Mudanças
+### 3. Faça Suas Mudanças
 
 - Siga o estilo de código existente
 - Adicione testes para novas funcionalidades
 - Atualize a documentação se necessário
 
-### 4?? Commit e Push
+### 4. Commit e Push
 
 ```bash
 git add .
@@ -34,14 +34,14 @@ git commit -m "Adicionar descrição clara e concisa"
 git push origin feature/minha-feature
 ```
 
-### 5?? Abra um Pull Request
+### 5. Abra um Pull Request
 
 No GitHub, abra um PR descrevendo:
 - O que você fez
 - Por que fez
 - Como testar
 
-## ? Checklist antes de Submeter
+## Checklist antes de Submeter
 
 - [ ] Código segue o estilo do projeto
 - [ ] Testes foram adicionados/atualizados
@@ -50,7 +50,7 @@ No GitHub, abra um PR descrevendo:
 - [ ] Testes passam (`dotnet test`)
 - [ ] Não há warnings
 
-## ?? Executar Testes Localmente
+## Executar Testes Localmente
 
 ### Testes Unitários
 
@@ -88,9 +88,9 @@ dotnet test --filter "TestCategory=Redis"
 dotnet test --filter "TestCategory=RavenDB"
 ```
 
-## ?? Tipos de Contribuição
+## Tipos de Contribuição
 
-### ?? Reportar Bugs
+### Reportar Bugs
 
 Abra uma issue com:
 - Título descritivo
@@ -100,7 +100,7 @@ Abra uma issue com:
 - Comportamento atual
 - Ambiente (SO, versão .NET, etc)
 
-### ?? Sugerir Features
+### Sugerir Features
 
 Abra uma discussion ou issue com:
 - Caso de uso
@@ -108,14 +108,14 @@ Abra uma discussion ou issue com:
 - Exemplos de uso
 - Possível implementação
 
-### ?? Melhorar Documentação
+### Melhorar Documentação
 
 - Corrija typos
 - Adicione exemplos
 - Melhore clareza
 - Traduza para outros idiomas
 
-### ?? Novos Providers
+### Novos Providers
 
 1. Crie um fork
 2. Implemente `IConfigStore`
@@ -123,7 +123,7 @@ Abra uma discussion ou issue com:
 4. Atualize documentação
 5. Abra um PR
 
-## ?? Padrões de Código
+## Padrões de Código
 
 ### Nomenclatura
 
@@ -159,7 +159,7 @@ public sealed class MyConfigStore : IConfigStore
 public async Task<string?> GetAsync(string key, string? scope = null);
 ```
 
-## ?? Segurança
+## Segurança
 
 Se encontrar uma vulnerabilidade de segurança:
 
@@ -168,7 +168,7 @@ Se encontrar uma vulnerabilidade de segurança:
 3. Descreva a vulnerabilidade
 4. Aguarde a resposta
 
-## ?? Licença
+## Licença
 
 Ao contribuir, você concorda que seu código será licenciado sob a MIT License.
 
