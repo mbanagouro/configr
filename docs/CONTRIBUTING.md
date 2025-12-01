@@ -1,18 +1,18 @@
-# ?? Guia de Contribuição
+# Guia de ContribuiÃ§Ã£o
 
-Agradecemos seu interesse em contribuir para o ConfigR! Este guia vai ajudar você a colaborar efetivamente.
+Agradecemos seu interesse em contribuir para o ConfigR! Este guia vai ajudar vocÃª a colaborar efetivamente.
 
-## ?? Como Contribuir
+## Como Contribuir
 
-### 1?? Fork e Clone
+### 1. Fork e Clone
 
 ```bash
-# Fork o repositório no GitHub
+# Fork o repositÃ³rio no GitHub
 git clone https://github.com/seu-usuario/configr.git
 cd configr
 ```
 
-### 2?? Crie uma Branch
+### 2. Crie uma Branch
 
 ```bash
 git checkout -b feature/minha-feature
@@ -20,39 +20,39 @@ git checkout -b feature/minha-feature
 git checkout -b bugfix/meu-bug
 ```
 
-### 3?? Faça Suas Mudanças
+### 3. FaÃ§a Suas MudanÃ§as
 
-- Siga o estilo de código existente
+- Siga o estilo de cÃ³digo existente
 - Adicione testes para novas funcionalidades
-- Atualize a documentação se necessário
+- Atualize a documentaÃ§Ã£o se necessÃ¡rio
 
-### 4?? Commit e Push
+### 4. Commit e Push
 
 ```bash
 git add .
-git commit -m "Adicionar descrição clara e concisa"
+git commit -m "Adicionar descriÃ§Ã£o clara e concisa"
 git push origin feature/minha-feature
 ```
 
-### 5?? Abra um Pull Request
+### 5. Abra um Pull Request
 
 No GitHub, abra um PR descrevendo:
-- O que você fez
+- O que vocÃª fez
 - Por que fez
 - Como testar
 
-## ? Checklist antes de Submeter
+## Checklist antes de Submeter
 
-- [ ] Código segue o estilo do projeto
+- [ ] CÃ³digo segue o estilo do projeto
 - [ ] Testes foram adicionados/atualizados
-- [ ] Documentação foi atualizada
+- [ ] DocumentaÃ§Ã£o foi atualizada
 - [ ] Build passa localmente (`dotnet build`)
 - [ ] Testes passam (`dotnet test`)
-- [ ] Não há warnings
+- [ ] NÃ£o hÃ¡ warnings
 
-## ?? Executar Testes Localmente
+## Executar Testes Localmente
 
-### Testes Unitários
+### Testes UnitÃ¡rios
 
 ```bash
 dotnet test
@@ -88,48 +88,48 @@ dotnet test --filter "TestCategory=Redis"
 dotnet test --filter "TestCategory=RavenDB"
 ```
 
-## ?? Tipos de Contribuição
+## Tipos de ContribuiÃ§Ã£o
 
-### ?? Reportar Bugs
+### Reportar Bugs
 
 Abra uma issue com:
-- Título descritivo
-- Descrição clara do problema
+- TÃ­tulo descritivo
+- DescriÃ§Ã£o clara do problema
 - Passos para reproduzir
 - Comportamento esperado
 - Comportamento atual
-- Ambiente (SO, versão .NET, etc)
+- Ambiente (SO, versÃ£o .NET, etc)
 
-### ?? Sugerir Features
+### Sugerir Features
 
 Abra uma discussion ou issue com:
 - Caso de uso
-- Benefícios
+- BenefÃ­cios
 - Exemplos de uso
-- Possível implementação
+- PossÃ­vel implementaÃ§Ã£o
 
-### ?? Melhorar Documentação
+### Melhorar DocumentaÃ§Ã£o
 
 - Corrija typos
 - Adicione exemplos
 - Melhore clareza
 - Traduza para outros idiomas
 
-### ?? Novos Providers
+### Novos Providers
 
 1. Crie um fork
 2. Implemente `IConfigStore`
 3. Adicione testes completos
-4. Atualize documentação
+4. Atualize documentaÃ§Ã£o
 5. Abra um PR
 
-## ?? Padrões de Código
+## PadrÃµes de CÃ³digo
 
 ### Nomenclatura
 
 - Classes: `PascalCase`
-- Métodos: `PascalCase`
-- Variáveis: `camelCase`
+- MÃ©todos: `PascalCase`
+- VariÃ¡veis: `camelCase`
 - Constantes: `UPPER_SNAKE_CASE`
 
 ### Exemplo
@@ -142,35 +142,35 @@ public sealed class MyConfigStore : IConfigStore
 
     public async Task<string?> GetAsync(string key, string? scope = null)
     {
-        // Implementação
+        // ImplementaÃ§Ã£o
     }
 }
 ```
 
-### Documentação de Código
+### DocumentaÃ§Ã£o de CÃ³digo
 
 ```csharp
 /// <summary>
-/// Recupera uma configuração do armazenamento.
+/// Recupera uma configuraÃ§Ã£o do armazenamento.
 /// </summary>
-/// <param name="key">Chave da configuração</param>
+/// <param name="key">Chave da configuraÃ§Ã£o</param>
 /// <param name="scope">Escopo opcional</param>
-/// <returns>Valor da configuração ou null</returns>
+/// <returns>Valor da configuraÃ§Ã£o ou null</returns>
 public async Task<string?> GetAsync(string key, string? scope = null);
 ```
 
-## ?? Segurança
+## SeguranÃ§a
 
-Se encontrar uma vulnerabilidade de segurança:
+Se encontrar uma vulnerabilidade de seguranÃ§a:
 
-1. **NÃO** abra uma issue pública
+1. **NÃƒO** abra uma issue pÃºblica
 2. Envie um email para [security@configr.dev]
 3. Descreva a vulnerabilidade
 4. Aguarde a resposta
 
-## ?? Licença
+## LicenÃ§a
 
-Ao contribuir, você concorda que seu código será licenciado sob a MIT License.
+Ao contribuir, vocÃª concorda que seu cÃ³digo serÃ¡ licenciado sob a MIT License.
 
 ## ?? Agradecimentos
 
@@ -178,4 +178,4 @@ Muito obrigado por contribuir! Seu trabalho ajuda a melhorar ConfigR para todos.
 
 ---
 
-**Dúvidas?** Abra uma [discussion](https://github.com/mbanagouro/configr/discussions) no GitHub!
+**DÃºvidas?** Abra uma [discussion](https://github.com/mbanagouro/configr/discussions) no GitHub!
