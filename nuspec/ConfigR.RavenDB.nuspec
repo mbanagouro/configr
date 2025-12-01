@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+	<metadata>
+		<id>ConfigR.RavenDB</id>
+		<version>1.0.0</version>
+		<title>RavenDB Provider</title>
+		<description>RavenDB provider for ConfigR.</description>
+		<authors>Michel Banagouro</authors>
+		<owners>Leanwork</owners>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<license type="expression">MIT</license>
+		<projectUrl>https://github.com/mbanagouro/configr</projectUrl>
+		<repository type="git" url="https://github.com/mbanagouro/configr"/>
+		<tags>configuration config settings options ravenDB</tags>
+		<dependencies>
+			<dependency id="ConfigR.Abstractions" version="1.0.0" />
+			<dependency id="ConfigR.Core" version="1.0.0" />
+			<PackageReference Include="RavenDB.Client" Version="7.1.4" />
+		</dependencies>
+	</metadata>
+</package>
