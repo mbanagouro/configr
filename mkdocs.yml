@@ -1,5 +1,5 @@
 site_name: ConfigR Documentation
-site_description: Strongly typed runtime configuration for modern .NET apps.
+site_description: Configuração tipada em runtime para aplicações .NET modernas
 site_url: https://mbanagouro.github.io/configr
 repo_name: mbanagouro/configr
 repo_url: https://github.com/mbanagouro/configr
@@ -11,42 +11,86 @@ theme:
     - scheme: default
       primary: blue
       accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Modo Claro
     - scheme: slate
       primary: blue
       accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Modo Escuro
   features:
     - navigation.instant
+    - navigation.instant.prefetch
     - navigation.sections
     - navigation.expand
     - navigation.top
+    - navigation.footer
     - header.autohide
     - search.suggest
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.tabs.link
+    - toc.follow
 
 markdown_extensions:
   - admonition
-  - codehilite
+  - pymdownx.details
+  - pymdownx.superfences
+  - codehilite:
+      linenums: false
   - toc:
       permalink: true
+      toc_depth: 3
   - footnotes
   - attr_list
   - def_list
   - md_in_html
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      use_pygments: true
+  - pymdownx.tabbed:
+      alternate_style: true
+
+extra_css:
+  - stylesheets/extra.css
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/mbanagouro
+    - icon: fontawesome/brands/youtube
+      link: https://youtube.com/@aspnetpro
+
+plugins:
+  - search:
+      lang: pt
 
 nav:
-  - Introdução: index.md
-  - Guia Rápido:
-      - Iniciando: getting-started.md
-      - Configuração: configuration.md
-  - Storage Providers:
+  - 🏠 Início: index.md
+  - 📚 Guia Rápido:
+      - ⚡ Iniciando: getting-started.md
+      - 🔧 Configuração: configuration.md
+  - 🗄️ Storage Providers:
+      - 📌 Visão Geral: storage/overview.md
       - SQL Server: storage/sql-server.md
       - MySQL: storage/mysql.md
-      - Npgsql: storage/npgsql.md
+      - PostgreSQL (Npgsql): storage/npgsql.md
       - MongoDB: storage/mongodb.md
       - Redis: storage/redis.md
       - RavenDB: storage/ravendb.md
-  - Conceitos Avançados:
-      - Scopes: advanced/scopes.md
-      - Cache: advanced/caching.md
-      - Extensibilidade: advanced/extensibility.md
-  - Testes: testing.md
-  - Referência da API: api-reference.md
+  - 🎯 Conceitos Avançados:
+      - 🧱 Scopes: advanced/scopes.md
+      - ⚡ Cache: advanced/caching.md
+      - 🔧 Extensibilidade: advanced/extensibility.md
+  - 🧪 Testes: testing.md
+  - 📖 Referência da API: api-reference.md
+  - ❓ FAQ: FAQ.md
+  - 🤝 Contribuir: CONTRIBUTING.md
+  - 🌐 Links:
+      - GitHub: https://github.com/mbanagouro/configr
+      - YouTube: https://youtube.com/@aspnetpro
