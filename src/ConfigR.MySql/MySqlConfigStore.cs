@@ -78,6 +78,11 @@ public sealed class MySqlConfigStore : IConfigStore
         cmd.Parameters.AddWithValue("@scope", DbNullIfNull(scope));
 
         var result = await cmd.ExecuteScalarAsync();
+        if (result is null)
+        {
+            return null;
+        }
+
         return new ConfigEntry
         {
             Key = key,

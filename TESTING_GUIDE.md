@@ -121,7 +121,7 @@ docker stop configr-mysql && docker rm configr-mysql
 ```bash
 # Iniciar container
 docker run -d --name configr-postgres \
-  -e POSTGRES_PASSWORD=postgres \
+  -e POSTGRES_PASSWORD=123456 \
   -e POSTGRES_USER=postgres \
   -e POSTGRES_DB=configr_test \
   -p 5432:5432 postgres:16
