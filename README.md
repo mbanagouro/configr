@@ -1,6 +1,6 @@
-<p align="center">
+﻿<p align="center">
   <h1 align="center">ConfigR</h1>
-  <p align="center">Configuração tipada em runtime para aplicações .NET modernas</p>
+  <p align="center">ConfiguraÃ§Ã£o tipada em runtime para aplicaÃ§Ãµes .NET modernas</p>
 
   <p align="center">
     <img src="https://img.shields.io/badge/.NET-8.0+-blueviolet" />
@@ -18,31 +18,31 @@
 
 ---
 
-## 🚀 O que é ConfigR?
+## ðŸš€ O que Ã© ConfigR?
 
-**ConfigR** é uma biblioteca leve, extensível e altamente performática para **configurações tipadas em runtime** em aplicações .NET.
+**ConfigR** Ã© uma biblioteca leve, extensÃ­vel e altamente performÃ¡tica para **configuraÃ§Ãµes tipadas em runtime** em aplicaÃ§Ãµes .NET.
 
-### Principais Características
+### Principais CaracterÃ­sticas
 
-- 🔥 **Tipagem forte** - Classes de configuração type-safe
-- 🚀 **Cache em memória** - Otimização de performance integrada
-- 🧩 **Providers plugáveis** - Múltiplos opções de armazenamento
-- 🧱 **Scopes multi-tenant** - Configurações isoladas por tenant
-- 🔧 **Serialização customizável** - Formatação flexível de dados
-- 🧠 **Zero mágica** - Sem reflection pesada ou comportamentos implícitos
+- ðŸ”¥ **Tipagem forte** - Classes de configuraÃ§Ã£o type-safe
+- ðŸš€ **Cache em memÃ³ria** - OtimizaÃ§Ã£o de performance integrada
+- ðŸ§© **Providers plugÃ¡veis** - MÃºltiplos opÃ§Ãµes de armazenamento
+- ðŸ§± **Scopes multi-tenant** - ConfiguraÃ§Ãµes isoladas por tenant
+- ðŸ”§ **SerializaÃ§Ã£o customizÃ¡vel** - FormataÃ§Ã£o flexÃ­vel de dados
+- ðŸ§  **Zero mÃ¡gica** - Sem reflection pesada ou comportamentos implÃ­citos
 
 ### Casos de Uso
 
-- Backoffices configuráveis
+- Backoffices configurÃ¡veis
 - Plataformas multi-tenant
 - Feature flags
-- Sistemas com configurações dinâmicas
-- Substituir `appsettings.json` para configurações em runtime
+- Sistemas com configuraÃ§Ãµes dinÃ¢micas
+- Substituir `appsettings.json` para configuraÃ§Ãµes em runtime
 - E-commerce, ERP e plataformas SaaS
 
 ---
 
-## 📦 Instalação
+## ðŸ“¦ InstalaÃ§Ã£o
 
 Instale o pacote core e o provider de armazenamento desejado:
 
@@ -51,7 +51,7 @@ dotnet add package ConfigR.Core
 dotnet add package ConfigR.SqlServer
 ```
 
-**Outros providers disponíveis:**
+**Outros providers disponÃ­veis:**
 
 ```bash
 dotnet add package ConfigR.MySql
@@ -63,9 +63,9 @@ dotnet add package ConfigR.RavenDB
 
 ---
 
-## 🚀 Início Rápido
+## ðŸš€ InÃ­cio RÃ¡pido
 
-### 1. Defina sua classe de configuração
+### 1. Defina sua classe de configuraÃ§Ã£o
 
 ```csharp
 public sealed class CheckoutConfig
@@ -83,14 +83,14 @@ builder.Services
     .UseSqlServer(builder.Configuration.GetConnectionString("ConfigR"));
 ```
 
-### 3. Leia a configuração tipada
+### 3. Leia a configuraÃ§Ã£o tipada
 
 ```csharp
 var checkout = await configR.GetAsync<CheckoutConfig>();
 
 if (checkout.LoginRequired)
 {
-    // Sua lógica aqui
+    // Sua lÃ³gica aqui
 }
 ```
 
@@ -103,26 +103,26 @@ await configR.SaveAsync(checkout);
 
 ---
 
-## 🗄️ Providers de Armazenamento
+## ðŸ—„ï¸ Providers de Armazenamento
 
-O ConfigR suporta múltiplos backends de armazenamento. Escolha o que melhor se encaixa na sua infraestrutura:
+O ConfigR suporta mÃºltiplos backends de armazenamento. Escolha o que melhor se encaixa na sua infraestrutura:
 
 | Provider | Pacote | Status |
 |----------|--------|--------|
-| SQL Server | `ConfigR.SqlServer` | ✅ Pronto |
-| MySQL | `ConfigR.MySql` | ✅ Pronto |
-| PostgreSQL | `ConfigR.Npgsql` | ✅ Pronto |
-| MongoDB | `ConfigR.MongoDB` | ✅ Pronto |
-| Redis | `ConfigR.Redis` | ✅ Pronto |
-| RavenDB | `ConfigR.RavenDB` | ✅ Pronto |
+| SQL Server | `ConfigR.SqlServer` | âœ… Pronto |
+| MySQL | `ConfigR.MySql` | âœ… Pronto |
+| PostgreSQL | `ConfigR.Npgsql` | âœ… Pronto |
+| MongoDB | `ConfigR.MongoDB` | âœ… Pronto |
+| Redis | `ConfigR.Redis` | âœ… Pronto |
+| RavenDB | `ConfigR.RavenDB` | âœ… Pronto |
 
-Para instruções de configuração específicas de cada provider, consulte a [documentação oficial](https://mbanagouro.github.io/configr).
+Para instruÃ§Ãµes de configuraÃ§Ã£o especÃ­ficas de cada provider, consulte a [documentaÃ§Ã£o oficial](https://mbanagouro.github.io/configr).
 
 ---
 
-## 🗄️ Configuração SQL Server (Exemplo Padrão)
+## ðŸ—„ï¸ ConfiguraÃ§Ã£o SQL Server (Exemplo PadrÃ£o)
 
-### 1. Crie a tabela de configuração
+### 1. Crie a tabela de configuraÃ§Ã£o
 
 ```sql
 CREATE TABLE [dbo].[ConfigR] (
@@ -136,7 +136,7 @@ CREATE UNIQUE INDEX IX_ConfigR_Key_Scope
     ON [dbo].[ConfigR] ([Key], [Scope]);
 ```
 
-### 2. Configure na sua aplicação
+### 2. Configure na sua aplicaÃ§Ã£o
 
 ```csharp
 builder.Services
@@ -146,47 +146,47 @@ builder.Services
 
 ---
 
-## 🏗️ Arquitetura
+## ðŸ—ï¸ Arquitetura
 
 ```
-ConfigR.Abstractions  → Interfaces e contratos base
-ConfigR.Core          → Implementação core (cache, serialização, DI, formatação de chaves)
-ConfigR.SqlServer     → Provider SQL Server
-ConfigR.MySql         → Provider MySQL
-ConfigR.Npgsql        → Provider PostgreSQL
-ConfigR.MongoDB       → Provider MongoDB
-ConfigR.Redis         → Provider Redis
-ConfigR.RavenDB       → Provider RavenDB
+ConfigR.Abstractions  â†’ Interfaces e contratos base
+ConfigR.Core          â†’ ImplementaÃ§Ã£o core (cache, serializaÃ§Ã£o, DI, formataÃ§Ã£o de chaves)
+ConfigR.SqlServer     â†’ Provider SQL Server
+ConfigR.MySql         â†’ Provider MySQL
+ConfigR.Npgsql        â†’ Provider PostgreSQL
+ConfigR.MongoDB       â†’ Provider MongoDB
+ConfigR.Redis         â†’ Provider Redis
+ConfigR.RavenDB       â†’ Provider RavenDB
 ```
 
 ---
 
-## 📖 Documentação
+## ðŸ“– DocumentaÃ§Ã£o
 
-Documentação completa e guias disponíveis em:
+DocumentaÃ§Ã£o completa e guias disponÃ­veis em:
 
-👉 **https://mbanagouro.github.io/configr**
+ðŸ‘‰ **https://mbanagouro.github.io/configr**
 
 ---
 
-## 🧪 Testes
+## ðŸ§ª Testes
 
-### Início Rápido com Docker Compose
+### InÃ­cio RÃ¡pido com Docker Compose
 
 ```bash
-# Clone o repositório
+# Clone o repositÃ³rio
 git clone https://github.com/mbanagouro/configr.git
 cd configr
 
-# Inicie todos os serviços (SQL Server, MySQL, PostgreSQL, MongoDB, Redis, RavenDB)
+# Inicie todos os serviÃ§os (SQL Server, MySQL, PostgreSQL, MongoDB, Redis, RavenDB)
 docker-compose up -d
 
-# Aguarde ~30 segundos para os serviços ficarem prontos
+# Aguarde ~30 segundos para os serviÃ§os ficarem prontos
 
 # Execute todos os testes
 dotnet test ./tests/ConfigR.Tests/ConfigR.Tests.csproj
 
-# Pare os serviços
+# Pare os serviÃ§os
 docker-compose down
 ```
 
@@ -194,7 +194,7 @@ docker-compose down
 
 **Windows:**
 ```bash
-test-all.bat up              # Iniciar serviços
+test-all.bat up              # Iniciar serviÃ§os
 test-all.bat test            # Executar todos os testes
 test-all.bat test-sql        # Executar apenas testes SQL Server
 test-all.bat test-mysql      # Executar apenas testes MySQL
@@ -202,13 +202,13 @@ test-all.bat test-postgres   # Executar apenas testes PostgreSQL
 test-all.bat test-mongo      # Executar apenas testes MongoDB
 test-all.bat test-redis      # Executar apenas testes Redis
 test-all.bat test-raven      # Executar apenas testes RavenDB
-test-all.bat down            # Parar serviços
+test-all.bat down            # Parar serviÃ§os
 test-all.bat clean           # Limpar tudo
 ```
 
 **Linux/macOS:**
 ```bash
-./test-all.sh up             # Iniciar serviços
+./test-all.sh up             # Iniciar serviÃ§os
 ./test-all.sh test           # Executar todos os testes
 ./test-all.sh test-sql       # Executar apenas testes SQL Server
 ./test-all.sh test-mysql     # Executar apenas testes MySQL
@@ -216,7 +216,7 @@ test-all.bat clean           # Limpar tudo
 ./test-all.sh test-mongo     # Executar apenas testes MongoDB
 ./test-all.sh test-redis     # Executar apenas testes Redis
 ./test-all.sh test-raven     # Executar apenas testes RavenDB
-./test-all.sh down           # Parar serviços
+./test-all.sh down           # Parar serviÃ§os
 ./test-all.sh clean          # Limpar tudo
 ```
 
@@ -224,35 +224,35 @@ Para testes manuais por provider, consulte [TESTING_GUIDE.md](TESTING_GUIDE.md).
 
 ---
 
-## 🚀 CI/CD
+## ðŸš€ CI/CD
 
-- ✅ Build e testes (todos os providers)
-- ✅ Publicação automática no NuGet em novas releases
-- ✅ Deploy automático da documentação
+- âœ… Build e testes (todos os providers)
+- âœ… PublicaÃ§Ã£o automÃ¡tica no NuGet em novas releases
+- âœ… Deploy automÃ¡tico da documentaÃ§Ã£o
 
 ---
 
-## 🤝 Contribuição
+## ðŸ¤ ContribuiÃ§Ã£o
 
-1. Faça um fork do repositório
+1. FaÃ§a um fork do repositÃ³rio
 2. Crie uma branch para sua feature: `git checkout -b feature/minha-feature`
-3. Commit suas mudanças: `git commit -am 'Adicionar minha feature'`
+3. Commit suas mudanÃ§as: `git commit -am 'Adicionar minha feature'`
 4. Push para a branch: `git push origin feature/minha-feature`
 5. Abra um pull request
-6. Certifique-se de que todos os testes passam ✔
+6. Certifique-se de que todos os testes passam âœ”
 
 ---
 
-## 📄 Licença
+## ðŸ“„ LicenÃ§a
 
 MIT License - consulte o arquivo [LICENSE](LICENSE) para detalhes.
 
 ---
 
-## 👨‍💻 Autor
+## ðŸ‘¨â€ðŸ’» Autor
 
 **Michel Banagouro**  
-CTO na Leanwork · Arquiteto e Especialista em ASP.NET
+CTO na Leanwork Â· Arquiteto e Especialista em ASP.NET
 
 - GitHub: https://github.com/mbanagouro
 - YouTube: https://youtube.com/@aspnetpro

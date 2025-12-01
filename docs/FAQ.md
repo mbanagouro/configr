@@ -1,36 +1,36 @@
-# ? Perguntas Frequentes (FAQ)
+Ôªø# ? Perguntas Frequentes (FAQ)
 
 Respostas para perguntas comuns sobre ConfigR.
 
-## ?? InstalaÁ„o e Setup
+## ?? Instala√ß√£o e Setup
 
-### P: Qual È a vers„o mÌnima de .NET suportada?
+### P: Qual √© a vers√£o m√≠nima de .NET suportada?
 
 **R:** ConfigR suporta .NET 8.0 e superiores (.NET 8, 9, 10).
 
 ### P: Posso usar ConfigR com .NET Framework?
 
-**R:** N„o. ConfigR È exclusivamente para .NET moderno (.NET 8+).
+**R:** N√£o. ConfigR √© exclusivamente para .NET moderno (.NET 8+).
 
 ### P: Qual provider devo escolher?
 
 **R:** 
-- **SQL Server**: Padr„o, recomendado para maioria dos casos
-- **PostgreSQL**: Se vocÍ j· usa PostgreSQL
+- **SQL Server**: Padr√£o, recomendado para maioria dos casos
+- **PostgreSQL**: Se voc√™ j√° usa PostgreSQL
 - **MySQL**: Mais leve, hosting barato
 - **MongoDB**: Para dados semi-estruturados
-- **Redis**: Para performance crÌtica
-- **RavenDB**: Para seguranÁa enterprise
+- **Redis**: Para performance cr√≠tica
+- **RavenDB**: Para seguran√ßa enterprise
 
-### P: Posso usar m˙ltiplos providers?
+### P: Posso usar m√∫ltiplos providers?
 
-**R:** N„o simultaneamente. Registre apenas um provider por aplicaÁ„o.
+**R:** N√£o simultaneamente. Registre apenas um provider por aplica√ß√£o.
 
 ## ?? Uso
 
-### P: Posso usar m˙ltiplas classes de configuraÁ„o?
+### P: Posso usar m√∫ltiplas classes de configura√ß√£o?
 
-**R:** Sim! VocÍ pode ter quantas classes quiser. Cada uma È armazenada com sua prÛpria chave.
+**R:** Sim! Voc√™ pode ter quantas classes quiser. Cada uma √© armazenada com sua pr√≥pria chave.
 
 ```csharp
 var checkout = await configR.GetAsync<CheckoutConfig>();
@@ -51,9 +51,9 @@ public sealed class AdvancedConfig
 }
 ```
 
-### P: Posso herdar de uma classe de configuraÁ„o?
+### P: Posso herdar de uma classe de configura√ß√£o?
 
-**R:** N„o È recomendado. Use composiÁ„o:
+**R:** N√£o √© recomendado. Use composi√ß√£o:
 
 ```csharp
 // ? Evitar
@@ -67,12 +67,12 @@ public class MyConfig
 }
 ```
 
-### P: O que acontece se a configuraÁ„o n„o existir?
+### P: O que acontece se a configura√ß√£o n√£o existir?
 
-**R:** Retorna uma nova inst‚ncia com valores padr„o da classe.
+**R:** Retorna uma nova inst√¢ncia com valores padr√£o da classe.
 
 ```csharp
-// Se n„o existir CheckoutConfig no banco:
+// Se n√£o existir CheckoutConfig no banco:
 var config = await configR.GetAsync<CheckoutConfig>();
 // Retorna: new CheckoutConfig { LoginRequired = true, MaxItems = 20 }
 ```
@@ -81,11 +81,11 @@ var config = await configR.GetAsync<CheckoutConfig>();
 
 ### P: Como funciona o cache?
 
-**R:** ConfigR caches em memÛria automaticamente. Cada configuraÁ„o È cacheada por um tempo configur·vel (padr„o: 5 minutos).
+**R:** ConfigR caches em mem√≥ria automaticamente. Cada configura√ß√£o √© cacheada por um tempo configur√°vel (padr√£o: 5 minutos).
 
 ### P: Como invalido o cache?
 
-**R:** Automaticamente quando vocÍ chama `SaveAsync()`:
+**R:** Automaticamente quando voc√™ chama `SaveAsync()`:
 
 ```csharp
 var config = await configR.GetAsync<MyConfig>();
@@ -95,7 +95,7 @@ await configR.SaveAsync(config);  // Cache invalidado aqui!
 
 ### P: Posso desabilitar o cache?
 
-**R:** Sim, configurando duraÁ„o zero:
+**R:** Sim, configurando dura√ß√£o zero:
 
 ```csharp
 builder.Services.AddConfigR(options =>
@@ -104,7 +104,7 @@ builder.Services.AddConfigR(options =>
 })
 ```
 
-?? Use com cuidado em produÁ„o!
+?? Use com cuidado em produ√ß√£o!
 
 ### P: Como monitoro a performance?
 
@@ -120,15 +120,15 @@ builder.Services.AddLogging(config =>
 
 ## ?? Multi-tenant
 
-### P: Como uso ConfigR em aplicaÁ„o multi-tenant?
+### P: Como uso ConfigR em aplica√ß√£o multi-tenant?
 
 **R:** Use scopes:
 
 ```csharp
-// Ler config de tenant especÌfico
+// Ler config de tenant espec√≠fico
 var tenantConfig = await configR.GetAsync<MyConfig>("tenant-123");
 
-// Salvar config de tenant especÌfico
+// Salvar config de tenant espec√≠fico
 await configR.SaveAsync(config, "tenant-123");
 ```
 
@@ -150,32 +150,32 @@ public class ConfigService
 }
 ```
 
-### P: Posso compartilhar configuraÁıes entre tenants?
+### P: Posso compartilhar configura√ß√µes entre tenants?
 
-**R:** Sim, usando configuraÁıes sem scope como "padr„o" e fallback:
+**R:** Sim, usando configura√ß√µes sem scope como "padr√£o" e fallback:
 
 ```csharp
 var tenantConfig = await configR.GetAsync<MyConfig>("tenant-123");
 if (tenantConfig == null)
 {
-    tenantConfig = await configR.GetAsync<MyConfig>();  // Padr„o
+    tenantConfig = await configR.GetAsync<MyConfig>();  // Padr√£o
 }
 ```
 
-## ?? SeguranÁa
+## ?? Seguran√ßa
 
-### P: As configuraÁıes s„o criptografadas?
+### P: As configura√ß√µes s√£o criptografadas?
 
-**R:** Por padr„o, n„o. Para criptografia:
+**R:** Por padr√£o, n√£o. Para criptografia:
 - Implemente um custom serializer
 - Use RavenDB (suporte nativo)
-- Criptografe dados sensÌveis antes de salvar
+- Criptografe dados sens√≠veis antes de salvar
 
-### P: Como lido com dados sensÌveis?
+### P: Como lido com dados sens√≠veis?
 
 **R:** 
 
-1. **N„o armazene em ConfigR**: Use Azure Key Vault, AWS Secrets Manager
+1. **N√£o armazene em ConfigR**: Use Azure Key Vault, AWS Secrets Manager
 2. **Criptografe**: Se precisar armazenar, criptografe antes
 3. **Audit**: Implemente logging de acesso
 
@@ -191,13 +191,13 @@ var apiKey = Decrypt(saved.ApiKey);
 
 ### P: Posso usar ConfigR com dados PII?
 
-**R:** N„o recomendado. ConfigR È para configuraÁıes de negÛcio, n„o dados pessoais.
+**R:** N√£o recomendado. ConfigR √© para configura√ß√µes de neg√≥cio, n√£o dados pessoais.
 
 ## ?? Testes
 
 ### P: Como testo com ConfigR?
 
-**R:** Use um provider em memÛria ou mock:
+**R:** Use um provider em mem√≥ria ou mock:
 
 ```csharp
 // Mock
@@ -208,7 +208,7 @@ mockConfigR.Setup(x => x.GetAsync<MyConfig>(null, default))
 var service = new MyService(mockConfigR.Object);
 ```
 
-### P: Como rodo testes de integraÁ„o?
+### P: Como rodo testes de integra√ß√£o?
 
 **R:** Use Docker Compose ou containers locais:
 
@@ -218,14 +218,14 @@ dotnet test
 docker-compose down
 ```
 
-## ?? MigraÁ„o
+## ?? Migra√ß√£o
 
 ### P: Como migro de appsettings.json para ConfigR?
 
 **R:**
 
-1. Identifique configuraÁıes din‚micas
-2. Crie classes de configuraÁ„o
+1. Identifique configura√ß√µes din√¢micas
+2. Crie classes de configura√ß√£o
 3. Salve valores iniciais no banco
 4. Remova de appsettings.json
 
@@ -247,55 +247,55 @@ await configR.SaveAsync(new CheckoutConfig());
 **R:** Sim! Use ambos:
 
 ```csharp
-// Valores est·ticos do appsettings.json
+// Valores est√°ticos do appsettings.json
 var staticConfig = configuration.GetSection("StaticSettings");
 
-// Valores din‚micos do ConfigR
+// Valores din√¢micos do ConfigR
 var dynamicConfig = await configR.GetAsync<DynamicSettings>();
 ```
 
-## ?? DocumentaÁ„o
+## ?? Documenta√ß√£o
 
-### P: Onde encontro documentaÁ„o?
+### P: Onde encontro documenta√ß√£o?
 
 **R:** Em https://mbanagouro.github.io/configr
 
-### P: A documentaÁ„o est· em qual idioma?
+### P: A documenta√ß√£o est√° em qual idioma?
 
-**R:** PortuguÍs (pt-BR) e inglÍs (interface material).
+**R:** Portugu√™s (pt-BR) e ingl√™s (interface material).
 
-### P: Como contribuo para a documentaÁ„o?
+### P: Como contribuo para a documenta√ß√£o?
 
-**R:** Veja [Guia de ContribuiÁ„o](CONTRIBUTING.md)
+**R:** Veja [Guia de Contribui√ß√£o](CONTRIBUTING.md)
 
 ## ?? Troubleshooting
 
 ### P: Recebo erro "Connection refused"
 
 **R:** 
-1. Verifique se banco de dados est· rodando
+1. Verifique se banco de dados est√° rodando
 2. Confirme connection string
 3. Teste conectividade: `ping localhost`
 
-### P: Erro "Tabela n„o existe"
+### P: Erro "Tabela n√£o existe"
 
 **R:** Crie a tabela manualmente ou configure `AutoCreateTable = true`.
 
-### P: Erro "SerializaÁ„o falhou"
+### P: Erro "Serializa√ß√£o falhou"
 
 **R:** 
 - Use tipos JSON-serializable
-- Classe precisa de construtor sem par‚metros
-- Propriedades devem ser p˙blicas
+- Classe precisa de construtor sem par√¢metros
+- Propriedades devem ser p√∫blicas
 
-### P: Performance est· lenta
+### P: Performance est√° lenta
 
 **R:**
 1. Verifique cache (deve estar ativo)
 2. Analise queries no banco
 3. Considere aumentar `CacheDuration`
 
-## ? Ainda tem d˙vidas?
+## ? Ainda tem d√∫vidas?
 
 - ?? Abra uma [discussion](https://github.com/mbanagouro/configr/discussions)
 - ?? Reporte um [bug](https://github.com/mbanagouro/configr/issues)

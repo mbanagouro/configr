@@ -1,18 +1,18 @@
-# ?? Documentação do ConfigR
+ï»¿# ?? DocumentaÃ§Ã£o do ConfigR
 
-Bem-vindo à documentação oficial do **ConfigR**.
+Bem-vindo Ã  documentaÃ§Ã£o oficial do **ConfigR**.
 
-## ?? Estrutura da Documentação
+## ?? Estrutura da DocumentaÃ§Ã£o
 
 ```
 docs/
-??? index.md                 # Página inicial
-??? getting-started.md       # Guia de início rápido
+??? index.md                 # PÃ¡gina inicial
+??? getting-started.md       # Guia de inÃ­cio rÃ¡pido
 ??? configuration.md         # Como configurar
 ??? testing.md              # Testes
-??? api-reference.md        # Referência da API
+??? api-reference.md        # ReferÃªncia da API
 ??? storage/
-?   ??? overview.md         # Comparação de providers
+?   ??? overview.md         # ComparaÃ§Ã£o de providers
 ?   ??? sql-server.md       # Provider SQL Server
 ?   ??? mysql.md            # Provider MySQL
 ?   ??? npgsql.md           # Provider PostgreSQL
@@ -21,26 +21,26 @@ docs/
 ?   ??? ravendb.md          # Provider RavenDB
 ??? advanced/
 ?   ??? scopes.md           # Multi-tenant com Scopes
-?   ??? caching.md          # Cache em memória
+?   ??? caching.md          # Cache em memÃ³ria
 ?   ??? extensibility.md    # Criar custom providers
 ??? stylesheets/
     ??? extra.css           # Estilos customizados
 ```
 
-## ?? Começar
+## ?? ComeÃ§ar
 
-1. **[Página Inicial](index.md)** - Conheça o ConfigR
-2. **[Guia Rápido](getting-started.md)** - Configure em 5 minutos
-3. **[Configuração](configuration.md)** - Explore todas as opções
+1. **[PÃ¡gina Inicial](index.md)** - ConheÃ§a o ConfigR
+2. **[Guia RÃ¡pido](getting-started.md)** - Configure em 5 minutos
+3. **[ConfiguraÃ§Ã£o](configuration.md)** - Explore todas as opÃ§Ãµes
 
 ## ?? Guias Principais
 
 - **[Storage Providers](storage/overview.md)** - Escolha seu backend
-- **[Conceitos Avançados](advanced/)** - Aprenda recursos avançados
-- **[Testes](testing.md)** - Como testar sua aplicação
-- **[API Reference](api-reference.md)** - Documentação completa
+- **[Conceitos AvanÃ§ados](advanced/)** - Aprenda recursos avanÃ§ados
+- **[Testes](testing.md)** - Como testar sua aplicaÃ§Ã£o
+- **[API Reference](api-reference.md)** - DocumentaÃ§Ã£o completa
 
-## ?? Links Úteis
+## ?? Links Ãšteis
 
 - ?? [Website](https://github.com/mbanagouro/configr)
 - ?? [NuGet ConfigR.Core](https://www.nuget.org/packages/ConfigR.Core)
@@ -49,14 +49,14 @@ docs/
 
 ## ?? Notas
 
-- A documentação está disponível em **português** (pt-BR)
-- Todos os exemplos são testados e funcionam com **.NET 8.0+**
+- A documentaÃ§Ã£o estÃ¡ disponÃ­vel em **portuguÃªs** (pt-BR)
+- Todos os exemplos sÃ£o testados e funcionam com **.NET 8.0+**
 - Inclui suporte a **6 providers diferentes**
 
 ## ?? Contribuir
 
-Encontrou um problema na documentação? Abra uma issue ou PR no [GitHub](https://github.com/mbanagouro/configr).
+Encontrou um problema na documentaÃ§Ã£o? Abra uma issue ou PR no [GitHub](https://github.com/mbanagouro/configr).
 
 ---
 
-**Boa documentação! ??**
+**Boa documentaÃ§Ã£o! ??**

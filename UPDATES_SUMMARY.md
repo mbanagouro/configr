@@ -1,99 +1,99 @@
-<!-- Este arquivo documenta todas as atualizações realizadas para o suporte completo ao provider MySQL -->
+ï»¿<!-- Este arquivo documenta todas as atualizaÃ§Ãµes realizadas para o suporte completo ao provider MySQL -->
 
-# ?? Sumário Completo de Atualizações
+# ?? SumÃ¡rio Completo de AtualizaÃ§Ãµes
 
 ## ? Fase 1: Testes MySQL Criados
 
-Foram criados **4 arquivos de teste** na pasta `tests/ConfigR.Tests/MySql/` seguindo o padrão do SQL Server:
+Foram criados **4 arquivos de teste** na pasta `tests/ConfigR.Tests/MySql/` seguindo o padrÃ£o do SQL Server:
 
 ### 1. **MySqlTestDatabase.cs**
 - Classe auxiliar para gerenciar o banco de dados de teste
-- Suporte a connection string via variável de ambiente: `CONFIGR_TEST_MYSQL_CONN`
+- Suporte a connection string via variÃ¡vel de ambiente: `CONFIGR_TEST_MYSQL_CONN`
 - Default para Docker: `Server=localhost;Database=ConfigR_Test;User Id=root;Password=root;`
-- Métodos:
-  - `GetConnectionString()`: Obtém a connection string
+- MÃ©todos:
+  - `GetConnectionString()`: ObtÃ©m a connection string
   - `EnsureDatabaseAndTableAsync()`: Cria banco e tabelas
   - `ClearTableAsync()`: Limpa dados entre testes
 
 ### 2. **MySqlConfigStoreTests.cs** 
 - 3 testes de store:
-  - `UpsertAndGetAll_Works()`: CRUD básico
+  - `UpsertAndGetAll_Works()`: CRUD bÃ¡sico
   - `Upsert_RespectsScope()`: Isolamento por scopes
-  - `GetAsync_ReturnsNull_WhenNotExists()`: Tratamento de não encontrado
+  - `GetAsync_ReturnsNull_WhenNotExists()`: Tratamento de nÃ£o encontrado
 
 ### 3. **MySqlIntegrationTests.cs**
-- 2 testes de integração:
+- 2 testes de integraÃ§Ã£o:
   - `Should_Save_And_Load_Config()`: Fluxo completo com tipos complexos
   - `Should_Override_Existing_Key_On_Upsert()`: Sobrescrita de valores
 
 ### 4. **MySqlConcurrencyTests.cs**
-- 2 testes de concorrência:
+- 2 testes de concorrÃªncia:
   - `ParallelReads_Should_Be_Consistent()`: 100 leituras paralelas
-  - `ParallelWriteRead_Should_Not_Corrupt_State()`: 50 tarefas × 10 iterações
+  - `ParallelWriteRead_Should_Not_Corrupt_State()`: 50 tarefas Ã— 10 iteraÃ§Ãµes
 
 ---
 
-## ? Fase 2: Documentação de Providers Expandida
+## ? Fase 2: DocumentaÃ§Ã£o de Providers Expandida
 
 ### 1. **docs/storage/sql-server.md** (Completo)
-? Instalação
-? Configuração no DI
+? InstalaÃ§Ã£o
+? ConfiguraÃ§Ã£o no DI
 ? appsettings.json
-? Estrutura da tabela SQL com descrição de campos
-? Opções de configuração
+? Estrutura da tabela SQL com descriÃ§Ã£o de campos
+? OpÃ§Ãµes de configuraÃ§Ã£o
 ? Exemplo completo de uso
-? Instruções de testes
-? Considerações de performance
+? InstruÃ§Ãµes de testes
+? ConsideraÃ§Ãµes de performance
 
 ### 2. **docs/storage/mysql.md** (Completo)
-? Instalação
-? Configuração no DI
+? InstalaÃ§Ã£o
+? ConfiguraÃ§Ã£o no DI
 ? appsettings.json
-? Estrutura da tabela SQL com descrição de campos
-? Opções de configuração
+? Estrutura da tabela SQL com descriÃ§Ã£o de campos
+? OpÃ§Ãµes de configuraÃ§Ã£o
 ? Exemplo completo de uso
-? Instruções de testes com Docker
-? Considerações de performance
+? InstruÃ§Ãµes de testes com Docker
+? ConsideraÃ§Ãµes de performance
 
 ### 3. **docs/storage/npgsql.md** (Completo)
-? Instalação
-? Configuração no DI
+? InstalaÃ§Ã£o
+? ConfiguraÃ§Ã£o no DI
 ? appsettings.json
-? Estrutura da tabela SQL com descrição de campos
-? Opções de configuração
+? Estrutura da tabela SQL com descriÃ§Ã£o de campos
+? OpÃ§Ãµes de configuraÃ§Ã£o
 ? Exemplo completo de uso
-? Instruções de testes
-? Considerações de performance (JSONB, parallel queries)
+? InstruÃ§Ãµes de testes
+? ConsideraÃ§Ãµes de performance (JSONB, parallel queries)
 
 ### 4. **docs/storage/mongodb.md** (Completo)
-? Instalação
-? Configuração no DI
+? InstalaÃ§Ã£o
+? ConfiguraÃ§Ã£o no DI
 ? appsettings.json
 ? Estrutura de documentos com exemplo JSON
-? Descrição de campos
-? Opções de configuração
+? DescriÃ§Ã£o de campos
+? OpÃ§Ãµes de configuraÃ§Ã£o
 ? Exemplo completo de uso
-? Instruções de testes
-? Considerações de performance (TTL, replicação)
+? InstruÃ§Ãµes de testes
+? ConsideraÃ§Ãµes de performance (TTL, replicaÃ§Ã£o)
 
 ### 5. **docs/storage/redis.md** (Completo)
-? Instalação
-? Configuração no DI
+? InstalaÃ§Ã£o
+? ConfiguraÃ§Ã£o no DI
 ? appsettings.json
-? Estrutura de armazenamento com padrão de chaves
-? Descrição do padrão
-? Opções de configuração (TTL)
+? Estrutura de armazenamento com padrÃ£o de chaves
+? DescriÃ§Ã£o do padrÃ£o
+? OpÃ§Ãµes de configuraÃ§Ã£o (TTL)
 ? Exemplo completo de uso
-? Instruções de testes
-? Considerações de performance (em memória, pub/sub, cluster)
+? InstruÃ§Ãµes de testes
+? ConsideraÃ§Ãµes de performance (em memÃ³ria, pub/sub, cluster)
 
 ### 6. **docs/testing.md** (Expandido)
-? Testes SQL Server (Docker setup, variáveis de ambiente)
-? Testes MySQL (Docker setup, variáveis de ambiente)
+? Testes SQL Server (Docker setup, variÃ¡veis de ambiente)
+? Testes MySQL (Docker setup, variÃ¡veis de ambiente)
 ? Testes PostgreSQL (Npgsql)
 ? Testes MongoDB
 ? Testes Redis
-? Seção Docker Compose
+? SeÃ§Ã£o Docker Compose
 ? Estrutura dos testes explicada
 ? Troubleshooting
 
@@ -102,24 +102,24 @@ Foram criados **4 arquivos de teste** na pasta `tests/ConfigR.Tests/MySql/` segu
 ## ? Fase 3: Infraestrutura Docker e Scripts
 
 ### 1. **docker-compose.yml** (Novo)
-- ? Serviço SQL Server 2022 (porta 1433)
-- ? Serviço MySQL 8 (porta 3306)
-- ? Serviço PostgreSQL 16 (porta 5432)
-- ? Serviço MongoDB 7 (porta 27017)
-- ? Serviço Redis 7 (porta 6379)
-- ? Health checks para cada serviço
+- ? ServiÃ§o SQL Server 2022 (porta 1433)
+- ? ServiÃ§o MySQL 8 (porta 3306)
+- ? ServiÃ§o PostgreSQL 16 (porta 5432)
+- ? ServiÃ§o MongoDB 7 (porta 27017)
+- ? ServiÃ§o Redis 7 (porta 6379)
+- ? Health checks para cada serviÃ§o
 - ? Network compartilhada
-- ? Variáveis de ambiente pré-configuradas
+- ? VariÃ¡veis de ambiente prÃ©-configuradas
 
 ### 2. **.env.example** (Novo)
-- ? Variáveis de ambiente para todos os providers
-- ? Connection strings padrão do docker-compose
-- ? Facilita customização local
+- ? VariÃ¡veis de ambiente para todos os providers
+- ? Connection strings padrÃ£o do docker-compose
+- ? Facilita customizaÃ§Ã£o local
 
 ### 3. **test-all.bat** (Windows - Novo)
-Comandos disponíveis:
-- `up` - Iniciar todos os serviços
-- `down` - Parar todos os serviços
+Comandos disponÃ­veis:
+- `up` - Iniciar todos os serviÃ§os
+- `down` - Parar todos os serviÃ§os
 - `logs` - Ver logs dos containers
 - `test` - Rodar todos os testes
 - `test-sql` - Rodar apenas testes SQL Server
@@ -132,19 +132,19 @@ Comandos disponíveis:
 
 ### 4. **test-all.sh** (Linux/macOS - Novo)
 - ? Mesmos comandos que test-all.bat
-- ? Usa filter ao invés de -k para compatibilidade com xUnit
-- ? Permissão de execução: `chmod +x test-all.sh`
+- ? Usa filter ao invÃ©s de -k para compatibilidade com xUnit
+- ? PermissÃ£o de execuÃ§Ã£o: `chmod +x test-all.sh`
 
 ---
 
-## ? Fase 4: Documentação de Testes
+## ? Fase 4: DocumentaÃ§Ã£o de Testes
 
 ### 1. **TESTING_GUIDE.md** (Novo - Completo)
 - ? Guia extenso de testes
-- ? Pré-requisitos
+- ? PrÃ©-requisitos
 - ? Quickstart com Docker Compose
-- ? Execução manual por provider
-- ? Variáveis de ambiente
+- ? ExecuÃ§Ã£o manual por provider
+- ? VariÃ¡veis de ambiente
 - ? Troubleshooting detalhado
 - ? Scripts auxiliares
 - ? Estrutura dos testes
@@ -152,25 +152,25 @@ Comandos disponíveis:
 - ? FAQ
 
 ### 2. **UPDATES_SUMMARY.md** (Este arquivo)
-- ? Sumário de todas as atualizações
+- ? SumÃ¡rio de todas as atualizaÃ§Ãµes
 - ? Status de cada provider
-- ? Próximos passos
+- ? PrÃ³ximos passos
 
 ---
 
-## ? Fase 5: Atualização de Documentação Central
+## ? Fase 5: AtualizaÃ§Ã£o de DocumentaÃ§Ã£o Central
 
 ### 1. **README.md** (Atualizado)
-? Links para documentação de providers
+? Links para documentaÃ§Ã£o de providers
 ? Tabela com links para docs de cada provider
-? Referência a TESTING_GUIDE.md
-? Instruções simplificadas de Docker Compose
+? ReferÃªncia a TESTING_GUIDE.md
+? InstruÃ§Ãµes simplificadas de Docker Compose
 ? Scripts auxiliares documentados
-? Guias rápidos
+? Guias rÃ¡pidos
 
 ### 2. **mkdocs.yml** (Corrigido e Expandido)
 ? Corrigido: Redis estava como "Npgsql" (agora "Redis")
-? Adicionado: Link para "Testes" na navegação
+? Adicionado: Link para "Testes" na navegaÃ§Ã£o
 
 ### 3. **tests/ConfigR.Tests.csproj** (Atualizado)
 ? Adicionado `<ProjectReference>` para `ConfigR.MySql`
@@ -185,20 +185,20 @@ Comandos disponíveis:
 | **Store Tests** | ? | ? | ? | ? | ? |
 | **Integration Tests** | ? | ? | ? | ? | ? |
 | **Concurrency Tests** | ? | ? | ? | ? | ? |
-| **Documentação** | ? | ? | ? | ? | ? |
+| **DocumentaÃ§Ã£o** | ? | ? | ? | ? | ? |
 | **Docker** | ? | ? | ? | ? | ? |
-| **Variáveis Env** | ? | ? | ? | ? | ? |
+| **VariÃ¡veis Env** | ? | ? | ? | ? | ? |
 | **CI/CD** | ? | ? | ? | ? | ? |
 
 ---
 
-## ?? CI/CD Workflow (Já Configurado)
+## ?? CI/CD Workflow (JÃ¡ Configurado)
 
-O arquivo `.github/workflows/ci-cd.yml` **já possui suporte completo** para todos os providers:
+O arquivo `.github/workflows/ci-cd.yml` **jÃ¡ possui suporte completo** para todos os providers:
 
 ? Services para todos os 5 provedores
-? Variáveis de ambiente para todos os testes
-? Health checks para cada serviço
+? VariÃ¡veis de ambiente para todos os testes
+? Health checks para cada serviÃ§o
 ? Pack do NuGet para todos os providers
 
 ---
@@ -212,7 +212,7 @@ O arquivo `.github/workflows/ci-cd.yml` **já possui suporte completo** para todo
 git clone https://github.com/mbanagouro/configr.git
 cd configr
 
-# 2. Inicie os serviços (one-liner)
+# 2. Inicie os serviÃ§os (one-liner)
 docker-compose up -d
 
 # 3. Aguarde ~30s
@@ -221,7 +221,7 @@ sleep 30
 # 4. Rode os testes
 dotnet test
 
-# 5. Explore a documentação
+# 5. Explore a documentaÃ§Ã£o
 # https://mbanagouro.github.io/configr
 ```
 
@@ -238,7 +238,7 @@ test-all.bat test-mysql
 ### Testar Com Banco de Dados Remoto
 
 ```bash
-# Customizar variável de ambiente
+# Customizar variÃ¡vel de ambiente
 export CONFIGR_TEST_MYSQL_CONN="Server=seu-servidor;Database=sua-db;..."
 dotnet test
 ```
@@ -249,8 +249,8 @@ dotnet test
 
 ```
 .
-??? docker-compose.yml              (? Novo - Orquestra todos os serviços)
-??? .env.example                    (? Novo - Template de variáveis)
+??? docker-compose.yml              (? Novo - Orquestra todos os serviÃ§os)
+??? .env.example                    (? Novo - Template de variÃ¡veis)
 ??? test-all.bat                    (? Novo - Script Windows)
 ??? test-all.sh                     (? Novo - Script Linux/macOS)
 ??? TESTING_GUIDE.md                (? Novo - Guia completo de testes)
@@ -277,12 +277,12 @@ dotnet test
 
 ---
 
-## ?? Próximos Passos Sugeridos (Opcional)
+## ?? PrÃ³ximos Passos Sugeridos (Opcional)
 
 1. ? Adicionar badges de cobertura ao README
 2. ? Criar guia de contribution detalhado
 3. ? Documentar benchmarks de performance por provider
-4. ? Criar exemplo de aplicação com todos os providers
+4. ? Criar exemplo de aplicaÃ§Ã£o com todos os providers
 5. ? Adicionar suporte a RavenDB (planejado)
 
 ---
@@ -292,16 +292,16 @@ dotnet test
 ### ? COMPLETO
 
 - **Testes**: Todos os 5 providers com testes Store, Integration e Concurrency
-- **Documentação**: Cada provider com guia completo, exemplos e considerações
+- **DocumentaÃ§Ã£o**: Cada provider com guia completo, exemplos e consideraÃ§Ãµes
 - **Infraestrutura**: Docker Compose + Scripts para facilitar testes locais
 - **CI/CD**: Workflow GitHub Actions completo para todos os providers
 - **Developer Experience**: README, TESTING_GUIDE e scripts auxiliares
 
-### ?? Estatísticas
+### ?? EstatÃ­sticas
 
 - **Arquivos Criados**: 8
 - **Arquivos Modificados**: 6
-- **Linhas de Documentação Adicionadas**: 1000+
+- **Linhas de DocumentaÃ§Ã£o Adicionadas**: 1000+
 - **Providers Suportados**: 5 (SQL Server, MySQL, PostgreSQL, MongoDB, Redis)
 - **Testes por Provider**: 7 (3 ConfigStore, 2 Integration, 2 Concurrency)
 - **Total de Testes**: 35+
@@ -311,19 +311,19 @@ dotnet test
 - ? Desenvolvimento local com Docker
 - ? Testes manuais de qualquer provider
 - ? CI/CD automatizado
-- ? Documentação oficial completa
-- ? Contribuições da comunidade
+- ? DocumentaÃ§Ã£o oficial completa
+- ? ContribuiÃ§Ãµes da comunidade
 
 ---
 
 ## ?? Obrigado
 
-Todas as atualizações foram realizadas com sucesso!
+Todas as atualizaÃ§Ãµes foram realizadas com sucesso!
 
 **Agora o projeto ConfigR tem:**
 - ? Suporte completo a MySQL com testes
-- ? Documentação profissional para todos os providers
+- ? DocumentaÃ§Ã£o profissional para todos os providers
 - ? Infraestrutura Docker facilitando testes locais
 - ? Scripts auxiliares para Windows, Linux e macOS
-- ? Experiência de desenvolvedor otimizada
+- ? ExperiÃªncia de desenvolvedor otimizada
 

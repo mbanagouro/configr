@@ -1,24 +1,24 @@
-# Cache - Performance
+ï»¿# Cache - Performance
 
-Entenda como o cache em memória do ConfigR funciona e como otimizá-lo.
+Entenda como o cache em memÃ³ria do ConfigR funciona e como otimizÃ¡-lo.
 
 ## ?? Como Funciona o Cache
 
-O ConfigR implementa cache em memória automático para melhorar performance:
+O ConfigR implementa cache em memÃ³ria automÃ¡tico para melhorar performance:
 
 ```
 ???????????????????????
-?   Sua Aplicação     ?
+?   Sua AplicaÃ§Ã£o     ?
 ???????????????????????
            ?
       Solicita config
            ?
            ?
 ???????????????????????
-?   Cache em Memória  ????? Rápido! (< 1ms)
+?   Cache em MemÃ³ria  ????? RÃ¡pido! (< 1ms)
 ?      (IMemoryCache) ?
 ???????????????????????
-           ? Se não encontrado
+           ? Se nÃ£o encontrado
            ?
 ???????????????????????
 ?   Backend Storage   ????? Mais lento (~50ms)
@@ -26,46 +26,46 @@ O ConfigR implementa cache em memória automático para melhorar performance:
 ???????????????????????
 ```
 
-## ?? Duração do Cache
+## ?? DuraÃ§Ã£o do Cache
 
-Cada configuração é cacheada por um tempo configurável. Após expirar, a próxima leitura busca do banco:
+Cada configuraÃ§Ã£o Ã© cacheada por um tempo configurÃ¡vel. ApÃ³s expirar, a prÃ³xima leitura busca do banco:
 
 ```csharp
-// Configurar duração do cache durante o registro
+// Configurar duraÃ§Ã£o do cache durante o registro
 builder.Services
     .AddConfigR(options =>
     {
-        options.CacheDuration = TimeSpan.FromMinutes(5); // Padrão
+        options.CacheDuration = TimeSpan.FromMinutes(5); // PadrÃ£o
     })
     .UseSqlServer(builder.Configuration.GetConnectionString("ConfigR"));
 ```
 
-### Durações Recomendadas
+### DuraÃ§Ãµes Recomendadas
 
-| Tipo de Configuração | Duração | Motivo |
+| Tipo de ConfiguraÃ§Ã£o | DuraÃ§Ã£o | Motivo |
 |---|---|---|
 | Feature flags | 1-5 minutos | Mudam frequentemente |
-| Configurações comerciais | 10-30 minutos | Mudanças ocasionais |
+| ConfiguraÃ§Ãµes comerciais | 10-30 minutos | MudanÃ§as ocasionais |
 | Constantes | 1-2 horas | Raramente mudam |
-| Valores críticos | 1 minuto | Precisam de atualização rápida |
+| Valores crÃ­ticos | 1 minuto | Precisam de atualizaÃ§Ã£o rÃ¡pida |
 
-## ?? Invalidação de Cache
+## ?? InvalidaÃ§Ã£o de Cache
 
-Quando você salva uma configuração, o cache é **automaticamente invalidado**:
+Quando vocÃª salva uma configuraÃ§Ã£o, o cache Ã© **automaticamente invalidado**:
 
 ```csharp
-// Lê do cache
+// LÃª do cache
 var config = await _configR.GetAsync<CheckoutConfig>();
 
 // Atualiza e salva
 config.MaxItems = 50;
 await _configR.SaveAsync(config);  // ??? Cache invalidado aqui!
 
-// Próxima leitura vem do banco
+// PrÃ³xima leitura vem do banco
 var newConfig = await _configR.GetAsync<CheckoutConfig>();  // Sempre fresco
 ```
 
-## ?? Estratégias de Cache
+## ?? EstratÃ©gias de Cache
 
 ### 1?? Cache Curto (Alta Disponibilidade)
 
@@ -82,9 +82,9 @@ builder.Services
 **Quando usar:**
 - Valores que mudam frequentemente
 - Feature flags ativas
-- Configurações críticas
+- ConfiguraÃ§Ãµes crÃ­ticas
 
-### 2?? Cache Longo (Máxima Performance)
+### 2?? Cache Longo (MÃ¡xima Performance)
 
 ```csharp
 // Cacheado por 1 hora
@@ -97,9 +97,9 @@ builder.Services
 ```
 
 **Quando usar:**
-- Configurações que raramente mudam
-- Constantes da aplicação
-- Valores de inicialização
+- ConfiguraÃ§Ãµes que raramente mudam
+- Constantes da aplicaÃ§Ã£o
+- Valores de inicializaÃ§Ã£o
 
 ### 3?? Sem Cache (Sempre Fresco)
 
@@ -128,9 +128,9 @@ builder.Services.AddLogging(config =>
 });
 ```
 
-### Métricas
+### MÃ©tricas
 
-Implemente coleta de métricas:
+Implemente coleta de mÃ©tricas:
 
 ```csharp
 public class CacheMetrics
@@ -141,25 +141,25 @@ public class CacheMetrics
 }
 ```
 
-## ?? Boas Práticas
+## ?? Boas PrÃ¡ticas
 
-### ? Faça
+### ? FaÃ§a
 
-- Escolha duração apropriada para seu caso de uso
+- Escolha duraÃ§Ã£o apropriada para seu caso de uso
 - Monitore hit/miss ratio do cache
-- Invalide cache quando necessário
-- Documente estratégia de cache
+- Invalide cache quando necessÃ¡rio
+- Documente estratÃ©gia de cache
 
 ### ? Evite
 
-- Cache muito longo para dados críticos
-- Cache zero em produção (performance)
-- Misturar estratégias sem motivo
+- Cache muito longo para dados crÃ­ticos
+- Cache zero em produÃ§Ã£o (performance)
+- Misturar estratÃ©gias sem motivo
 - Confiar exclusivamente no cache
 
-## ?? Otimizações
+## ?? OtimizaÃ§Ãµes
 
-### Usar Diferentes Durações por Tipo
+### Usar Diferentes DuraÃ§Ãµes por Tipo
 
 ```csharp
 public class ConfigService
@@ -168,13 +168,13 @@ public class ConfigService
 
     public async Task<CheckoutConfig> GetCheckoutConfig()
     {
-        // Esta chamada é cacheada
+        // Esta chamada Ã© cacheada
         return await _configR.GetAsync<CheckoutConfig>();
     }
 
     public async Task<PaymentConfig> GetPaymentConfig()
     {
-        // Esta também, com sua própria cache
+        // Esta tambÃ©m, com sua prÃ³pria cache
         return await _configR.GetAsync<PaymentConfig>();
     }
 }
@@ -183,7 +183,7 @@ public class ConfigService
 ### Precarga de Cache
 
 ```csharp
-// No startup, precarre configurações críticas
+// No startup, precarre configuraÃ§Ãµes crÃ­ticas
 var app = builder.Build();
 
 var configR = app.Services.GetRequiredService<IConfigR>();
@@ -192,8 +192,8 @@ await configR.GetAsync<PaymentConfig>();       // Precarga
 await configR.GetAsync<ShippingConfig>();      // Precarga
 ```
 
-## ?? Próximos Passos
+## ?? PrÃ³ximos Passos
 
 - ?? [Aprenda sobre Scopes](scopes.md)
 - ?? [Crie Providers Personalizados](extensibility.md)
-- ?? [Voltar para Configuração](../configuration.md)
+- ?? [Voltar para ConfiguraÃ§Ã£o](../configuration.md)

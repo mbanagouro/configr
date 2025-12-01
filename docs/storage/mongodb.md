@@ -1,10 +1,10 @@
-# MongoDB Provider
+﻿# MongoDB Provider
 
 Uso do provider MongoDB no ConfigR.
 
 ---
 
-## 🚀 Instalação
+## ðŸš€ InstalaÃ§Ã£o
 
 ```bash
 dotnet add package ConfigR.MongoDB
@@ -12,7 +12,7 @@ dotnet add package ConfigR.MongoDB
 
 ---
 
-## 🔧 Configuração
+## ðŸ”§ ConfiguraÃ§Ã£o
 
 ### Registrar no DI
 
@@ -35,9 +35,9 @@ builder.Services
 
 ---
 
-## 📊 Estrutura da Coleção
+## ðŸ“Š Estrutura da ColeÃ§Ã£o
 
-O MongoDB armazena as configurações em uma coleção chamada `configr`:
+O MongoDB armazena as configuraÃ§Ãµes em uma coleÃ§Ã£o chamada `configr`:
 
 ```json
 {
@@ -52,16 +52,16 @@ O MongoDB armazena as configurações em uma coleção chamada `configr`:
 
 ### Campos
 
-- **_id**: Identificador único do documento (ObjectId)
-- **key**: Chave da configuração
-- **value**: Valor da configuração (JSON stringificado)
+- **_id**: Identificador Ãºnico do documento (ObjectId)
+- **key**: Chave da configuraÃ§Ã£o
+- **value**: Valor da configuraÃ§Ã£o (JSON stringificado)
 - **scope**: Escopo opcional para multi-tenant
-- **createdAt**: Data de criação do documento
-- **updatedAt**: Data da última atualização
+- **createdAt**: Data de criaÃ§Ã£o do documento
+- **updatedAt**: Data da Ãºltima atualizaÃ§Ã£o
 
 ---
 
-## ⚙️ Opções de Configuração
+## âš™ï¸ OpÃ§Ãµes de ConfiguraÃ§Ã£o
 
 ```csharp
 var options = Options.Create(new MongoConfigStoreOptions
@@ -76,10 +76,10 @@ var store = new MongoConfigStore(options);
 
 ---
 
-## 📝 Exemplo Completo
+## ðŸ“ Exemplo Completo
 
 ```csharp
-// Classe de configuração
+// Classe de configuraÃ§Ã£o
 public sealed class CheckoutConfig
 {
     public bool LoginRequired { get; set; } = true;
@@ -105,11 +105,11 @@ await _configR.SaveAsync(checkout);
 
 ---
 
-## 🧪 Testes
+## ðŸ§ª Testes
 
 O provider MongoDB possui testes completos incluindo:
 
-- **ConfigStoreTests**: Testes de CRUD básico e scopes
+- **ConfigStoreTests**: Testes de CRUD bÃ¡sico e scopes
 - **IntegrationTests**: Testes de fluxo completo com tipos complexos
 - **ConcurrencyTests**: Testes de leitura/escrita paralela
 
@@ -129,12 +129,12 @@ docker stop mongo-configr && docker rm mongo-configr
 
 ---
 
-## 💡 Considerações de Performance
+## ðŸ’¡ ConsideraÃ§Ãµes de Performance
 
-- MongoDB é excelente para documentos aninhados e JSON complexos
+- MongoDB Ã© excelente para documentos aninhados e JSON complexos
 - Use scopes para isolamento multi-tenant
-- Cache em memória (ConfigR.Core) reduz queries ao banco
-- Índices automáticos em `(key, scope)` para performance
-- Ideal para configurações dinâmicas e evolutivas
-- Suporta replicação e alta disponibilidade nativa
-- Considere usar TTL (Time To Live) para expiração automática de configurações
+- Cache em memÃ³ria (ConfigR.Core) reduz queries ao banco
+- Ãndices automÃ¡ticos em `(key, scope)` para performance
+- Ideal para configuraÃ§Ãµes dinÃ¢micas e evolutivas
+- Suporta replicaÃ§Ã£o e alta disponibilidade nativa
+- Considere usar TTL (Time To Live) para expiraÃ§Ã£o automÃ¡tica de configuraÃ§Ãµes

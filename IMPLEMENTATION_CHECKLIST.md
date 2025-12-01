@@ -1,97 +1,97 @@
-# ? Checklist de Implementação - ConfigR MySQL + Documentação
+ï»¿# ? Checklist de ImplementaÃ§Ã£o - ConfigR MySQL + DocumentaÃ§Ã£o
 
 ## ?? Objetivo
-Implementar testes completos para MySQL provider e atualizar documentação de todos os providers com infraestrutura Docker facilitada.
+Implementar testes completos para MySQL provider e atualizar documentaÃ§Ã£o de todos os providers com infraestrutura Docker facilitada.
 
 ---
 
 ## ? Fase 1: Testes MySQL
 
-- [x] Criar `MySqlTestDatabase.cs` com métodos de setup/teardown
+- [x] Criar `MySqlTestDatabase.cs` com mÃ©todos de setup/teardown
 - [x] Criar `MySqlConfigStoreTests.cs` com 3 testes (CRUD, scopes, not found)
 - [x] Criar `MySqlIntegrationTests.cs` com 2 testes (save/load, upsert)
 - [x] Criar `MySqlConcurrencyTests.cs` com 2 testes (100 reads, read/write)
-- [x] Adicionar referência MySQL no `ConfigR.Tests.csproj`
-- [x] Validar compilação sem erros
+- [x] Adicionar referÃªncia MySQL no `ConfigR.Tests.csproj`
+- [x] Validar compilaÃ§Ã£o sem erros
 
 **Resultado**: 4 arquivos de teste + build sucesso ?
 
 ---
 
-## ? Fase 2: Documentação de Providers
+## ? Fase 2: DocumentaÃ§Ã£o de Providers
 
 ### SQL Server
-- [x] Instalação
-- [x] Configuração DI
+- [x] InstalaÃ§Ã£o
+- [x] ConfiguraÃ§Ã£o DI
 - [x] appsettings.json
 - [x] Estrutura de tabela SQL
-- [x] Descrição de campos
-- [x] Opções de configuração
+- [x] DescriÃ§Ã£o de campos
+- [x] OpÃ§Ãµes de configuraÃ§Ã£o
 - [x] Exemplo completo
 - [x] Testes com Docker
-- [x] Considerações de performance
+- [x] ConsideraÃ§Ãµes de performance
 
 ### MySQL
-- [x] Instalação
-- [x] Configuração DI
+- [x] InstalaÃ§Ã£o
+- [x] ConfiguraÃ§Ã£o DI
 - [x] appsettings.json
 - [x] Estrutura de tabela SQL
-- [x] Descrição de campos
-- [x] Opções de configuração
+- [x] DescriÃ§Ã£o de campos
+- [x] OpÃ§Ãµes de configuraÃ§Ã£o
 - [x] Exemplo completo
 - [x] Testes com Docker
-- [x] Considerações de performance
+- [x] ConsideraÃ§Ãµes de performance
 
 ### PostgreSQL (Npgsql)
-- [x] Instalação
-- [x] Configuração DI
+- [x] InstalaÃ§Ã£o
+- [x] ConfiguraÃ§Ã£o DI
 - [x] appsettings.json
 - [x] Estrutura de tabela SQL
-- [x] Descrição de campos
-- [x] Opções de configuração
+- [x] DescriÃ§Ã£o de campos
+- [x] OpÃ§Ãµes de configuraÃ§Ã£o
 - [x] Exemplo completo
 - [x] Testes com Docker
-- [x] Considerações de performance (JSONB)
+- [x] ConsideraÃ§Ãµes de performance (JSONB)
 
 ### MongoDB
-- [x] Instalação
-- [x] Configuração DI
+- [x] InstalaÃ§Ã£o
+- [x] ConfiguraÃ§Ã£o DI
 - [x] appsettings.json
 - [x] Estrutura de documentos JSON
-- [x] Descrição de campos
-- [x] Opções de configuração
+- [x] DescriÃ§Ã£o de campos
+- [x] OpÃ§Ãµes de configuraÃ§Ã£o
 - [x] Exemplo completo
 - [x] Testes com Docker
-- [x] Considerações de performance (TTL, replicação)
+- [x] ConsideraÃ§Ãµes de performance (TTL, replicaÃ§Ã£o)
 
 ### Redis
-- [x] Instalação
-- [x] Configuração DI
+- [x] InstalaÃ§Ã£o
+- [x] ConfiguraÃ§Ã£o DI
 - [x] appsettings.json
 - [x] Estrutura de armazenamento
-- [x] Padrão de chaves
-- [x] Opções de configuração
+- [x] PadrÃ£o de chaves
+- [x] OpÃ§Ãµes de configuraÃ§Ã£o
 - [x] Exemplo completo
 - [x] Testes com Docker
-- [x] Considerações de performance (em memória)
+- [x] ConsideraÃ§Ãµes de performance (em memÃ³ria)
 
-**Resultado**: 5 providers com documentação completa ?
+**Resultado**: 5 providers com documentaÃ§Ã£o completa ?
 
 ---
 
-## ? Fase 3: Documentação de Testes
+## ? Fase 3: DocumentaÃ§Ã£o de Testes
 
 - [x] Atualizar `docs/testing.md`
-  - [x] SQL Server (Docker, variáveis env)
-  - [x] MySQL (Docker, variáveis env)
-  - [x] PostgreSQL (Docker, variáveis env)
-  - [x] MongoDB (Docker, variáveis env)
-  - [x] Redis (Docker, variáveis env)
+  - [x] SQL Server (Docker, variÃ¡veis env)
+  - [x] MySQL (Docker, variÃ¡veis env)
+  - [x] PostgreSQL (Docker, variÃ¡veis env)
+  - [x] MongoDB (Docker, variÃ¡veis env)
+  - [x] Redis (Docker, variÃ¡veis env)
   - [x] Docker Compose section
   - [x] Estrutura dos testes explicada
   - [x] Troubleshooting
 
-**Resultado**: Documentação de testes expandida para todos os providers ?
+**Resultado**: DocumentaÃ§Ã£o de testes expandida para todos os providers ?
 
 ---
 
@@ -103,21 +103,21 @@ Implementar testes completos para MySQL provider e atualizar documentação de tod
   - [x] PostgreSQL 16 (porta 5432)
   - [x] MongoDB 7 (porta 27017)
   - [x] Redis 7 (porta 6379)
-  - [x] Health checks para cada serviço
+  - [x] Health checks para cada serviÃ§o
   - [x] Network compartilhada
-  - [x] Variáveis de ambiente pré-configuradas
+  - [x] VariÃ¡veis de ambiente prÃ©-configuradas
 
-- [x] Criar `.env.example` com variáveis de ambiente
+- [x] Criar `.env.example` com variÃ¡veis de ambiente
 
-**Resultado**: Docker Compose com 5 serviços ?
+**Resultado**: Docker Compose com 5 serviÃ§os ?
 
 ---
 
 ## ? Fase 5: Scripts Auxiliares
 
 - [x] Criar `test-all.bat` (Windows) com comandos:
-  - [x] `up` - Iniciar serviços
-  - [x] `down` - Parar serviços
+  - [x] `up` - Iniciar serviÃ§os
+  - [x] `down` - Parar serviÃ§os
   - [x] `logs` - Ver logs
   - [x] `test` - Rodar todos os testes
   - [x] `test-sql` - Rodar testes SQL Server
@@ -134,13 +134,13 @@ Implementar testes completos para MySQL provider e atualizar documentação de tod
 
 ---
 
-## ? Fase 6: Documentação de Testes Detalhada
+## ? Fase 6: DocumentaÃ§Ã£o de Testes Detalhada
 
 - [x] Criar `TESTING_GUIDE.md` com:
-  - [x] Pré-requisitos
+  - [x] PrÃ©-requisitos
   - [x] Quickstart com Docker Compose
-  - [x] Execução manual por provider
-  - [x] Variáveis de ambiente
+  - [x] ExecuÃ§Ã£o manual por provider
+  - [x] VariÃ¡veis de ambiente
   - [x] Troubleshooting
   - [x] Scripts auxiliares
   - [x] Estrutura dos testes
@@ -151,15 +151,15 @@ Implementar testes completos para MySQL provider e atualizar documentação de tod
 
 ---
 
-## ? Fase 7: Atualização de Documentação Central
+## ? Fase 7: AtualizaÃ§Ã£o de DocumentaÃ§Ã£o Central
 
 - [x] Atualizar `README.md`:
   - [x] Links para docs de cada provider
   - [x] Tabela com providers e links
-  - [x] Referência a TESTING_GUIDE.md
-  - [x] Instruções Docker Compose simplificadas
+  - [x] ReferÃªncia a TESTING_GUIDE.md
+  - [x] InstruÃ§Ãµes Docker Compose simplificadas
   - [x] Scripts auxiliares documentados
-  - [x] Guias rápidos
+  - [x] Guias rÃ¡pidos
 
 - [x] Corrigir `mkdocs.yml`:
   - [x] Redis (era "Npgsql", agora "Redis")
@@ -167,26 +167,26 @@ Implementar testes completos para MySQL provider e atualizar documentação de tod
 
 - [x] Atualizar `UPDATES_SUMMARY.md`:
   - [x] Resumo de todas as fases
-  - [x] Estatísticas
+  - [x] EstatÃ­sticas
   - [x] Status final
 
-**Resultado**: Documentação central coerente e atualizada ?
+**Resultado**: DocumentaÃ§Ã£o central coerente e atualizada ?
 
 ---
 
-## ? Fase 8: Validação
+## ? Fase 8: ValidaÃ§Ã£o
 
-- [x] Compilação bem-sucedida
+- [x] CompilaÃ§Ã£o bem-sucedida
 - [x] Sem erros nos testes (estrutura validada)
 - [x] Todos os arquivos criados
-- [x] Todas as atualizações aplicadas
+- [x] Todas as atualizaÃ§Ãµes aplicadas
 - [x] Build passou com sucesso
 
-**Resultado**: Projeto compilando e pronto para produção ?
+**Resultado**: Projeto compilando e pronto para produÃ§Ã£o ?
 
 ---
 
-## ?? Resumo de Entregáveis
+## ?? Resumo de EntregÃ¡veis
 
 ### Arquivos Criados (8)
 | Arquivo | Tipo | Status |
@@ -203,7 +203,7 @@ Implementar testes completos para MySQL provider e atualizar documentação de tod
 | `UPDATES_SUMMARY.md` | Doc | ? |
 
 ### Arquivos Modificados (6)
-| Arquivo | Alteração | Status |
+| Arquivo | AlteraÃ§Ã£o | Status |
 |---------|-----------|--------|
 | `docs/storage/sql-server.md` | Completo | ? |
 | `docs/storage/mysql.md` | Completo | ? |
@@ -215,15 +215,15 @@ Implementar testes completos para MySQL provider e atualizar documentação de tod
 | `README.md` | Atualizado | ? |
 | `tests/ConfigR.Tests.csproj` | Atualizado | ? |
 
-### Documentação Criada (2)
-| Documento | Páginas | Status |
+### DocumentaÃ§Ã£o Criada (2)
+| Documento | PÃ¡ginas | Status |
 |-----------|---------|--------|
 | `TESTING_GUIDE.md` | ~400 linhas | ? |
 | `UPDATES_SUMMARY.md` | ~350 linhas | ? |
 
 ---
 
-## ?? Cobertura Alcançada
+## ?? Cobertura AlcanÃ§ada
 
 ### Testes por Provider
 ```
@@ -234,13 +234,13 @@ MongoDB:         ConfigStore ?  Integration ?  Concurrency ?
 Redis:           ConfigStore ?  Integration ?  Concurrency ?
 ```
 
-### Documentação
+### DocumentaÃ§Ã£o
 ```
-Instalação:              ? ? ? ? ?
-Configuração DI:         ? ? ? ? ?
+InstalaÃ§Ã£o:              ? ? ? ? ?
+ConfiguraÃ§Ã£o DI:         ? ? ? ? ?
 appsettings.json:        ? ? ? ? ?
 Estrutura de dados:      ? ? ? ? ?
-Opções config:           ? ? ? ? ?
+OpÃ§Ãµes config:           ? ? ? ? ?
 Exemplo completo:        ? ? ? ? ?
 Testes:                  ? ? ? ? ?
 Performance:             ? ? ? ? ?
@@ -248,10 +248,10 @@ Performance:             ? ? ? ? ?
 
 ### Infraestrutura
 ```
-Docker Compose:          ? (5 serviços)
+Docker Compose:          ? (5 serviÃ§os)
 Scripts Windows:         ? (11 comandos)
 Scripts Linux/macOS:     ? (11 comandos)
-Variáveis Ambiente:      ? (5 providers)
+VariÃ¡veis Ambiente:      ? (5 providers)
 ```
 
 ---
@@ -286,41 +286,41 @@ dotnet test
 
 ## ?? Notas Importantes
 
-### Para Manutenção Futura
+### Para ManutenÃ§Ã£o Futura
 
-1. **Docker Compose**: Atualizar versões das imagens conforme necessário
-2. **Documentação**: Manter síncrono com código (quebra de API)
+1. **Docker Compose**: Atualizar versÃµes das imagens conforme necessÃ¡rio
+2. **DocumentaÃ§Ã£o**: Manter sÃ­ncrono com cÃ³digo (quebra de API)
 3. **Scripts**: Funciona em Windows, Linux e macOS
-4. **CI/CD**: Já está configurado no `.github/workflows/ci-cd.yml`
+4. **CI/CD**: JÃ¡ estÃ¡ configurado no `.github/workflows/ci-cd.yml`
 
-### Limitações Conhecidas
+### LimitaÃ§Ãµes Conhecidas
 
 1. Scripts usam `-k` no Windows (xUnit) e `--filter` no Linux/macOS
-2. Health checks têm timeout padrão - pode ser aumentado em máquinas lentas
-3. Testes de concorrência são lentos (5-10 minutos total)
+2. Health checks tÃªm timeout padrÃ£o - pode ser aumentado em mÃ¡quinas lentas
+3. Testes de concorrÃªncia sÃ£o lentos (5-10 minutos total)
 
 ---
 
-## ? Melhorias Futuras (Não Críticas)
+## ? Melhorias Futuras (NÃ£o CrÃ­ticas)
 
 - [ ] Adicionar Coverage Reports
-- [ ] Criar exemplo de aplicação com todos os providers
+- [ ] Criar exemplo de aplicaÃ§Ã£o com todos os providers
 - [ ] Documentar benchmarks de performance
 - [ ] Suporte a RavenDB
-- [ ] Integração com GitHub Projects
+- [ ] IntegraÃ§Ã£o com GitHub Projects
 - [ ] Badges de cobertura
 
 ---
 
-## ?? Status Final: **PRONTO PARA PRODUÇÃO**
+## ?? Status Final: **PRONTO PARA PRODUÃ‡ÃƒO**
 
 ? Todos os testes criados e compilando
-? Documentação completa para todos os providers  
+? DocumentaÃ§Ã£o completa para todos os providers  
 ? Infraestrutura Docker facilitando testes locais
 ? Scripts auxiliares para Windows, Linux e macOS
 ? Guia completo de testes (TESTING_GUIDE.md)
 ? CI/CD configurado no GitHub Actions
-? README atualizado com referências
+? README atualizado com referÃªncias
 
 **Data**: 2024
 **Status**: ? COMPLETO

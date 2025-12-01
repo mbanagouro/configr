@@ -1,92 +1,92 @@
-# ?? Resumo de AlteraÁıes - DocumentaÁ„o ConfigR
+Ôªø# ?? Resumo de Altera√ß√µes - Documenta√ß√£o ConfigR
 
 ## ? O que foi feito
 
-### 1. ? P·gina Inicial (index.md)
+### 1. ? P√°gina Inicial (index.md)
 - **Antes**: Apenas uma linha
-- **Depois**: P·gina informativa com:
-  - NavegaÁ„o r·pida por seÁıes
-  - CaracterÌsticas principais
+- **Depois**: P√°gina informativa com:
+  - Navega√ß√£o r√°pida por se√ß√µes
+  - Caracter√≠sticas principais
   - Casos de uso
   - Quick start em 1 minuto
-  - PrÛximos passos
+  - Pr√≥ximos passos
 
-### 2. ? Guia de InÌcio R·pido (getting-started.md)
+### 2. ? Guia de In√≠cio R√°pido (getting-started.md)
 - **Antes**: Apenas um placeholder
 - **Depois**: Guia completo com:
-  - PrÈ-requisitos
-  - InstalaÁ„o detalhada
-  - DefiniÁ„o de classe de configuraÁ„o
-  - ConfiguraÁ„o no DI
+  - Pr√©-requisitos
+  - Instala√ß√£o detalhada
+  - Defini√ß√£o de classe de configura√ß√£o
+  - Configura√ß√£o no DI
   - Exemplos de uso (leitura e escrita)
   - Script SQL
-  - D˙vidas comuns
+  - D√∫vidas comuns
 
-### 3. ? ConfiguraÁ„o (configuration.md)
+### 3. ? Configura√ß√£o (configuration.md)
 - **Antes**: Apenas um placeholder
 - **Depois**: Guia abrangente com:
-  - ConfiguraÁ„o b·sica
+  - Configura√ß√£o b√°sica
   - Setup de cada provider (6 providers!)
-  - DefiniÁ„o de classes de configuraÁ„o
+  - Defini√ß√£o de classes de configura√ß√£o
   - appsettings.json exemplo
   - Uso em controllers/services
   - Scopes multi-tenant
-  - OpÁıes avanÁadas
+  - Op√ß√µes avan√ßadas
   - Troubleshooting
 
-### 4. ? Conceitos AvanÁados
+### 4. ? Conceitos Avan√ßados
 
 #### 4.1 Scopes (advanced/scopes.md)
 - **Antes**: Placeholder
-- **Depois**: DocumentaÁ„o completa com:
-  - O que È um scope
-  - Uso b·sico
-  - Padr„o de fallback
+- **Depois**: Documenta√ß√£o completa com:
+  - O que √© um scope
+  - Uso b√°sico
+  - Padr√£o de fallback
   - Exemplo em middleware
   - Estrutura no banco de dados
-  - Boas pr·ticas
-  - SeguranÁa
+  - Boas pr√°ticas
+  - Seguran√ßa
 
 #### 4.2 Cache (advanced/caching.md)
 - **Antes**: Placeholder
 - **Depois**: Guia profundo com:
   - Como funciona o cache
-  - DuraÁ„o do cache
-  - DuraÁ„o recomendadas
-  - InvalidaÁ„o autom·tica
-  - 3 estratÈgias de cache
+  - Dura√ß√£o do cache
+  - Dura√ß√£o recomendadas
+  - Invalida√ß√£o autom√°tica
+  - 3 estrat√©gias de cache
   - Monitoramento
-  - Boas pr·ticas
-  - OtimizaÁıes
+  - Boas pr√°ticas
+  - Otimiza√ß√µes
 
 #### 4.3 Extensibilidade (advanced/extensibility.md)
 - **Antes**: Placeholder
 - **Depois**: Tutorial completo com:
   - Quando criar custom provider
-  - ImplementaÁ„o passo a passo
+  - Implementa√ß√£o passo a passo
   - Classe do provider
-  - Classe de opÁıes
-  - MÈtodo de extens„o
-  - Exemplo: Provider em memÛria
+  - Classe de op√ß√µes
+  - M√©todo de extens√£o
+  - Exemplo: Provider em mem√≥ria
   - Como testar
 
-### 5. ? ReferÍncia da API (api-reference.md)
+### 5. ? Refer√™ncia da API (api-reference.md)
 - **Antes**: Placeholder
-- **Depois**: DocumentaÁ„o completa com:
+- **Depois**: Documenta√ß√£o completa com:
   - Interface IConfigR (GetAsync, SaveAsync, etc)
   - Interface IConfigStore
-  - InjeÁ„o de dependÍncia
+  - Inje√ß√£o de depend√™ncia
   - Pacotes NuGet
-  - OpÁıes de configuraÁ„o
-  - ExceÁıes
+  - Op√ß√µes de configura√ß√£o
+  - Exce√ß√µes
   - Logging
   - Exemplo completo
 
 ### 6. ? Storage Providers
 
-#### 6.1 Vis„o Geral (storage/overview.md) - NOVO
+#### 6.1 Vis√£o Geral (storage/overview.md) - NOVO
 - Tabela comparativa de todos os providers
-- RecomendaÁıes por cen·rio
+- Recomenda√ß√µes por cen√°rio
 - Detalhes de cada provider
 - Quick start para cada um
 - Como migrar entre providers
@@ -101,9 +101,9 @@
   - RavenDB ?
 
 ### 7. ? Testes (testing.md)
-- **Antes**: J· tinha conte˙do bom
+- **Antes**: J√° tinha conte√∫do bom
 - **Depois**: Validado e mantido, com:
-  - InstruÁıes por provider
+  - Instru√ß√µes por provider
   - Docker Compose
   - Scripts auxiliares
   - Estrutura dos testes
@@ -113,29 +113,29 @@
 
 #### 8.1 FAQ (FAQ.md) - NOVO
 - 30+ perguntas frequentes cobrindo:
-  - InstalaÁ„o e setup
+  - Instala√ß√£o e setup
   - Uso
   - Cache e performance
   - Multi-tenant
-  - SeguranÁa
+  - Seguran√ßa
   - Testes
-  - MigraÁ„o
-  - DocumentaÁ„o
+  - Migra√ß√£o
+  - Documenta√ß√£o
   - Troubleshooting
 
-#### 8.2 Guia de ContribuiÁ„o (CONTRIBUTING.md) - NOVO
+#### 8.2 Guia de Contribui√ß√£o (CONTRIBUTING.md) - NOVO
 - Como contribuir
 - Checklist
 - Executar testes
-- Tipos de contribuiÁ„o
-- Padrıes de cÛdigo
-- SeguranÁa
-- LicenÁa
+- Tipos de contribui√ß√£o
+- Padr√µes de c√≥digo
+- Seguran√ßa
+- Licen√ßa
 
 #### 8.3 README (docs/README.md) - NOVO
-- Estrutura da documentaÁ„o
-- Links r·pidos
-- InformaÁıes ˙teis
+- Estrutura da documenta√ß√£o
+- Links r√°pidos
+- Informa√ß√µes √∫teis
 
 #### 8.4 Estilos Customizados (stylesheets/extra.css) - NOVO
 - Admonitions personalizadas
@@ -149,84 +149,84 @@
 **Melhorias:**
 - ? Suporte a toggle claro/escuro
 - ? Mais recursos visuais
-- ? Plugins de busca em portuguÍs
+- ? Plugins de busca em portugu√™s
 - ? Suporte a emojis
-- ? Copy de cÛdigo autom·tico
-- ? NavegaÁ„o melhorada
+- ? Copy de c√≥digo autom√°tico
+- ? Navega√ß√£o melhorada
 - ? Social media links
-- ? Nova navegaÁ„o com FAQ e Contributing
+- ? Nova navega√ß√£o com FAQ e Contributing
 
 ---
 
-## ?? EstatÌsticas
+## ?? Estat√≠sticas
 
-| MÈtrica | Valor |
+| M√©trica | Valor |
 |---------|-------|
 | **Arquivos atualizados** | 8 |
 | **Arquivos criados** | 5 |
 | **Linhas adicionadas** | ~2.500+ |
-| **P·ginas de documentaÁ„o** | 18 |
+| **P√°ginas de documenta√ß√£o** | 18 |
 | **Providers documentados** | 7 |
-| **Exemplos de cÛdigo** | 50+ |
+| **Exemplos de c√≥digo** | 50+ |
 | **Tabelas comparativas** | 3 |
 | **FAQ respondidas** | 30+ |
 
 ---
 
-## ?? Qualidade da DocumentaÁ„o
+## ?? Qualidade da Documenta√ß√£o
 
-### ? PadronizaÁ„o
-- [x] Estrutura consistente em todas as p·ginas
+### ? Padroniza√ß√£o
+- [x] Estrutura consistente em todas as p√°ginas
 - [x] Nomenclatura uniforme
 - [x] Emojis usados consistentemente
-- [x] FormataÁ„o de cÛdigo padronizada
+- [x] Formata√ß√£o de c√≥digo padronizada
 
 ### ? Completude
-- [x] Õndice na p·gina inicial
-- [x] Guia de inÌcio r·pido
-- [x] Guia de configuraÁ„o detalhado
-- [x] Conceitos avanÁados explicados
+- [x] √çndice na p√°gina inicial
+- [x] Guia de in√≠cio r√°pido
+- [x] Guia de configura√ß√£o detalhado
+- [x] Conceitos avan√ßados explicados
 - [x] API totalmente documentada
 - [x] Todos os providers cobertos
 - [x] Testes explicados
 
 ### ? Acessibilidade
-- [x] PortuguÍs (pt-BR)
-- [x] Exemplos pr·ticos
-- [x] ExplicaÁıes claras
-- [x] NavegaÁ„o intuitiva
+- [x] Portugu√™s (pt-BR)
+- [x] Exemplos pr√°ticos
+- [x] Explica√ß√µes claras
+- [x] Navega√ß√£o intuitiva
 - [x] Busca funcional
 
 ### ? Manutenibilidade
 - [x] Markdown bem estruturado
 - [x] Links internos corretos
-- [x] Facilmente atualiz·vel
-- [x] Segue padrıes de MkDocs
+- [x] Facilmente atualiz√°vel
+- [x] Segue padr√µes de MkDocs
 
 ---
 
-## ?? Como Usar a DocumentaÁ„o
+## ?? Como Usar a Documenta√ß√£o
 
-### Para Usu·rios Novos
+### Para Usu√°rios Novos
 1. Leia [index.md](index.md)
 2. Siga [getting-started.md](getting-started.md)
 3. Configure em [configuration.md](configuration.md)
 
 ### Para Desenvolvedores
 1. [API Reference](api-reference.md)
-2. [Conceitos AvanÁados](advanced/)
+2. [Conceitos Avan√ßados](advanced/)
 3. [FAQ](FAQ.md) para troubleshooting
 
 ### Para Contribuidores
-1. [Guia de ContribuiÁ„o](CONTRIBUTING.md)
-2. [FAQ](FAQ.md) para d˙vidas
+1. [Guia de Contribui√ß√£o](CONTRIBUTING.md)
+2. [FAQ](FAQ.md) para d√∫vidas
 3. [GitHub Issues](https://github.com/mbanagouro/configr)
 
 ---
 
-## ?? PrÛximas AÁıes Recomendadas
+## ?? Pr√≥ximas A√ß√µes Recomendadas
 
-1. **Build da documentaÁ„o**
+1. **Build da documenta√ß√£o**
    ```bash
    pip install mkdocs mkdocs-material
    mkdocs build
@@ -240,42 +240,42 @@
 3. **Revisar em staging**
    - Verificar links
    - Testar busca
-   - Validar formataÁ„o
+   - Validar formata√ß√£o
 
-4. **ManutenÁ„o ContÌnua**
+4. **Manuten√ß√£o Cont√≠nua**
    - Atualizar quando novas features chegarem
-   - Recolher feedback dos usu·rios
-   - Adicionar mais exemplos conforme necess·rio
+   - Recolher feedback dos usu√°rios
+   - Adicionar mais exemplos conforme necess√°rio
 
 ---
 
 ## ? Destaques
 
-- ?? **DocumentaÁ„o profissional** - Segue padrıes de projetos open-source renomados
+- ?? **Documenta√ß√£o profissional** - Segue padr√µes de projetos open-source renomados
 - ?? **Design moderno** - Material Design com tema claro/escuro
-- ?? **Busca funcional** - Busca em portuguÍs integrada
+- ?? **Busca funcional** - Busca em portugu√™s integrada
 - ?? **Responsivo** - Funciona em desktop, tablet e mobile
-- ?? **R·pido** - Carregamento otimizado
-- ?? **MultilÌngue** - Pronto para futuras traduÁıes
+- ?? **R√°pido** - Carregamento otimizado
+- ?? **Multil√≠ngue** - Pronto para futuras tradu√ß√µes
 
 ---
 
-## ?? Checklist de ValidaÁ„o
+## ?? Checklist de Valida√ß√£o
 
-- [x] Õndice naveg·vel
-- [x] InÌcio r·pido (<5 min)
+- [x] √çndice naveg√°vel
+- [x] In√≠cio r√°pido (<5 min)
 - [x] Todos os providers documentados
-- [x] Exemplos de cÛdigo funcionando
-- [x] Conceitos avanÁados explicados
+- [x] Exemplos de c√≥digo funcionando
+- [x] Conceitos avan√ßados explicados
 - [x] API completamente documentada
 - [x] FAQ com 30+ perguntas
-- [x] Guia de contribuiÁ„o
+- [x] Guia de contribui√ß√£o
 - [x] Estilos customizados
-- [x] Busca em portuguÍs
+- [x] Busca em portugu√™s
 - [x] Links internos corretos
 - [x] Temas claro/escuro
 - [x] Responsivo
-- [x] AcessÌvel
+- [x] Acess√≠vel
 
 ---
 

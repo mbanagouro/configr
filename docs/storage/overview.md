@@ -1,21 +1,21 @@
-# ??? Storage Providers - Visão Geral
+ï»¿# ??? Storage Providers - VisÃ£o Geral
 
 Escolha o backend de armazenamento que melhor se encaixa na sua infraestrutura.
 
-## ?? Comparação de Providers
+## ?? ComparaÃ§Ã£o de Providers
 
-| Característica | SQL Server | MySQL | PostgreSQL | MongoDB | Redis | RavenDB |
+| CaracterÃ­stica | SQL Server | MySQL | PostgreSQL | MongoDB | Redis | RavenDB |
 |---|:---:|:---:|:---:|:---:|:---:|:---:|
 | **Tipo** | Relacional | Relacional | Relacional | NoSQL | Cache | Multi-modelo |
 | **Performance** | ???? | ??? | ???? | ???? | ????? | ???? |
 | **Escalabilidade** | ???? | ??? | ???? | ????? | ???? | ???? |
 | **Facilidade** | ???? | ????? | ???? | ??? | ???? | ??? |
 | **Custo** | ???? | ?? | ?? | ?? | ?? | ???? |
-| **Persistência** | ? | ? | ? | ? | ?? | ? |
+| **PersistÃªncia** | ? | ? | ? | ? | ?? | ? |
 
-## ?? Recomendações por Cenário
+## ?? RecomendaÃ§Ãµes por CenÃ¡rio
 
-### ?? Empresas e Produção
+### ?? Empresas e ProduÃ§Ã£o
 
 **?? Recomendado: SQL Server ou PostgreSQL**
 
@@ -25,11 +25,11 @@ dotnet add package ConfigR.SqlServer
 dotnet add package ConfigR.Npgsql
 ```
 
-**Por quê:**
+**Por quÃª:**
 - Confiabilidade extrema
 - Compliance e auditoria
 - Suporte corporativo
-- Transações ACID garantidas
+- TransaÃ§Ãµes ACID garantidas
 - Backup e recovery robustos
 
 ### ?? Startups e Escalabilidade
@@ -42,10 +42,10 @@ dotnet add package ConfigR.MongoDB
 dotnet add package ConfigR.Npgsql
 ```
 
-**Por quê:**
+**Por quÃª:**
 - Escalabilidade horizontal
 - Flexibilidade de schema
-- Replicação nativa
+- ReplicaÃ§Ã£o nativa
 - Performance sob alta demanda
 
 ### ? Alta Performance
@@ -56,11 +56,11 @@ dotnet add package ConfigR.Npgsql
 dotnet add package ConfigR.Redis
 ```
 
-**Por quê:**
-- Latência < 1ms
-- Throughput altíssimo
-- Ideal para cache crítico
-- Suporta features avançadas
+**Por quÃª:**
+- LatÃªncia < 1ms
+- Throughput altÃ­ssimo
+- Ideal para cache crÃ­tico
+- Suporta features avanÃ§adas
 
 ### ?? Low-cost / Prototipagem
 
@@ -70,13 +70,13 @@ dotnet add package ConfigR.Redis
 dotnet add package ConfigR.MySql
 ```
 
-**Por quê:**
-- Licença aberta
+**Por quÃª:**
+- LicenÃ§a aberta
 - Hosting barato
-- Fácil de configurar
+- FÃ¡cil de configurar
 - Suporte vasto
 
-### ?? Segurança Crítica
+### ?? SeguranÃ§a CrÃ­tica
 
 **?? Recomendado: RavenDB**
 
@@ -84,11 +84,11 @@ dotnet add package ConfigR.MySql
 dotnet add package ConfigR.RavenDB
 ```
 
-**Por quê:**
+**Por quÃª:**
 - Criptografia built-in
 - Controle de acesso fino
 - Compliance ready
-- Replicação segura
+- ReplicaÃ§Ã£o segura
 
 ---
 
@@ -96,10 +96,10 @@ dotnet add package ConfigR.RavenDB
 
 ### [SQL Server](sql-server.md)
 
-O padrão, recomendado para a maioria dos casos.
+O padrÃ£o, recomendado para a maioria dos casos.
 
 - ? Melhor performance em workloads OLTP
-- ? Índices otimizados
+- ? Ãndices otimizados
 - ? Enterprise-ready
 - ? Pode ser caro
 
@@ -108,44 +108,44 @@ O padrão, recomendado para a maioria dos casos.
 Leveza e compatibilidade universal.
 
 - ? Mais leve que SQL Server
-- ? Altamente compatível
-- ? Fácil de hospedar
-- ? Menos recursos avançados
+- ? Altamente compatÃ­vel
+- ? FÃ¡cil de hospedar
+- ? Menos recursos avanÃ§ados
 
 ### [PostgreSQL (Npgsql)](npgsql.md)
 
 Open-source robusto e poderoso.
 
 - ? Open source
-- ? Features avançadas (JSON, arrays)
+- ? Features avanÃ§adas (JSON, arrays)
 - ? Excelente performance
-- ? Replicação nativa
+- ? ReplicaÃ§Ã£o nativa
 
 ### [MongoDB](mongodb.md)
 
-NoSQL flexível e escalável.
+NoSQL flexÃ­vel e escalÃ¡vel.
 
-- ? Schema flexível
+- ? Schema flexÃ­vel
 - ? Escalabilidade horizontal
-- ? Ótimo para dados semi-estruturados
+- ? Ã“timo para dados semi-estruturados
 - ? Menos eficiente que relacional para este caso
 
 ### [Redis](redis.md)
 
-Cache ultra-rápido em memória.
+Cache ultra-rÃ¡pido em memÃ³ria.
 
-- ? Latência mínima
-- ? Altíssimo throughput
-- ? Perfect para cache crítico
-- ?? Sem persistência por padrão
+- ? LatÃªncia mÃ­nima
+- ? AltÃ­ssimo throughput
+- ? Perfect para cache crÃ­tico
+- ?? Sem persistÃªncia por padrÃ£o
 
 ### [RavenDB](ravendb.md)
 
-Multi-modelo enterprise com recursos avançados.
+Multi-modelo enterprise com recursos avanÃ§ados.
 
-- ? Segurança built-in
-- ? ACID distribuído
-- ? Replicação transparente
+- ? SeguranÃ§a built-in
+- ? ACID distribuÃ­do
+- ? ReplicaÃ§Ã£o transparente
 - ? Menos comum, comunidade menor
 
 ---
@@ -204,7 +204,7 @@ builder.Services
 
 ## ?? Migrar Entre Providers
 
-Você pode migrar dados entre providers:
+VocÃª pode migrar dados entre providers:
 
 ```csharp
 // 1. Ler do provider antigo
@@ -221,28 +221,28 @@ foreach (var config in allConfigs)
 
 ---
 
-## ?? Boas Práticas
+## ?? Boas PrÃ¡ticas
 
-### ? Faça
+### ? FaÃ§a
 
 - Escolha o provider baseado em seus requisitos
 - Teste a performance com seus dados reais
 - Implemente backup adequado
-- Monitore a saúde do banco de dados
-- Use replicação para alta disponibilidade
+- Monitore a saÃºde do banco de dados
+- Use replicaÃ§Ã£o para alta disponibilidade
 
 ### ? Evite
 
 - Trocar de provider sem planejar
-- Usar Redis como persistência principal
-- Ignorar limites de conexão
-- Não fazer backup
+- Usar Redis como persistÃªncia principal
+- Ignorar limites de conexÃ£o
+- NÃ£o fazer backup
 - Misturar providers sem motivo
 
 ---
 
-## ?? Próximos Passos
+## ?? PrÃ³ximos Passos
 
 - ?? [Escolha seu Provider](../configuration.md)
-- ?? [Início Rápido](../getting-started.md)
-- ?? [Referência da API](../api-reference.md)
+- ?? [InÃ­cio RÃ¡pido](../getting-started.md)
+- ?? [ReferÃªncia da API](../api-reference.md)

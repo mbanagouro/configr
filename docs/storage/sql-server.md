@@ -1,10 +1,10 @@
-# SQL Server Provider
+﻿# SQL Server Provider
 
 Uso do provider SQL Server no ConfigR.
 
 ---
 
-## 🚀 Instalação
+## ðŸš€ InstalaÃ§Ã£o
 
 ```bash
 dotnet add package ConfigR.SqlServer
@@ -12,7 +12,7 @@ dotnet add package ConfigR.SqlServer
 
 ---
 
-## 🔧 Configuração
+## ðŸ”§ ConfiguraÃ§Ã£o
 
 ### Registrar no DI
 
@@ -34,7 +34,7 @@ builder.Services
 
 ---
 
-## 📊 Estrutura da Tabela
+## ðŸ“Š Estrutura da Tabela
 
 ```sql
 CREATE TABLE [dbo].[ConfigR] (
@@ -50,14 +50,14 @@ CREATE UNIQUE INDEX IX_ConfigR_Key_Scope
 
 ### Campos
 
-- **Id**: Identificador único com auto-incremento
-- **Key**: Chave da configuração (até 256 caracteres)
-- **Value**: Valor da configuração (suporta até 2GB com NVARCHAR(MAX))
-- **Scope**: Escopo opcional para multi-tenant (até 128 caracteres)
+- **Id**: Identificador Ãºnico com auto-incremento
+- **Key**: Chave da configuraÃ§Ã£o (atÃ© 256 caracteres)
+- **Value**: Valor da configuraÃ§Ã£o (suporta atÃ© 2GB com NVARCHAR(MAX))
+- **Scope**: Escopo opcional para multi-tenant (atÃ© 128 caracteres)
 
 ---
 
-## ⚙️ Opções de Configuração
+## âš™ï¸ OpÃ§Ãµes de ConfiguraÃ§Ã£o
 
 ```csharp
 var options = Options.Create(new SqlServerConfigStoreOptions
@@ -73,10 +73,10 @@ var store = new SqlServerConfigStore(options);
 
 ---
 
-## 📝 Exemplo Completo
+## ðŸ“ Exemplo Completo
 
 ```csharp
-// Classe de configuração
+// Classe de configuraÃ§Ã£o
 public sealed class CheckoutConfig
 {
     public bool LoginRequired { get; set; } = true;
@@ -102,11 +102,11 @@ await _configR.SaveAsync(checkout);
 
 ---
 
-## 🧪 Testes
+## ðŸ§ª Testes
 
 O provider SQL Server possui testes completos incluindo:
 
-- **ConfigStoreTests**: Testes de CRUD básico e scopes
+- **ConfigStoreTests**: Testes de CRUD bÃ¡sico e scopes
 - **IntegrationTests**: Testes de fluxo completo com tipos complexos
 - **ConcurrencyTests**: Testes de leitura/escrita paralela
 
@@ -126,10 +126,10 @@ docker stop sqlserver-configr && docker rm sqlserver-configr
 
 ---
 
-## 💡 Considerações de Performance
+## ðŸ’¡ ConsideraÃ§Ãµes de Performance
 
-- Índice único em `(Key, Scope)` garante integridade e performance
+- Ãndice Ãºnico em `(Key, Scope)` garante integridade e performance
 - Suporta valores muito grandes com `NVARCHAR(MAX)`
 - Use scopes para isolamento multi-tenant
-- Cache em memória (ConfigR.Core) reduz queries ao banco
-- Índices automáticos para buscas rápidas
+- Cache em memÃ³ria (ConfigR.Core) reduz queries ao banco
+- Ãndices automÃ¡ticos para buscas rÃ¡pidas

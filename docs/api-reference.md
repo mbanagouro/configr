@@ -1,51 +1,51 @@
-# API Reference
+﻿# API Reference
 
-Documentação completa da API do ConfigR.
+DocumentaÃ§Ã£o completa da API do ConfigR.
 
-## 🎯 Interface Principal - `IConfigR`
+## ðŸŽ¯ Interface Principal - `IConfigR`
 
-Interface central para ler e escrever configurações.
+Interface central para ler e escrever configuraÃ§Ãµes.
 
 ### GetAsync
 
-Recupera uma configuração tipada.
+Recupera uma configuraÃ§Ã£o tipada.
 
 ```csharp
 Task<T> GetAsync<T>(string? scope = null) where T : class, new();
 ```
 
-**Parâmetros:**
-- `scope` (optional) - Escopo/tenant da configuração. Se omitido, usa configuração padrão.
+**ParÃ¢metros:**
+- `scope` (optional) - Escopo/tenant da configuraÃ§Ã£o. Se omitido, usa configuraÃ§Ã£o padrÃ£o.
 
 **Retorno:**
-- Instância tipada da configuração
-- Se não encontrada, retorna nova instância com valores padrão
+- InstÃ¢ncia tipada da configuraÃ§Ã£o
+- Se nÃ£o encontrada, retorna nova instÃ¢ncia com valores padrÃ£o
 
 **Exemplos:**
 
 ```csharp
-// Configuração padrão
+// ConfiguraÃ§Ã£o padrÃ£o
 var config = await configR.GetAsync<CheckoutConfig>();
 
-// Configuração de um tenant específico
+// ConfiguraÃ§Ã£o de um tenant especÃ­fico
 var tenantConfig = await configR.GetAsync<CheckoutConfig>("tenant-123");
 ```
 
 ### SaveAsync
 
-Salva uma configuração tipada.
+Salva uma configuraÃ§Ã£o tipada.
 
 ```csharp
 Task SaveAsync<T>(T value, string? scope = null) where T : class;
 ```
 
-**Parâmetros:**
-- `value` - Instância de configuração a salvar
+**ParÃ¢metros:**
+- `value` - InstÃ¢ncia de configuraÃ§Ã£o a salvar
 - `scope` (optional) - Escopo/tenant onde salvar
 
 **Comportamento:**
-- Se existir, atualiza a configuração
-- Se não existir, cria nova
+- Se existir, atualiza a configuraÃ§Ã£o
+- Se nÃ£o existir, cria nova
 - Invalida automaticamente o cache
 
 **Exemplos:**
@@ -53,55 +53,55 @@ Task SaveAsync<T>(T value, string? scope = null) where T : class;
 ```csharp
 var config = new CheckoutConfig { MaxItems = 50 };
 
-// Salvar como padrão
+// Salvar como padrÃ£o
 await configR.SaveAsync(config);
 
-// Salvar para tenant específico
+// Salvar para tenant especÃ­fico
 await configR.SaveAsync(config, "tenant-123");
 ```
 
 ### DeleteAsync
 
-Remove uma configuração.
+Remove uma configuraÃ§Ã£o.
 
 ```csharp
 Task DeleteAsync<T>(string? scope = null) where T : class;
 ```
 
-**Parâmetros:**
+**ParÃ¢metros:**
 - `scope` (optional) - Escopo/tenant de onde remover
 
 **Exemplos:**
 
 ```csharp
-// Remover configuração padrão
+// Remover configuraÃ§Ã£o padrÃ£o
 await configR.DeleteAsync<CheckoutConfig>();
 
-// Remover configuração de tenant
+// Remover configuraÃ§Ã£o de tenant
 await configR.DeleteAsync<CheckoutConfig>("tenant-123");
 ```
 
 ### GetAllAsync
 
-Recupera todas as configurações de um escopo.
+Recupera todas as configuraÃ§Ãµes de um escopo.
 
 ```csharp
 Task<IEnumerable<(string Key, string Value)>> GetAllAsync(string? scope = null);
 ```
 
-**Parâmetros:**
+**ParÃ¢metros:**
 - `scope` (optional) - Escopo/tenant
 
 **Retorno:**
-- Enumerável com tuplas (Key, Value)
+- EnumerÃ¡vel com tuplas (Key, Value)
 
 **Exemplos:**
 
 ```csharp
-// Todas as configurações padrão
+// Todas as configuraÃ§Ãµes padrÃ£o
 var all = await configR.GetAllAsync();
 
-// Todas as configurações de um tenant
+// Todas as configuraÃ§Ãµes de um tenant
 var tenantAll = await configR.GetAllAsync("tenant-123");
 
 // Iterar
@@ -113,9 +113,9 @@ foreach (var (key, value) in await configR.GetAllAsync())
 
 ---
 
-## 🏪 Interface de Armazenamento - `IConfigStore`
+## ðŸª Interface de Armazenamento - `IConfigStore`
 
-Interface de baixo nível para implementação de providers.
+Interface de baixo nÃ­vel para implementaÃ§Ã£o de providers.
 
 ### GetAsync
 
@@ -143,7 +143,7 @@ Task<IEnumerable<ConfigItem>> GetAllAsync(string? scope = null);
 
 ---
 
-## ⚙️ Injeção de Dependência
+## âš™ï¸ InjeÃ§Ã£o de DependÃªncia
 
 ### Registrar ConfigR
 
@@ -170,7 +170,7 @@ public class MyService
 
 ---
 
-## 📦 Pacotes NuGet
+## ðŸ“¦ Pacotes NuGet
 
 ### Core
 
@@ -181,8 +181,8 @@ dotnet add package ConfigR.Core
 Inclui:
 - `IConfigR` interface
 - DI extensions
-- Cache em memória
-- Serializadores padrão
+- Cache em memÃ³ria
+- Serializadores padrÃ£o
 
 ### Providers
 
@@ -208,11 +208,11 @@ dotnet add package ConfigR.RavenDB
 
 ---
 
-## 🔧 Opções de Configuração
+## ðŸ”§ OpÃ§Ãµes de ConfiguraÃ§Ã£o
 
 ### ConfigROptions
 
-Configurações do ConfigR core:
+ConfiguraÃ§Ãµes do ConfigR core:
 
 ```csharp
 builder.Services.AddConfigR(options =>
@@ -226,16 +226,16 @@ builder.Services.AddConfigR(options =>
 ```
 
 **Propriedades:**
-- `CacheDuration` - Duração do cache em memória (padrão: 5 minutos)
-- `JsonSerializerOptions` - Opções de serialização JSON
+- `CacheDuration` - DuraÃ§Ã£o do cache em memÃ³ria (padrÃ£o: 5 minutos)
+- `JsonSerializerOptions` - OpÃ§Ãµes de serializaÃ§Ã£o JSON
 
 ---
 
-## 🚨 Exceções
+## ðŸš¨ ExceÃ§Ãµes
 
 ### ConfigNotFoundException
 
-Lançada quando uma configuração não é encontrada e não pode ser criada.
+LanÃ§ada quando uma configuraÃ§Ã£o nÃ£o Ã© encontrada e nÃ£o pode ser criada.
 
 ```csharp
 try
@@ -250,7 +250,7 @@ catch (ConfigNotFoundException ex)
 
 ### SerializationException
 
-Lançada quando há erro na serialização/desserialização.
+LanÃ§ada quando hÃ¡ erro na serializaÃ§Ã£o/desserializaÃ§Ã£o.
 
 ```csharp
 try
@@ -265,7 +265,7 @@ catch (SerializationException ex)
 
 ---
 
-## 🔍 Logging
+## ðŸ” Logging
 
 ConfigR usa `ILogger<T>` para logging:
 
@@ -284,10 +284,10 @@ builder.Services.AddLogging(config =>
 
 ---
 
-## 📊 Exemplo Completo
+## ðŸ“Š Exemplo Completo
 
 ```csharp
-// Classe de configuração
+// Classe de configuraÃ§Ã£o
 public sealed class AppConfig
 {
     public string Feature { get; set; } = "enabled";
@@ -329,8 +329,8 @@ public class AppService
 
 ---
 
-## 📚 Próximos Passos
+## ðŸ“š PrÃ³ximos Passos
 
-- 📖 [Voltar para Documentação](../index.md)
-- 🚀 [Início Rápido](../getting-started.md)
-- 🧪 [Testes](../testing.md)
+- ðŸ“– [Voltar para DocumentaÃ§Ã£o](../index.md)
+- ðŸš€ [InÃ­cio RÃ¡pido](../getting-started.md)
+- ðŸ§ª [Testes](../testing.md)

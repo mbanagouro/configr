@@ -1,13 +1,13 @@
-# Extensibilidade - Custom Providers
+Ôªø# Extensibilidade - Custom Providers
 
-Crie seus prÛprios providers de armazenamento para o ConfigR.
+Crie seus pr√≥prios providers de armazenamento para o ConfigR.
 
 ## ?? Quando Criar um Custom Provider
 
-- VocÍ usa um banco de dados n„o suportado nativamente
-- Precisa de lÛgica customizada (criptografia, compress„o)
+- Voc√™ usa um banco de dados n√£o suportado nativamente
+- Precisa de l√≥gica customizada (criptografia, compress√£o)
 - Quer integrar com sistema legado
-- Tem requisitos de performance especÌficos
+- Tem requisitos de performance espec√≠ficos
 
 ## ??? Implementar um Custom Provider
 
@@ -53,7 +53,7 @@ public class CustomConfigStore : IConfigStore
         {
             _logger.LogInformation($"Getting config: {key}, scope: {scope}");
             
-            // Sua lÛgica de leitura aqui
+            // Sua l√≥gica de leitura aqui
             var value = await FetchFromCustomStore(key, scope);
             
             return value;
@@ -71,7 +71,7 @@ public class CustomConfigStore : IConfigStore
         {
             _logger.LogInformation($"Saving config: {key}, scope: {scope}");
             
-            // Sua lÛgica de escrita aqui
+            // Sua l√≥gica de escrita aqui
             await WriteToCustomStore(key, value, scope);
         }
         catch (Exception ex)
@@ -83,7 +83,7 @@ public class CustomConfigStore : IConfigStore
 
     public async Task DeleteAsync(string key, string? scope = null)
     {
-        // Implementar conforme necess·rio
+        // Implementar conforme necess√°rio
         await RemoveFromCustomStore(key, scope);
     }
 
@@ -93,7 +93,7 @@ public class CustomConfigStore : IConfigStore
         return await FetchAllFromCustomStore(scope);
     }
 
-    // Seus mÈtodos privados aqui
+    // Seus m√©todos privados aqui
     private async Task<string?> FetchFromCustomStore(string key, string? scope)
     {
         // TODO: Implementar
@@ -118,7 +118,7 @@ public class CustomConfigStore : IConfigStore
 }
 ```
 
-### 3?? Criar Classe de OpÁıes
+### 3?? Criar Classe de Op√ß√µes
 
 ```csharp
 public class CustomConfigStoreOptions
@@ -129,7 +129,7 @@ public class CustomConfigStoreOptions
 }
 ```
 
-### 4?? Criar MÈtodo de Extens„o
+### 4?? Criar M√©todo de Extens√£o
 
 ```csharp
 public static class ConfigRBuilderExtensions
@@ -174,10 +174,10 @@ builder.Services
         });
 ```
 
-## ?? Exemplo Completo: Provider em MemÛria
+## ?? Exemplo Completo: Provider em Mem√≥ria
 
 ```csharp
-// Simples provider que armazena tudo na memÛria
+// Simples provider que armazena tudo na mem√≥ria
 public class InMemoryConfigStore : IConfigStore
 {
     private readonly Dictionary<string, ConfigItem> _store 
@@ -225,7 +225,7 @@ public class InMemoryConfigStore : IConfigStore
     }
 }
 
-// Extens„o
+// Extens√£o
 public static class ConfigRBuilderExtensions
 {
     public static IConfigRBuilder UseInMemory(this IConfigRBuilder builder)
@@ -284,8 +284,8 @@ public class CustomConfigStoreTests
 }
 ```
 
-## ?? PrÛximos Passos
+## ?? Pr√≥ximos Passos
 
 - ?? [Aprenda sobre Scopes](scopes.md)
 - ?? [Otimize com Cache](caching.md)
-- ?? [Voltar para ConfiguraÁ„o](../configuration.md)
+- ?? [Voltar para Configura√ß√£o](../configuration.md)

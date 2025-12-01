@@ -1,10 +1,10 @@
-# MySQL Provider
+﻿# MySQL Provider
 
 Uso do provider MySQL no ConfigR.
 
 ---
 
-## 🚀 Instalação
+## ðŸš€ InstalaÃ§Ã£o
 
 ```bash
 dotnet add package ConfigR.MySql
@@ -12,7 +12,7 @@ dotnet add package ConfigR.MySql
 
 ---
 
-## 🔧 Configuração
+## ðŸ”§ ConfiguraÃ§Ã£o
 
 ### Registrar no DI
 
@@ -34,7 +34,7 @@ builder.Services
 
 ---
 
-## 📊 Estrutura da Tabela
+## ðŸ“Š Estrutura da Tabela
 
 ```sql
 CREATE TABLE IF NOT EXISTS configr (
@@ -48,20 +48,20 @@ CREATE TABLE IF NOT EXISTS configr (
 
 ### Campos
 
-- **id**: Identificador único auto-incremento
-- **cfg_key**: Chave da configuração (até 255 caracteres)
-- **cfg_value**: Valor da configuração (texto livre, suporta JSON)
-- **scope**: Escopo opcional para multi-tenant (até 255 caracteres)
+- **id**: Identificador Ãºnico auto-incremento
+- **cfg_key**: Chave da configuraÃ§Ã£o (atÃ© 255 caracteres)
+- **cfg_value**: Valor da configuraÃ§Ã£o (texto livre, suporta JSON)
+- **scope**: Escopo opcional para multi-tenant (atÃ© 255 caracteres)
 
 ---
 
-## ⚙️ Opções de Configuração
+## âš™ï¸ OpÃ§Ãµes de ConfiguraÃ§Ã£o
 
 ```csharp
 var options = Options.Create(new MySqlConfigStoreOptions
 {
     ConnectionString = "Server=localhost;Database=configr;User Id=root;Password=root;",
-    Table = "configr"  // Nome da tabela (padrão: "configr")
+    Table = "configr"  // Nome da tabela (padrÃ£o: "configr")
 });
 
 var store = new MySqlConfigStore(options);
@@ -69,10 +69,10 @@ var store = new MySqlConfigStore(options);
 
 ---
 
-## 📝 Exemplo Completo
+## ðŸ“ Exemplo Completo
 
 ```csharp
-// Classe de configuração
+// Classe de configuraÃ§Ã£o
 public sealed class CheckoutConfig
 {
     public bool LoginRequired { get; set; } = true;
@@ -98,11 +98,11 @@ await _configR.SaveAsync(checkout);
 
 ---
 
-## 🧪 Testes
+## ðŸ§ª Testes
 
 O provider MySQL possui testes completos incluindo:
 
-- **ConfigStoreTests**: Testes de CRUD básico e scopes
+- **ConfigStoreTests**: Testes de CRUD bÃ¡sico e scopes
 - **IntegrationTests**: Testes de fluxo completo com tipos complexos
 - **ConcurrencyTests**: Testes de leitura/escrita paralela
 
@@ -121,9 +121,9 @@ docker stop mysql-configr && docker rm mysql-configr
 
 ---
 
-## 💡 Considerações de Performance
+## ðŸ’¡ ConsideraÃ§Ãµes de Performance
 
-- Índice único em `(cfg_key, scope)` garante integridade e performance
+- Ãndice Ãºnico em `(cfg_key, scope)` garante integridade e performance
 - Use scopes para isolamento multi-tenant
-- Cache em memória (ConfigR.Core) reduz queries ao banco
-- Textos longos são suportados com `TEXT`
+- Cache em memÃ³ria (ConfigR.Core) reduz queries ao banco
+- Textos longos sÃ£o suportados com `TEXT`

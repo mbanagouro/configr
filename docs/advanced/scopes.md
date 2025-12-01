@@ -1,17 +1,17 @@
-# Scopes - Multi-tenant
+Ôªø# Scopes - Multi-tenant
 
-Entenda como usar scopes para isolar configuraÁıes em aplicaÁıes multi-tenant.
+Entenda como usar scopes para isolar configura√ß√µes em aplica√ß√µes multi-tenant.
 
-## ?? O que È um Scope?
+## ?? O que √© um Scope?
 
-Um **scope** È um identificador que permite isolar configuraÁıes por contexto. Perfeito para:
+Um **scope** √© um identificador que permite isolar configura√ß√µes por contexto. Perfeito para:
 
-- **Multi-tenant**: Cada cliente tem suas prÛprias configuraÁıes
-- **Multi-loja**: Cada loja tem suas prÛprias regras
-- **Ambientes**: ProduÁ„o, staging, desenvolvimento com configuraÁıes diferentes
-- **Regiıes**: Diferentes configuraÁıes por localizaÁ„o
+- **Multi-tenant**: Cada cliente tem suas pr√≥prias configura√ß√µes
+- **Multi-loja**: Cada loja tem suas pr√≥prias regras
+- **Ambientes**: Produ√ß√£o, staging, desenvolvimento com configura√ß√µes diferentes
+- **Regi√µes**: Diferentes configura√ß√µes por localiza√ß√£o
 
-## ?? Uso B·sico
+## ?? Uso B√°sico
 
 ### Salvar com Scope
 
@@ -22,38 +22,38 @@ var config = new CheckoutConfig
     MaxItems = 20
 };
 
-// Salvar configuraÁ„o para o tenant "acme-corp"
+// Salvar configura√ß√£o para o tenant "acme-corp"
 await _configR.SaveAsync(config, scope: "acme-corp");
 
-// Salvar configuraÁ„o padr„o (sem scope)
+// Salvar configura√ß√£o padr√£o (sem scope)
 await _configR.SaveAsync(config);
 ```
 
 ### Ler com Scope
 
 ```csharp
-// Ler configuraÁ„o do tenant "acme-corp"
+// Ler configura√ß√£o do tenant "acme-corp"
 var acmeConfig = await _configR.GetAsync<CheckoutConfig>("acme-corp");
 
-// Ler configuraÁ„o padr„o
+// Ler configura√ß√£o padr√£o
 var defaultConfig = await _configR.GetAsync<CheckoutConfig>();
 ```
 
-## ?? Padr„o: Fallback para Padr„o
+## ?? Padr√£o: Fallback para Padr√£o
 
-Implemente um padr„o de fallback para configuraÁıes n„o encontradas:
+Implemente um padr√£o de fallback para configura√ß√µes n√£o encontradas:
 
 ```csharp
 public async Task<CheckoutConfig> GetCheckoutConfig(string tenantId)
 {
     try
     {
-        // Tentar ler config especÌfica do tenant
+        // Tentar ler config espec√≠fica do tenant
         return await _configR.GetAsync<CheckoutConfig>(tenantId);
     }
     catch (ConfigNotFoundException)
     {
-        // Fallback para configuraÁ„o padr„o
+        // Fallback para configura√ß√£o padr√£o
         return await _configR.GetAsync<CheckoutConfig>();
     }
 }
@@ -98,21 +98,21 @@ public class CheckoutService
 
 ## ??? Estrutura no Banco de Dados
 
-Os scopes s„o armazenados junto com a chave no banco:
+Os scopes s√£o armazenados junto com a chave no banco:
 
 ### SQL Server
 ```sql
--- ConfiguraÁ„o padr„o (sem scope)
+-- Configura√ß√£o padr√£o (sem scope)
 SELECT * FROM ConfigR WHERE Key = 'CheckoutConfig' AND Scope IS NULL;
 
--- ConfiguraÁ„o de um tenant especÌfico
+-- Configura√ß√£o de um tenant espec√≠fico
 SELECT * FROM ConfigR WHERE Key = 'CheckoutConfig' AND Scope = 'acme-corp';
 
--- Todas as configuraÁıes de um tenant
+-- Todas as configura√ß√µes de um tenant
 SELECT * FROM ConfigR WHERE Scope = 'acme-corp';
 ```
 
-## ?? Listar Scopes DisponÌveis
+## ?? Listar Scopes Dispon√≠veis
 
 Para recuperar todos os scopes cadastrados:
 
@@ -121,29 +121,29 @@ Para recuperar todos os scopes cadastrados:
 var sql = "SELECT DISTINCT Scope FROM ConfigR WHERE Scope IS NOT NULL";
 ```
 
-## ?? Boas Pr·ticas
+## ?? Boas Pr√°ticas
 
-### ? FaÁa
+### ? Fa√ßa
 
 - Use nomes significativos: `"acme-corp"`, `"loja-sp"`, `"producao"`
-- Sempre implemente fallback para padr„o
+- Sempre implemente fallback para padr√£o
 - Documente quais scopes sua app usa
-- Use UUID ou identificadores ˙nicos para tenants
+- Use UUID ou identificadores √∫nicos para tenants
 
 ### ? Evite
 
-- Nomes ambÌguos: `"tenant1"`, `"config2"`
+- Nomes amb√≠guos: `"tenant1"`, `"config2"`
 - Esquecer de gerenciar o ciclo de vida dos scopes
-- Misturar separaÁ„o de dados com scopes (use multitenancy adequadamente)
-- Armazenar dados sensÌveis em scopes p˙blicos
+- Misturar separa√ß√£o de dados com scopes (use multitenancy adequadamente)
+- Armazenar dados sens√≠veis em scopes p√∫blicos
 
-## ?? SeguranÁa
+## ?? Seguran√ßa
 
 ```csharp
 // ? Sempre validar se o tenant tem acesso
 public async Task<CheckoutConfig> GetTenantConfig(string tenantId)
 {
-    // Validar se o usu·rio atual tem permiss„o para este tenant
+    // Validar se o usu√°rio atual tem permiss√£o para este tenant
     if (!await AuthorizeForTenant(tenantId))
     {
         throw new UnauthorizedAccessException();
@@ -153,8 +153,8 @@ public async Task<CheckoutConfig> GetTenantConfig(string tenantId)
 }
 ```
 
-## ?? PrÛximos Passos
+## ?? Pr√≥ximos Passos
 
 - ?? [Otimize com Cache](caching.md)
 - ?? [Crie Providers Personalizados](extensibility.md)
-- ?? [Voltar para ConfiguraÁ„o](../configuration.md)
+- ?? [Voltar para Configura√ß√£o](../configuration.md)

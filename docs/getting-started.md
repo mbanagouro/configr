@@ -1,13 +1,13 @@
-# Início Rápido
+﻿# InÃ­cio RÃ¡pido
 
 Comece a usar o ConfigR em menos de 5 minutos.
 
-## 📦 Pré-requisitos
+## ðŸ“¦ PrÃ©-requisitos
 
 - .NET 8.0 ou superior
 - Um banco de dados (SQL Server, MySQL, PostgreSQL, MongoDB, Redis ou RavenDB)
 
-## 1️⃣ Instalação
+## 1ï¸âƒ£ InstalaÃ§Ã£o
 
 Instale o pacote core e o provider desejado:
 
@@ -19,7 +19,7 @@ dotnet add package ConfigR.Core
 dotnet add package ConfigR.SqlServer
 ```
 
-**Outros providers disponíveis:**
+**Outros providers disponÃ­veis:**
 
 ```bash
 dotnet add package ConfigR.MySql
@@ -29,9 +29,9 @@ dotnet add package ConfigR.Redis
 dotnet add package ConfigR.RavenDB
 ```
 
-## 2️⃣ Defina sua Classe de Configuração
+## 2ï¸âƒ£ Defina sua Classe de ConfiguraÃ§Ã£o
 
-Crie uma classe POCO (Plain Old C# Object) com suas configurações:
+Crie uma classe POCO (Plain Old C# Object) com suas configuraÃ§Ãµes:
 
 ```csharp
 public sealed class CheckoutConfig
@@ -42,18 +42,18 @@ public sealed class CheckoutConfig
 }
 ```
 
-## 3️⃣ Registre no Container DI
+## 3ï¸âƒ£ Registre no Container DI
 
 Configure o ConfigR no seu `Program.cs`:
 
 ```csharp
-// SQL Server (exemplo padrão)
+// SQL Server (exemplo padrÃ£o)
 builder.Services
     .AddConfigR()
     .UseSqlServer(builder.Configuration.GetConnectionString("ConfigR"));
 ```
 
-### Configuração do appsettings.json
+### ConfiguraÃ§Ã£o do appsettings.json
 
 ```json
 {
@@ -63,11 +63,11 @@ builder.Services
 }
 ```
 
-## 4️⃣ Use em seu Código
+## 4ï¸âƒ£ Use em seu CÃ³digo
 
 Injete o `IConfigR` e use:
 
-### Ler Configuração
+### Ler ConfiguraÃ§Ã£o
 
 ```csharp
 public class CheckoutService
@@ -87,7 +87,7 @@ public class CheckoutService
 }
 ```
 
-### Atualizar Configuração
+### Atualizar ConfiguraÃ§Ã£o
 
 ```csharp
 public async Task UpdateCheckoutConfig()
@@ -101,7 +101,7 @@ public async Task UpdateCheckoutConfig()
 }
 ```
 
-## 5️⃣ Crie a Tabela (SQL Server)
+## 5ï¸âƒ£ Crie a Tabela (SQL Server)
 
 Execute o script SQL para criar a tabela:
 
@@ -118,24 +118,24 @@ CREATE UNIQUE INDEX IX_ConfigR_Key_Scope
 ```
 
 !!! tip "Dica"
-    Alguns providers como SQL Server suportam criação automática da tabela se você configurar `AutoCreateTable = true`.
+    Alguns providers como SQL Server suportam criaÃ§Ã£o automÃ¡tica da tabela se vocÃª configurar `AutoCreateTable = true`.
 
-## 🎉 Pronto!
+## ðŸŽ‰ Pronto!
 
-Você está pronto para usar o ConfigR! 
+VocÃª estÃ¡ pronto para usar o ConfigR! 
 
-### Próximos Passos
+### PrÃ³ximos Passos
 
-- 📚 [Entenda a Configuração](configuration.md) - Explore todas as opções
-- 🧩 [Escolha um Provider](../storage/sql-server.md) - Veja detalhes de cada backend
-- 🧱 [Aprenda sobre Scopes](../advanced/scopes.md) - Configure isolamento multi-tenant
-- 💡 [Explore Conceitos Avançados](../advanced/caching.md) - Otimize sua aplicação
+- ðŸ“š [Entenda a ConfiguraÃ§Ã£o](configuration.md) - Explore todas as opÃ§Ãµes
+- ðŸ§© [Escolha um Provider](../storage/sql-server.md) - Veja detalhes de cada backend
+- ðŸ§± [Aprenda sobre Scopes](../advanced/scopes.md) - Configure isolamento multi-tenant
+- ðŸ’¡ [Explore Conceitos AvanÃ§ados](../advanced/caching.md) - Otimize sua aplicaÃ§Ã£o
 
-## ❓ Dúvidas Comuns
+## â“ DÃºvidas Comuns
 
-### P: Posso usar múltiplas classes de configuração?
+### P: Posso usar mÃºltiplas classes de configuraÃ§Ã£o?
 
-**R:** Sim! Você pode ter quantas classes de configuração precisar. Cada uma é armazenada com sua própria chave.
+**R:** Sim! VocÃª pode ter quantas classes de configuraÃ§Ã£o precisar. Cada uma Ã© armazenada com sua prÃ³pria chave.
 
 ```csharp
 var checkout = await _configR.GetAsync<CheckoutConfig>();
@@ -144,18 +144,18 @@ var shipping = await _configR.GetAsync<ShippingConfig>();
 
 ### P: Como funciona o cache?
 
-**R:** ConfigR caches automaticamente as configurações em memória. Alterações são refletidas imediatamente após `SaveAsync()`.
+**R:** ConfigR caches automaticamente as configuraÃ§Ãµes em memÃ³ria. AlteraÃ§Ãµes sÃ£o refletidas imediatamente apÃ³s `SaveAsync()`.
 
 ### P: Posso usar Scopes?
 
-**R:** Sim! Scopes são perfeitos para multi-tenant. Veja [Scopes](../advanced/scopes.md) para detalhes.
+**R:** Sim! Scopes sÃ£o perfeitos para multi-tenant. Veja [Scopes](../advanced/scopes.md) para detalhes.
 
 ### P: Qual provider devo escolher?
 
 **R:** 
 - **SQL Server**: Recomendado para a maioria dos casos
-- **PostgreSQL**: Se você já usa PostgreSQL
+- **PostgreSQL**: Se vocÃª jÃ¡ usa PostgreSQL
 - **MySQL**: Leveza e compatibilidade
-- **MongoDB**: Se você prefere bancos NoSQL
-- **Redis**: Para cache de altíssima performance
-- **RavenDB**: Para ACID completo e replicação
+- **MongoDB**: Se vocÃª prefere bancos NoSQL
+- **Redis**: Para cache de altÃ­ssima performance
+- **RavenDB**: Para ACID completo e replicaÃ§Ã£o
