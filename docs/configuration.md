@@ -154,18 +154,89 @@ Veja [Scopes](advanced/scopes.md) para mais detalhes.
 
 ## ⚙️ Opções Avançadas
 
-### Configurar Cache
+### ⏱️ Configurar Duração do Cache
+
+A duração do cache controla por quanto tempo as configurações são armazenadas em memória antes de serem recarregadas do banco de dados.
 
 ```csharp
 builder.Services
     .AddConfigR(options =>
     {
-        options.CacheDuration = TimeSpan.FromMinutes(5);
+        // Cache por 10 minutos (padrão)
+        options.CacheDuration = TimeSpan.FromMinutes(10);
     })
     .UseSqlServer(builder.Configuration.GetConnectionString("ConfigR"));
 ```
 
-### Configurar Serialização
+#### Durações Recomendadas
+
+| Cenário | Duração | Motivo |
+|---------|---------|--------|
+| **Feature Flags** | 1-5 minutos | Mudam frequentemente, precisam de atualização rápida |
+| **Configurações de Negócio** | 10-30 minutos | Mudanças ocasionais, bom equilíbrio |
+| **Constantes** | 1-2 horas | Raramente mudam, máxima performance |
+| **Valores Críticos** | 1 minuto | Exigem atualização frequente |
+
+#### Exemplos Práticos
+
+**Cache Curto (1 minuto) - Alta Disponibilidade:**
+```csharp
+builder.Services
+    .AddConfigR(options =>
+    {
+        options.CacheDuration = TimeSpan.FromMinutes(1);
+    })
+    .UseSqlServer(connectionString);
+```
+
+**Cache Longo (1 hora) - Máxima Performance:**
+```csharp
+builder.Services
+    .AddConfigR(options =>
+    {
+        options.CacheDuration = TimeSpan.FromHours(1);
+    })
+    .UseSqlServer(connectionString);
+```
+
+**Sem Cache (Sempre Fresco):**
+```csharp
+builder.Services
+    .AddConfigR(options =>
+    {
+        options.CacheDuration = TimeSpan.Zero;  // Desabilita cache
+    })
+    .UseSqlServer(connectionString);
+```
+
+**Cache Desabilidado (Null):**
+```csharp
+builder.Services
+    .AddConfigR(options =>
+    {
+        options.CacheDuration = null;  // Sem cache
+    })
+    .UseSqlServer(connectionString);
+```
+
+#### Como Funciona
+
+1. **Primeira leitura**: ConfigR busca do banco e caches em memória
+2. **Leituras subsequentes**: Servidas do cache (instantaneamente)
+3. **Após expiração**: Próxima leitura busca do banco novamente
+4. **Ao salvar**: Cache é automaticamente invalidado para aquele scope
+
+```
+Tempo 0:00 → GET (cache miss) → Lê banco → Caches por 10 min
+Tempo 0:05 → GET (cache hit)  → Serve cache
+Tempo 0:10 → GET (cache miss) → Lê banco novamente
+Tempo 0:15 → SAVE             → Invalida cache
+Tempo 0:16 → GET (cache miss) → Lê banco (cache foi invalidado)
+```
+
+⚠️ **Aviso:** `TimeSpan.Zero` desabilita completamente o cache, o que pode sobrecarregar o banco de dados em aplicações com alto tráfego. Use com cuidado!
+
+### 📋 Configurar Serialização
 
 ```csharp
 builder.Services
@@ -176,6 +247,27 @@ builder.Services
             PropertyNameCaseInsensitive = true,
             WriteIndented = false
         };
+    })
+    .UseSqlServer(builder.Configuration.GetConnectionString("ConfigR"));
+```
+
+### 🔀 Configuração Combinada
+
+```csharp
+builder.Services
+    .AddConfigR(options =>
+    {
+        // Cache
+        options.CacheDuration = TimeSpan.FromMinutes(5);
+        
+        // Serialização
+        options.JsonSerializerOptions = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        };
+        
+        // Escopo padrão
+        options.DefaultScope = () => "Global";
     })
     .UseSqlServer(builder.Configuration.GetConnectionString("ConfigR"));
 ```
@@ -199,8 +291,14 @@ builder.Services
 - Confirme que as propriedades são públicas
 - Use tipos simples ou complexos (JSON-serializable)
 
+### Cache não está sendo usado
+
+- Verifique se `CacheDuration` não está definido como `TimeSpan.Zero` ou `null`
+- Confirme que está usando `GetAsync()` (cache é por scope)
+- Monitore chamadas ao banco com logs ou ferramentas de profiling
+
 ## 📚 Próximos Passos
 
 - 🧱 [Aprenda sobre Scopes](advanced/scopes.md)
-- 🚀 [Otimize com Cache](advanced/caching.md)
+- ⏱️ [Entenda o Cache em Detalhes](advanced/caching.md)
 - 🧩 [Escolha um Provider](storage/sql-server.md)

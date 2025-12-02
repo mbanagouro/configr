@@ -6,23 +6,51 @@ using ConfigR.Abstractions;
 namespace ConfigR.Core;
 
 /// <summary>
-/// In-memory implementation of configuration caching.
+/// In-memory implementation of configuration caching with configurable expiration.
 /// </summary>
 public sealed class MemoryConfigCache : IConfigCache
 {
-    private readonly ConcurrentDictionary<string, IReadOnlyDictionary<string, ConfigEntry>> _cache =
+    private readonly ConcurrentDictionary<string, CacheEntry> _cache =
         new(StringComparer.OrdinalIgnoreCase);
+
+    private sealed class CacheEntry
+    {
+        public required IReadOnlyDictionary<string, ConfigEntry> Entries { get; init; }
+        public DateTime ExpiresAt { get; init; }
+
+        public bool IsExpired => DateTime.UtcNow > ExpiresAt;
+    }
 
     /// <summary>
     /// Attempts to retrieve all cached configuration entries for a given scope.
     /// </summary>
     /// <param name="scope">The scope key.</param>
     /// <param name="entries">The cached configuration entries if found.</param>
-    /// <returns>True if the entries were found in the cache; otherwise, false.</returns>
-    public bool TryGetAll(string scope, out IReadOnlyDictionary<string, ConfigEntry> entries)
+    /// <param name="cacheDuration">The duration the cache should be valid for. If null or zero, cache is not used.</param>
+    /// <returns>True if the entries were found in the cache and are not expired; otherwise, false.</returns>
+    public bool TryGetAll(string scope, out IReadOnlyDictionary<string, ConfigEntry> entries, TimeSpan? cacheDuration = null)
     {
         scope ??= string.Empty;
-        return _cache.TryGetValue(scope, out entries!);
+        entries = null!;
+
+        if (cacheDuration == null || cacheDuration == TimeSpan.Zero)
+        {
+            return false;
+        }
+
+        if (!_cache.TryGetValue(scope, out var cacheEntry))
+        {
+            return false;
+        }
+
+        if (cacheEntry.IsExpired)
+        {
+            _cache.TryRemove(scope, out _);
+            return false;
+        }
+
+        entries = cacheEntry.Entries;
+        return true;
     }
 
     /// <summary>
@@ -30,14 +58,26 @@ public sealed class MemoryConfigCache : IConfigCache
     /// </summary>
     /// <param name="scope">The scope key.</param>
     /// <param name="entries">The configuration entries to cache.</param>
+    /// <param name="cacheDuration">The duration the cache should be valid for. If null or zero, cache is not stored.</param>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="entries"/> is null.</exception>
-    public void SetAll(string scope, IReadOnlyDictionary<string, ConfigEntry> entries)
+    public void SetAll(string scope, IReadOnlyDictionary<string, ConfigEntry> entries, TimeSpan? cacheDuration = null)
     {
         scope ??= string.Empty;
 
         ArgumentNullException.ThrowIfNull(entries);
 
-        _cache[scope] = entries;
+        if (cacheDuration == null || cacheDuration == TimeSpan.Zero)
+        {
+            return;
+        }
+
+        var cacheEntry = new CacheEntry
+        {
+            Entries = entries,
+            ExpiresAt = DateTime.UtcNow.Add(cacheDuration.Value)
+        };
+
+        _cache[scope] = cacheEntry;
     }
 
     /// <summary>

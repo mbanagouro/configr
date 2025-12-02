@@ -10,15 +10,17 @@ public interface IConfigCache
     /// </summary>
     /// <param name="scope">The scope key.</param>
     /// <param name="entries">The cached configuration entries if found.</param>
+    /// <param name="cacheDuration">The duration the cache should be valid for. If null or zero, cache is not used.</param>
     /// <returns>True if the entries were found in the cache; otherwise, false.</returns>
-    bool TryGetAll(string scope, out IReadOnlyDictionary<string, ConfigEntry> entries);
+    bool TryGetAll(string scope, out IReadOnlyDictionary<string, ConfigEntry> entries, TimeSpan? cacheDuration = null);
 
     /// <summary>
     /// Caches all configuration entries for a given scope.
     /// </summary>
     /// <param name="scope">The scope key.</param>
     /// <param name="entries">The configuration entries to cache.</param>
-    void SetAll(string scope, IReadOnlyDictionary<string, ConfigEntry> entries);
+    /// <param name="cacheDuration">The duration the cache should be valid for. If null or zero, cache is not stored.</param>
+    void SetAll(string scope, IReadOnlyDictionary<string, ConfigEntry> entries, TimeSpan? cacheDuration = null);
 
     /// <summary>
     /// Clears the cache for a specific scope.

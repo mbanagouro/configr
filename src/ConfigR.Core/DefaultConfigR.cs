@@ -56,14 +56,15 @@ public sealed class DefaultConfigR : IConfigR
         var type = typeof(T);
         var scope = GetScopeOrNull();
         var scopeKey = GetScopeKey(scope);
+        var cacheDuration = _options.Value.CacheDuration;
 
-        if (!_cache.TryGetAll(scopeKey, out var entries))
+        if (!_cache.TryGetAll(scopeKey, out var entries, cacheDuration))
         {
             var loaded = await _store.GetAllAsync(scope).ConfigureAwait(false)
                          ?? new Dictionary<string, ConfigEntry>(StringComparer.OrdinalIgnoreCase);
 
             entries = loaded;
-            _cache.SetAll(scopeKey, entries);
+            _cache.SetAll(scopeKey, entries, cacheDuration);
         }
 
         var instance = new T();

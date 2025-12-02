@@ -63,6 +63,21 @@ builder.Services
 }
 ```
 
+### Com Duração de Cache Customizada
+
+```csharp
+// SQL Server com cache de 5 minutos
+builder.Services
+    .AddConfigR(options =>
+    {
+        options.CacheDuration = TimeSpan.FromMinutes(5);
+    })
+    .UseSqlServer(builder.Configuration.GetConnectionString("ConfigR"));
+```
+
+!!! tip "Cache Padrão"
+    O ConfigR vem com cache de 10 minutos configurado por padrão. Você pode customizar isso conforme sua necessidade.
+
 ## 4️⃣ Use em seu Código
 
 Injete o `IConfigR` e use:
@@ -126,7 +141,7 @@ Você está pronto para usar o ConfigR!
 
 ### Próximos Passos
 
-- 📚 [Entenda a Configuração](configuration.md) - Explore todas as opções
+- 📚 [Entenda a Configuração](configuration.md) - Explore todas as opções e cache
 - 🧩 [Escolha um Provider](../storage/sql-server.md) - Veja detalhes de cada backend
 - 🧱 [Aprenda sobre Scopes](../advanced/scopes.md) - Configure isolamento multi-tenant
 - 💡 [Explore Conceitos Avançados](../advanced/caching.md) - Otimize sua aplicação
@@ -144,7 +159,31 @@ var shipping = await _configR.GetAsync<ShippingConfig>();
 
 ### P: Como funciona o cache?
 
-**R:** ConfigR caches automaticamente as configurações em memória. Alterações são refletidas imediatamente após `SaveAsync()`.
+**R:** ConfigR caches automaticamente as configurações em memória. O padrão é 10 minutos, mas você pode customizar:
+
+```csharp
+builder.Services
+    .AddConfigR(options =>
+    {
+        options.CacheDuration = TimeSpan.FromMinutes(5);
+    })
+    .UseSqlServer(connectionString);
+```
+
+Alterações são refletidas imediatamente após `SaveAsync()` (cache é invalidado).
+
+### P: Posso desabilitar o cache?
+
+**R:** Sim, mas use com cuidado (pode sobrecarregar o banco):
+
+```csharp
+builder.Services
+    .AddConfigR(options =>
+    {
+        options.CacheDuration = TimeSpan.Zero;  // Sem cache
+    })
+    .UseSqlServer(connectionString);
+```
 
 ### P: Posso usar Scopes?
 

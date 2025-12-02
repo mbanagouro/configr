@@ -181,7 +181,7 @@ dotnet add package ConfigR.Core
 Inclui:
 - `IConfigR` interface
 - DI extensions
-- Cache em memória
+- Cache em memória com duração configurável
 - Serializadores padrão
 
 ### Providers
@@ -217,7 +217,8 @@ Configurações do ConfigR core:
 ```csharp
 builder.Services.AddConfigR(options =>
 {
-    options.CacheDuration = TimeSpan.FromMinutes(5);
+    options.CacheDuration = TimeSpan.FromMinutes(10);
+    options.DefaultScope = () => "Default";
     options.JsonSerializerOptions = new JsonSerializerOptions 
     { 
         PropertyNameCaseInsensitive = true 
@@ -226,8 +227,88 @@ builder.Services.AddConfigR(options =>
 ```
 
 **Propriedades:**
-- `CacheDuration` - Duração do cache em memória (padrão: 5 minutos)
-- `JsonSerializerOptions` - Opções de serialização JSON
+
+| Propriedade | Tipo | Padrão | Descrição |
+|---|---|---|---|
+| `CacheDuration` | `TimeSpan?` | `TimeSpan.FromMinutes(10)` | Duração do cache em memória. `null` ou `TimeSpan.Zero` desabilita o cache. |
+| `DefaultScope` | `Func<string>` | `() => "Default"` | Função que retorna o escopo padrão para configurações. |
+| `JsonSerializerOptions` | `JsonSerializerOptions` | Padrão do .NET | Opções de serialização JSON customizadas. |
+
+**Exemplos:**
+
+```csharp
+// Cache curto (1 minuto)
+builder.Services.AddConfigR(options =>
+{
+    options.CacheDuration = TimeSpan.FromMinutes(1);
+});
+
+// Cache longo (1 hora)
+builder.Services.AddConfigR(options =>
+{
+    options.CacheDuration = TimeSpan.FromHours(1);
+});
+
+// Sem cache (sempre fresco do banco)
+builder.Services.AddConfigR(options =>
+{
+    options.CacheDuration = TimeSpan.Zero;
+});
+
+// Customizar escopo padrão
+builder.Services.AddConfigR(options =>
+{
+    options.DefaultScope = () => Environment.GetEnvironmentVariable("TENANT_ID") ?? "Default";
+});
+ ```
+
+---
+
+## 💾 Interface de Cache - `IConfigCache`
+
+Interface para implementação customizada de cache.
+
+### TryGetAll
+
+```csharp
+bool TryGetAll(string scope, out IReadOnlyDictionary<string, ConfigEntry> entries, TimeSpan? cacheDuration = null);
+```
+
+**Parâmetros:**
+- `scope` - Chave do escopo
+- `entries` - Saída com as entradas em cache
+- `cacheDuration` - Duração configurada para validação de expiração
+
+**Retorno:**
+- `true` se encontrado em cache e não expirado
+- `false` se não encontrado ou expirado
+
+### SetAll
+
+```csharp
+void SetAll(string scope, IReadOnlyDictionary<string, ConfigEntry> entries, TimeSpan? cacheDuration = null);
+```
+
+**Parâmetros:**
+- `scope` - Chave do escopo
+- `entries` - Entradas a cachear
+- `cacheDuration` - Duração do cache. Se `null` ou `TimeSpan.Zero`, não caches.
+
+### Clear
+
+```csharp
+void Clear(string scope);
+```
+
+Limpa cache de um escopo específico.
+
+### ClearAll
+
+```csharp
+void ClearAll();
+```
+
+Limpa todo o cache.
 
 ---
 
@@ -299,6 +380,7 @@ builder.Services
     .AddConfigR(options =>
     {
         options.CacheDuration = TimeSpan.FromMinutes(10);
+        options.DefaultScope = () => "Global";
     })
     .UseSqlServer(builder.Configuration.GetConnectionString("ConfigR"));
 
@@ -314,14 +396,14 @@ public class AppService
 
     public async Task Run()
     {
-        // Ler
+        // Ler (usa cache se disponível)
         var config = await _configR.GetAsync<AppConfig>();
         Console.WriteLine($"Feature: {config.Feature}");
 
         // Modificar
         config.Timeout = 60;
 
-        // Salvar
+        // Salvar (invalida cache)
         await _configR.SaveAsync(config);
     }
 }
@@ -333,4 +415,5 @@ public class AppService
 
 - 📖 [Voltar para Documentação](../index.md)
 - 🚀 [Início Rápido](../getting-started.md)
+- ⏱️ [Entenda o Cache](../advanced/caching.md)
 - 🧪 [Testes](../testing.md)
