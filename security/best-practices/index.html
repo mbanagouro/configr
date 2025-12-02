@@ -1,0 +1,1844 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Configuração tipada em runtime para aplicações .NET modernas">
+      
+      
+      
+        <link rel="canonical" href="https://mbanagouro.github.io/configr/security/best-practices/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Guia de Boas Práticas de Segurança - ConfigR - ConfigR Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#guia-de-boas-praticas-de-seguranca-configr" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href="../.." title="ConfigR Documentation" class="md-header__button md-logo" aria-label="ConfigR Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ConfigR Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Guia de Boas Práticas de Segurança - ConfigR
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="indigo"  aria-label="Modo Claro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Modo Claro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="indigo"  aria-label="Modo Escuro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Modo Escuro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Compartilhar" aria-label="Compartilhar" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/mbanagouro/configr" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mbanagouro/configr
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="ConfigR Documentation" class="md-nav__button md-logo" aria-label="ConfigR Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    ConfigR Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/mbanagouro/configr" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mbanagouro/configr
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🏠 Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Guia Rápido
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    📚 Guia Rápido
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ⚡ Iniciando
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🔧 Configuração
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🗄️ Storage Providers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🗄️ Storage Providers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../storage/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📌 Visão Geral
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../storage/sql-server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL Server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../storage/mysql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MySQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../storage/npgsql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PostgreSQL (Npgsql)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../storage/mongodb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MongoDB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../storage/redis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Redis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../storage/ravendb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RavenDB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🎯 Conceitos Avançados
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🎯 Conceitos Avançados
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/scopes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🧱 Scopes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/caching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ⚡ Cache
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/extensibility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🔧 Extensibilidade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🧪 Testes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📖 Referência da API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../FAQ/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ❓ FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CONTRIBUTING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🤝 Contribuir
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🌐 Links
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🌐 Links
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/mbanagouro/configr" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GitHub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://youtube.com/@aspnetpro" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    YouTube
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#o-que-nunca-fazer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        O QUE NUNCA FAZER
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="O QUE NUNCA FAZER">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-armazenar-senhas-ou-secrets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Armazenar Senhas ou Secrets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-expor-apis-de-configuracao-sem-autenticacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Expor APIs de Configuração Sem Autenticação
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-usar-connection-strings-com-senhas-hardcoded" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Usar Connection Strings com Senhas Hardcoded
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-armazenar-pii-dados-pessoais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Armazenar PII (Dados Pessoais)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#o-que-sempre-fazer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        O QUE SEMPRE FAZER
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="O QUE SEMPRE FAZER">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-validar-todas-as-entradas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Validar Todas as Entradas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-implementar-audit-logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Implementar Audit Logging
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-usar-tlsssl-para-conexoes-de-banco" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Usar TLS/SSL para Conexões de Banco
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-implementar-rate-limiting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Implementar Rate Limiting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-principio-do-menor-privilegio-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Princípio do Menor Privilégio (Database)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-monitoramento-e-alertas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Monitoramento e Alertas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuracoes-de-seguranca-por-ambiente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configurações de Segurança por Ambiente
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configurações de Segurança por Ambiente">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#desenvolvimento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Desenvolvimento
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#staging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Staging
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#producao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Produção
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testes-de-seguranca" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testes de Segurança
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checklist-de-seguranca" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checklist de Segurança
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resposta-a-incidentes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resposta a Incidentes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Resposta a Incidentes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#se-suspeitar-de-comprometimento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Se suspeitar de comprometimento:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recursos-adicionais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recursos Adicionais
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contato-de-seguranca" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contato de Segurança
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="guia-de-boas-praticas-de-seguranca-configr">Guia de Boas Práticas de Segurança - ConfigR<a class="headerlink" href="#guia-de-boas-praticas-de-seguranca-configr" title="Permanent link">&para;</a></h1>
+<p>Este documento fornece orientações essenciais para uso seguro do ConfigR em ambientes de produção.</p>
+<hr />
+<h2 id="o-que-nunca-fazer">O QUE NUNCA FAZER<a class="headerlink" href="#o-que-nunca-fazer" title="Permanent link">&para;</a></h2>
+<h3 id="1-armazenar-senhas-ou-secrets">1. Armazenar Senhas ou Secrets<a class="headerlink" href="#1-armazenar-senhas-ou-secrets" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// NUNCA FAÇA ISSO</span>
+<span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">DatabaseConfig</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">ConnectionString</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">AdminPassword</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w">  </span><span class="c1">// NUNCA!</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">ApiKey</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w">          </span><span class="c1">// NUNCA!</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Por quê?</strong>
+- ConfigR não criptografa dados por padrão
+- Dados ficam em texto plano no banco
+- Violação de compliance (PCI-DSS, SOC 2, ISO 27001)</p>
+<p><strong>Use em vez disso:</strong>
+<div class="highlight"><pre><span></span><code><span class="c1">// Azure Key Vault</span>
+<span class="n">builder</span><span class="p">.</span><span class="n">Configuration</span><span class="p">.</span><span class="n">AddAzureKeyVault</span><span class="p">(</span>
+<span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="nf">Uri</span><span class="p">(</span><span class="s">&quot;https://myvault.vault.azure.net/&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="nf">DefaultAzureCredential</span><span class="p">());</span>
+
+<span class="kt">var</span><span class="w"> </span><span class="n">apiKey</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">builder</span><span class="p">.</span><span class="n">Configuration</span><span class="p">[</span><span class="s">&quot;ApiKey&quot;</span><span class="p">];</span><span class="w"> </span><span class="c1">// Do Key Vault</span>
+
+<span class="c1">// AWS Secrets Manager</span>
+<span class="n">builder</span><span class="p">.</span><span class="n">Configuration</span><span class="p">.</span><span class="n">AddSecretsManager</span><span class="p">();</span>
+
+<span class="c1">// HashiCorp Vault</span>
+<span class="n">builder</span><span class="p">.</span><span class="n">Configuration</span><span class="p">.</span><span class="n">AddVaultConfiguration</span><span class="p">(...);</span>
+</code></pre></div></p>
+<h3 id="2-expor-apis-de-configuracao-sem-autenticacao">2. Expor APIs de Configuração Sem Autenticação<a class="headerlink" href="#2-expor-apis-de-configuracao-sem-autenticacao" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// PERIGOSO - Qualquer um pode modificar</span>
+<span class="na">[HttpPost(&quot;config&quot;)]</span>
+<span class="na">[AllowAnonymous]</span><span class="w">  </span><span class="c1">// NUNCA!</span>
+<span class="k">public</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="n">Task</span><span class="w"> </span><span class="nf">UpdateConfig</span><span class="p">([</span><span class="n">FromBody</span><span class="p">]</span><span class="w"> </span><span class="n">MyConfig</span><span class="w"> </span><span class="n">config</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="n">_configR</span><span class="p">.</span><span class="n">SaveAsync</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Use autenticação forte:</strong>
+<div class="highlight"><pre><span></span><code><span class="na">[HttpPost(&quot;config&quot;)]</span>
+<span class="na">[Authorize(Policy = &quot;AdminOnly&quot;)]</span>
+<span class="na">[RequireHttps]</span>
+<span class="k">public</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="n">Task</span><span class="w"> </span><span class="nf">UpdateConfig</span><span class="p">([</span><span class="n">FromBody</span><span class="p">]</span><span class="w"> </span><span class="n">MyConfig</span><span class="w"> </span><span class="n">config</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="c1">// Log de auditoria</span>
+<span class="w">    </span><span class="n">_logger</span><span class="p">.</span><span class="n">LogWarning</span><span class="p">(</span>
+<span class="w">        </span><span class="s">&quot;Config {Type} modified by {User} from {IP}&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="k">typeof</span><span class="p">(</span><span class="n">MyConfig</span><span class="p">).</span><span class="n">Name</span><span class="p">,</span>
+<span class="w">        </span><span class="n">User</span><span class="p">.</span><span class="n">Identity</span><span class="o">?.</span><span class="n">Name</span><span class="p">,</span>
+<span class="w">        </span><span class="n">HttpContext</span><span class="p">.</span><span class="n">Connection</span><span class="p">.</span><span class="n">RemoteIpAddress</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="n">_configR</span><span class="p">.</span><span class="n">SaveAsync</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h3 id="3-usar-connection-strings-com-senhas-hardcoded">3. Usar Connection Strings com Senhas Hardcoded<a class="headerlink" href="#3-usar-connection-strings-com-senhas-hardcoded" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// NÃO FAZER</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;ConnectionStrings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;ConfigR&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Server=prod.db.com;User=admin;Password=Pass123!;&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Use User Secrets (Desenvolvimento):</strong>
+<div class="highlight"><pre><span></span><code>dotnet<span class="w"> </span>user-secrets<span class="w"> </span>init
+dotnet<span class="w"> </span>user-secrets<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="s2">&quot;ConnectionStrings:ConfigR&quot;</span><span class="w"> </span><span class="s2">&quot;Server=localhost;...&quot;</span>
+</code></pre></div></p>
+<p><strong>Use Variáveis de Ambiente (Produção):</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># Linux/Docker</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">ConnectionStrings__ConfigR</span><span class="o">=</span><span class="s2">&quot;Server=prod;...&quot;</span>
+
+<span class="c1"># Azure App Service</span>
+<span class="c1"># Configure em Application Settings</span>
+</code></pre></div></p>
+<p><strong>Use Managed Identity:</strong>
+<div class="highlight"><pre><span></span><code><span class="c1">// Azure SQL com Managed Identity</span>
+<span class="s">&quot;Server=myserver.database.windows.net;Authentication=Active Directory Default;Database=configr;&quot;</span>
+
+<span class="c1">// AWS RDS com IAM</span>
+<span class="s">&quot;Server=mydb.region.rds.amazonaws.com;Integrated Security=true;...&quot;</span>
+</code></pre></div></p>
+<h3 id="4-armazenar-pii-dados-pessoais">4. Armazenar PII (Dados Pessoais)<a class="headerlink" href="#4-armazenar-pii-dados-pessoais" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// VIOLAÇÃO DE LGPD/GDPR</span>
+<span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">UserConfig</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">CPF</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w">           </span><span class="c1">// NUNCA!</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">Email</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w">          </span><span class="c1">// NUNCA!</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">Address</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w">        </span><span class="c1">// NUNCA!</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Por quê?</strong>
+- ConfigR não tem recursos de anonimização
+- Violação de LGPD/GDPR
+- Não tem auditoria de acesso a PII</p>
+<p><strong>Use sistemas apropriados:</strong>
+- Customer Data Platforms (CDPs)
+- Bancos de dados com criptografia em campo
+- Sistemas com consent management</p>
+<hr />
+<h2 id="o-que-sempre-fazer">O QUE SEMPRE FAZER<a class="headerlink" href="#o-que-sempre-fazer" title="Permanent link">&para;</a></h2>
+<h3 id="1-validar-todas-as-entradas">1. Validar Todas as Entradas<a class="headerlink" href="#1-validar-todas-as-entradas" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">System.ComponentModel.DataAnnotations</span><span class="p">;</span>
+
+<span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">CheckoutConfig</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="na">[Range(1, 1000, ErrorMessage = &quot;MaxItems must be between 1 and 1000&quot;)]</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">MaxItems</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span>
+
+<span class="w">    </span><span class="na">[StringLength(500, ErrorMessage = &quot;Description too long&quot;)]</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">Description</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">string</span><span class="p">.</span><span class="n">Empty</span><span class="p">;</span>
+
+<span class="w">    </span><span class="na">[RegularExpression(@&quot;^[a-zA-Z0-9\s]</span><span class="o">+</span><span class="s">$&quot;, ErrorMessage = &quot;</span><span class="n">Invalid</span><span class="w"> </span><span class="n">characters</span><span class="s">&quot;)]</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">Feature</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;enabled&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Validar antes de salvar</span>
+<span class="na">[HttpPost(&quot;config&quot;)]</span>
+<span class="k">public</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="n">Task</span><span class="o">&lt;</span><span class="n">IActionResult</span><span class="o">&gt;</span><span class="w"> </span><span class="n">UpdateConfig</span><span class="p">([</span><span class="n">FromBody</span><span class="p">]</span><span class="w"> </span><span class="n">CheckoutConfig</span><span class="w"> </span><span class="n">config</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">ModelState</span><span class="p">.</span><span class="n">IsValid</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nf">BadRequest</span><span class="p">(</span><span class="n">ModelState</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="n">_configR</span><span class="p">.</span><span class="n">SaveAsync</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nf">Ok</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="2-implementar-audit-logging">2. Implementar Audit Logging<a class="headerlink" href="#2-implementar-audit-logging" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">AuditConfigR</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">IConfigR</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">readonly</span><span class="w"> </span><span class="n">IConfigR</span><span class="w"> </span><span class="n">_inner</span><span class="p">;</span>
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">readonly</span><span class="w"> </span><span class="n">ILogger</span><span class="o">&lt;</span><span class="n">AuditConfigR</span><span class="o">&gt;</span><span class="w"> </span><span class="n">_logger</span><span class="p">;</span>
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">readonly</span><span class="w"> </span><span class="n">IHttpContextAccessor</span><span class="w"> </span><span class="n">_httpContext</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="n">Task</span><span class="w"> </span><span class="n">SaveAsync</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">config</span><span class="p">)</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="k">new</span><span class="p">()</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_httpContext</span><span class="p">.</span><span class="n">HttpContext</span><span class="o">?.</span><span class="n">User</span><span class="p">.</span><span class="n">Identity</span><span class="o">?.</span><span class="n">Name</span><span class="w"> </span><span class="o">??</span><span class="w"> </span><span class="s">&quot;Anonymous&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">ip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_httpContext</span><span class="p">.</span><span class="n">HttpContext</span><span class="o">?.</span><span class="n">Connection</span><span class="p">.</span><span class="n">RemoteIpAddress</span><span class="o">?.</span><span class="n">ToString</span><span class="p">()</span><span class="w"> </span><span class="o">??</span><span class="w"> </span><span class="s">&quot;Unknown&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">typeof</span><span class="p">(</span><span class="n">T</span><span class="p">).</span><span class="n">Name</span><span class="p">;</span>
+
+<span class="w">        </span><span class="n">_logger</span><span class="p">.</span><span class="n">LogWarning</span><span class="p">(</span>
+<span class="w">            </span><span class="s">&quot;AUDIT: Config {ConfigType} modified by user {User} from IP {IP} at {Timestamp}&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="n">user</span><span class="p">,</span><span class="w"> </span><span class="n">ip</span><span class="p">,</span><span class="w"> </span><span class="n">DateTime</span><span class="p">.</span><span class="n">UtcNow</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">await</span><span class="w"> </span><span class="n">_inner</span><span class="p">.</span><span class="n">SaveAsync</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">_logger</span><span class="p">.</span><span class="n">LogInformation</span><span class="p">(</span><span class="s">&quot;AUDIT: Config {ConfigType} saved successfully&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">Task</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">GetAsync</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="k">new</span><span class="p">()</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_httpContext</span><span class="p">.</span><span class="n">HttpContext</span><span class="o">?.</span><span class="n">User</span><span class="p">.</span><span class="n">Identity</span><span class="o">?.</span><span class="n">Name</span><span class="w"> </span><span class="o">??</span><span class="w"> </span><span class="s">&quot;Anonymous&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="n">_logger</span><span class="p">.</span><span class="n">LogInformation</span><span class="p">(</span><span class="s">&quot;AUDIT: Config {ConfigType} accessed by {User}&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">typeof</span><span class="p">(</span><span class="n">T</span><span class="p">).</span><span class="n">Name</span><span class="p">,</span><span class="w"> </span><span class="n">user</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">_inner</span><span class="p">.</span><span class="n">GetAsync</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Registrar</span>
+<span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="n">AddSingleton</span><span class="o">&lt;</span><span class="n">IConfigR</span><span class="p">,</span><span class="w"> </span><span class="n">AuditConfigR</span><span class="o">&gt;</span><span class="p">();</span>
+</code></pre></div>
+<h3 id="3-usar-tlsssl-para-conexoes-de-banco">3. Usar TLS/SSL para Conexões de Banco<a class="headerlink" href="#3-usar-tlsssl-para-conexoes-de-banco" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// SQL Server</span>
+<span class="s">&quot;Server=prod.db.com;Database=configr;Encrypt=True;TrustServerCertificate=False;...&quot;</span>
+
+<span class="c1">// MySQL</span>
+<span class="s">&quot;Server=prod.db.com;Database=configr;SslMode=Required;SslCa=/path/to/ca.pem;...&quot;</span>
+
+<span class="c1">// PostgreSQL</span>
+<span class="s">&quot;Host=prod.db.com;Database=configr;SSL Mode=Require;Trust Server Certificate=false;...&quot;</span>
+
+<span class="c1">// MongoDB</span>
+<span class="s">&quot;mongodb://prod.db.com:27017/configr?ssl=true&amp;tlsAllowInvalidCertificates=false&quot;</span>
+
+<span class="c1">// Redis</span>
+<span class="s">&quot;prod.redis.com:6380,ssl=true,password=...&quot;</span>
+</code></pre></div>
+<h3 id="4-implementar-rate-limiting">4. Implementar Rate Limiting<a class="headerlink" href="#4-implementar-rate-limiting" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">Microsoft.AspNetCore.RateLimiting</span><span class="p">;</span>
+
+<span class="c1">// Program.cs</span>
+<span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="n">AddRateLimiter</span><span class="p">(</span><span class="n">options</span><span class="w"> </span><span class="o">=&gt;</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">options</span><span class="p">.</span><span class="n">AddFixedWindowLimiter</span><span class="p">(</span><span class="s">&quot;config-api&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">opt</span><span class="w"> </span><span class="o">=&gt;</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">opt</span><span class="p">.</span><span class="n">Window</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TimeSpan</span><span class="p">.</span><span class="n">FromMinutes</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="w">        </span><span class="n">opt</span><span class="p">.</span><span class="n">PermitLimit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+<span class="w">        </span><span class="n">opt</span><span class="p">.</span><span class="n">QueueLimit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="p">});</span>
+
+<span class="w">    </span><span class="n">options</span><span class="p">.</span><span class="n">OnRejected</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">(</span><span class="n">context</span><span class="p">,</span><span class="w"> </span><span class="n">token</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">context</span><span class="p">.</span><span class="n">HttpContext</span><span class="p">.</span><span class="n">Response</span><span class="p">.</span><span class="n">StatusCode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">429</span><span class="p">;</span>
+<span class="w">        </span><span class="k">await</span><span class="w"> </span><span class="n">context</span><span class="p">.</span><span class="n">HttpContext</span><span class="p">.</span><span class="n">Response</span><span class="p">.</span><span class="n">WriteAsync</span><span class="p">(</span><span class="s">&quot;Rate limit exceeded&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">token</span><span class="p">);</span>
+<span class="w">    </span><span class="p">};</span>
+<span class="p">});</span>
+
+<span class="c1">// Controller</span>
+<span class="na">[EnableRateLimiting(&quot;config-api&quot;)]</span>
+<span class="na">[HttpPost(&quot;config&quot;)]</span>
+<span class="k">public</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="n">Task</span><span class="w"> </span><span class="nf">UpdateConfig</span><span class="p">([</span><span class="n">FromBody</span><span class="p">]</span><span class="w"> </span><span class="n">MyConfig</span><span class="w"> </span><span class="n">config</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<h3 id="5-principio-do-menor-privilegio-database">5. Princípio do Menor Privilégio (Database)<a class="headerlink" href="#5-principio-do-menor-privilegio-database" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1">-- SQL Server: Criar usuário com permissões mínimas</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="n">LOGIN</span><span class="w"> </span><span class="n">configr_app</span><span class="w"> </span><span class="k">WITH</span><span class="w"> </span><span class="n">PASSWORD</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;StrongPassword!123&#39;</span><span class="p">;</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="n">configr_app</span><span class="w"> </span><span class="k">FOR</span><span class="w"> </span><span class="n">LOGIN</span><span class="w"> </span><span class="n">configr_app</span><span class="p">;</span>
+
+<span class="c1">-- Apenas SELECT, INSERT, UPDATE na tabela ConfigR</span>
+<span class="k">GRANT</span><span class="w"> </span><span class="k">SELECT</span><span class="p">,</span><span class="w"> </span><span class="k">INSERT</span><span class="p">,</span><span class="w"> </span><span class="k">UPDATE</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">dbo</span><span class="p">.</span><span class="n">ConfigR</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="n">configr_app</span><span class="p">;</span>
+
+<span class="c1">-- Remover permissões perigosas</span>
+<span class="k">REVOKE</span><span class="w"> </span><span class="k">DELETE</span><span class="p">,</span><span class="w"> </span><span class="k">DROP</span><span class="p">,</span><span class="w"> </span><span class="k">ALTER</span><span class="p">,</span><span class="w"> </span><span class="k">CREATE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">configr_app</span><span class="p">;</span>
+<span class="n">DENY</span><span class="w"> </span><span class="n">CONTROL</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">DATABASE</span><span class="p">::</span><span class="n">configr</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="n">configr_app</span><span class="p">;</span>
+
+<span class="c1">-- MySQL</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="s1">&#39;configr_app&#39;</span><span class="o">@</span><span class="s1">&#39;%&#39;</span><span class="w"> </span><span class="n">IDENTIFIED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="s1">&#39;StrongPassword!123&#39;</span><span class="p">;</span>
+<span class="k">GRANT</span><span class="w"> </span><span class="k">SELECT</span><span class="p">,</span><span class="w"> </span><span class="k">INSERT</span><span class="p">,</span><span class="w"> </span><span class="k">UPDATE</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">configr</span><span class="p">.</span><span class="n">ConfigR</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="s1">&#39;configr_app&#39;</span><span class="o">@</span><span class="s1">&#39;%&#39;</span><span class="p">;</span>
+<span class="n">FLUSH</span><span class="w"> </span><span class="k">PRIVILEGES</span><span class="p">;</span>
+
+<span class="c1">-- PostgreSQL</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">ROLE</span><span class="w"> </span><span class="n">configr_app</span><span class="w"> </span><span class="k">WITH</span><span class="w"> </span><span class="n">LOGIN</span><span class="w"> </span><span class="n">PASSWORD</span><span class="w"> </span><span class="s1">&#39;StrongPassword!123&#39;</span><span class="p">;</span>
+<span class="k">GRANT</span><span class="w"> </span><span class="k">SELECT</span><span class="p">,</span><span class="w"> </span><span class="k">INSERT</span><span class="p">,</span><span class="w"> </span><span class="k">UPDATE</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">configr</span><span class="p">.</span><span class="n">configr</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="n">configr_app</span><span class="p">;</span>
+<span class="k">REVOKE</span><span class="w"> </span><span class="k">DELETE</span><span class="p">,</span><span class="w"> </span><span class="k">DROP</span><span class="p">,</span><span class="w"> </span><span class="k">TRUNCATE</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">configr</span><span class="p">.</span><span class="n">configr</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">configr_app</span><span class="p">;</span>
+</code></pre></div>
+<h3 id="6-monitoramento-e-alertas">6. Monitoramento e Alertas<a class="headerlink" href="#6-monitoramento-e-alertas" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// Application Insights</span>
+<span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="n">AddApplicationInsightsTelemetry</span><span class="p">();</span>
+
+<span class="c1">// Serilog com alertas</span>
+<span class="n">Log</span><span class="p">.</span><span class="n">Logger</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LoggerConfiguration</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="n">WriteTo</span><span class="p">.</span><span class="n">Console</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="n">WriteTo</span><span class="p">.</span><span class="n">ApplicationInsights</span><span class="p">(</span><span class="n">telemetryConfiguration</span><span class="p">,</span><span class="w"> </span><span class="n">TelemetryConverter</span><span class="p">.</span><span class="n">Traces</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">WriteTo</span><span class="p">.</span><span class="n">File</span><span class="p">(</span><span class="s">&quot;logs/configr-.txt&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">rollingInterval</span><span class="p">:</span><span class="w"> </span><span class="n">RollingInterval</span><span class="p">.</span><span class="n">Day</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">Enrich</span><span class="p">.</span><span class="n">WithProperty</span><span class="p">(</span><span class="s">&quot;Application&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ConfigR&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">CreateLogger</span><span class="p">();</span>
+
+<span class="c1">// Alert em modificações</span>
+<span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">AlertingConfigR</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">IConfigR</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">readonly</span><span class="w"> </span><span class="n">IConfigR</span><span class="w"> </span><span class="n">_inner</span><span class="p">;</span>
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">readonly</span><span class="w"> </span><span class="n">IAlertService</span><span class="w"> </span><span class="n">_alertService</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="n">Task</span><span class="w"> </span><span class="n">SaveAsync</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">config</span><span class="p">)</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="k">new</span><span class="p">()</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="k">await</span><span class="w"> </span><span class="n">_inner</span><span class="p">.</span><span class="n">SaveAsync</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">// Alertar time de segurança</span>
+<span class="w">        </span><span class="k">await</span><span class="w"> </span><span class="n">_alertService</span><span class="p">.</span><span class="n">SendAlertAsync</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Alert</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">Severity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AlertSeverity</span><span class="p">.</span><span class="n">Warning</span><span class="p">,</span>
+<span class="w">            </span><span class="n">Message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$&quot;Configuration {typeof(T).Name} was modified&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="n">Timestamp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DateTime</span><span class="p">.</span><span class="n">UtcNow</span>
+<span class="w">        </span><span class="p">});</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr />
+<h2 id="configuracoes-de-seguranca-por-ambiente">Configurações de Segurança por Ambiente<a class="headerlink" href="#configuracoes-de-seguranca-por-ambiente" title="Permanent link">&para;</a></h2>
+<h3 id="desenvolvimento">Desenvolvimento<a class="headerlink" href="#desenvolvimento" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// appsettings.Development.json</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="s">&quot;ConfigR&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;CacheDuration&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;00:00:30&quot;</span><span class="p">,</span><span class="w">  </span><span class="c1">// 30 segundos para teste</span>
+<span class="w">    </span><span class="s">&quot;EnableDetailedErrors&quot;</span><span class="p">:</span><span class="w"> </span><span class="k">true</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;EnableDebugLogs&quot;</span><span class="p">:</span><span class="w"> </span><span class="k">true</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="s">&quot;ConnectionStrings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;ConfigR&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Server=localhost;Integrated Security=true;TrustServerCertificate=true;&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="staging">Staging<a class="headerlink" href="#staging" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// appsettings.Staging.json</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="s">&quot;ConfigR&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;CacheDuration&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;00:05:00&quot;</span><span class="p">,</span><span class="w">  </span><span class="c1">// 5 minutos</span>
+<span class="w">    </span><span class="s">&quot;EnableDetailedErrors&quot;</span><span class="p">:</span><span class="w"> </span><span class="k">true</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;EnableDebugLogs&quot;</span><span class="p">:</span><span class="w"> </span><span class="k">false</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Use Azure Key Vault ou AWS Secrets Manager para connection string</span>
+</code></pre></div>
+<h3 id="producao">Produção<a class="headerlink" href="#producao" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// appsettings.Production.json</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="s">&quot;ConfigR&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;CacheDuration&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;00:10:00&quot;</span><span class="p">,</span><span class="w">  </span><span class="c1">// 10 minutos</span>
+<span class="w">    </span><span class="s">&quot;EnableDetailedErrors&quot;</span><span class="p">:</span><span class="w"> </span><span class="k">false</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;EnableDebugLogs&quot;</span><span class="p">:</span><span class="w"> </span><span class="k">false</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Todas as secrets em Key Vault/Secrets Manager</span>
+<span class="c1">// Managed Identity para autenticação</span>
+<span class="c1">// TLS obrigatório</span>
+<span class="c1">// Rate limiting ativo</span>
+<span class="c1">// Audit logging obrigatório</span>
+</code></pre></div>
+<hr />
+<h2 id="testes-de-seguranca">Testes de Segurança<a class="headerlink" href="#testes-de-seguranca" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">SecurityTests</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="na">[Fact]</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">Should_Reject_SQL_Injection_In_TableName</span><span class="p">()</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Arrange</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">maliciousName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;ConfigR&#39;; DROP TABLE Users; --&quot;</span><span class="p">;</span>
+
+<span class="w">        </span><span class="c1">// Act</span>
+<span class="w">        </span><span class="n">Action</span><span class="w"> </span><span class="n">act</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SqlServerConfigStore</span><span class="p">(</span><span class="n">Options</span><span class="p">.</span><span class="n">Create</span><span class="p">(</span>
+<span class="w">            </span><span class="k">new</span><span class="w"> </span><span class="n">SqlServerConfigStoreOptions</span><span class="w"> </span>
+<span class="w">            </span><span class="p">{</span><span class="w"> </span>
+<span class="w">                </span><span class="n">Table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">maliciousName</span><span class="w"> </span>
+<span class="w">            </span><span class="p">}));</span>
+
+<span class="w">        </span><span class="c1">// Assert</span>
+<span class="w">        </span><span class="n">act</span><span class="p">.</span><span class="n">Should</span><span class="p">().</span><span class="n">Throw</span><span class="o">&lt;</span><span class="n">ArgumentException</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="na">[Fact]</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="n">Task</span><span class="w"> </span><span class="nf">Should_Reject_Oversized_Values</span><span class="p">()</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Arrange</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">store</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CreateStore</span><span class="p">();</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">oversizedValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">string</span><span class="p">(</span><span class="sc">&#39;X&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">200</span><span class="n">_000_000</span><span class="p">);</span><span class="w"> </span><span class="c1">// 200MB</span>
+
+<span class="w">        </span><span class="c1">// Act</span>
+<span class="w">        </span><span class="n">Func</span><span class="o">&lt;</span><span class="n">Task</span><span class="o">&gt;</span><span class="w"> </span><span class="n">act</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="n">store</span><span class="p">.</span><span class="n">UpsertAsync</span><span class="p">(</span><span class="k">new</span><span class="p">[]</span><span class="w"> </span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span>
+<span class="w">            </span><span class="k">new</span><span class="w"> </span><span class="n">ConfigEntry</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;test&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">oversizedValue</span><span class="w"> </span><span class="p">}</span><span class="w"> </span>
+<span class="w">        </span><span class="p">});</span>
+
+<span class="w">        </span><span class="c1">// Assert</span>
+<span class="w">        </span><span class="k">await</span><span class="w"> </span><span class="n">act</span><span class="p">.</span><span class="n">Should</span><span class="p">().</span><span class="n">ThrowAsync</span><span class="o">&lt;</span><span class="n">ArgumentException</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr />
+<h2 id="checklist-de-seguranca">Checklist de Segurança<a class="headerlink" href="#checklist-de-seguranca" title="Permanent link">&para;</a></h2>
+<p>Antes de implantar em produção:</p>
+<ul>
+<li>[ ] Connection strings não têm senhas hardcoded</li>
+<li>[ ] TLS/SSL habilitado em todas as conexões</li>
+<li>[ ] Usuário de banco com permissões mínimas</li>
+<li>[ ] Autenticação obrigatória em endpoints de config</li>
+<li>[ ] Autorização baseada em roles (Admin, Operator, etc)</li>
+<li>[ ] Validação de entrada implementada</li>
+<li>[ ] Audit logging configurado</li>
+<li>[ ] Rate limiting ativo</li>
+<li>[ ] Monitoramento e alertas configurados</li>
+<li>[ ] Secrets em Key Vault/Secrets Manager</li>
+<li>[ ] Backups configurados</li>
+<li>[ ] Plano de resposta a incidentes documentado</li>
+<li>[ ] Testes de segurança automatizados</li>
+<li>[ ] Revisão de código focada em segurança</li>
+<li>[ ] Documentação de segurança atualizada</li>
+</ul>
+<hr />
+<h2 id="resposta-a-incidentes">Resposta a Incidentes<a class="headerlink" href="#resposta-a-incidentes" title="Permanent link">&para;</a></h2>
+<h3 id="se-suspeitar-de-comprometimento">Se suspeitar de comprometimento:<a class="headerlink" href="#se-suspeitar-de-comprometimento" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p><strong>Isolar Imediatamente</strong>
+   <div class="highlight"><pre><span></span><code><span class="c1"># Revogar acesso ao banco</span>
+REVOKE<span class="w"> </span>ALL<span class="w"> </span>PRIVILEGES<span class="w"> </span>ON<span class="w"> </span>configr.*<span class="w"> </span>FROM<span class="w"> </span><span class="s1">&#39;configr_app&#39;</span>@<span class="s1">&#39;%&#39;</span><span class="p">;</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Investigar</strong></p>
+</li>
+<li>Revisar audit logs</li>
+<li>Verificar configurações modificadas recentemente</li>
+<li>
+<p>Identificar acessos suspeitos</p>
+</li>
+<li>
+<p><strong>Remediar</strong></p>
+</li>
+<li>Rotacionar todas as credenciais</li>
+<li>Restaurar configurações de backup</li>
+<li>
+<p>Aplicar patches de segurança</p>
+</li>
+<li>
+<p><strong>Documentar</strong></p>
+</li>
+<li>Post-mortem</li>
+<li>Lições aprendidas</li>
+<li>Melhorias necessárias</li>
+</ol>
+<hr />
+<h2 id="recursos-adicionais">Recursos Adicionais<a class="headerlink" href="#recursos-adicionais" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://owasp.org/Top10/">OWASP Top 10</a></li>
+<li><a href="https://docs.microsoft.com/en-us/dotnet/standard/security/">.NET Security Best Practices</a></li>
+<li><a href="https://docs.microsoft.com/en-us/security/benchmark/azure/">Azure Security Baseline</a></li>
+<li><a href="https://www.cisecurity.org/cis-benchmarks/">CIS Benchmarks</a></li>
+</ul>
+<hr />
+<h2 id="contato-de-seguranca">Contato de Segurança<a class="headerlink" href="#contato-de-seguranca" title="Permanent link">&para;</a></h2>
+<p><strong>Email:</strong> michel@leanwork.com.br
+<strong>Security Advisories:</strong> https://github.com/mbanagouro/configr/security</p>
+<hr />
+<p><strong>Lembre-se:</strong> Segurança é um processo contínuo, não um produto final!</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar para o topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/mbanagouro" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://youtube.com/@aspnetpro" target="_blank" rel="noopener" title="youtube.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M549.7 124.1c-6.2-23.7-24.8-42.3-48.3-48.6C458.9 64 288.1 64 288.1 64S117.3 64 74.7 75.5c-23.5 6.3-42 24.9-48.3 48.6C15 167 15 256.4 15 256.4s0 89.4 11.4 132.3c6.3 23.6 24.8 41.5 48.3 47.8C117.3 448 288.1 448 288.1 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zM232.2 337.6V175.2l142.7 81.2z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "header.autohide", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.tabs.link", "toc.follow"], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

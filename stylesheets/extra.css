@@ -1,0 +1,103 @@
+/* ConfigR Custom Styles */
+
+/* Admonitions personalizadas */
+.admonition {
+    border-left: 4px solid;
+    border-radius: 2px;
+    padding: 12px 16px;
+    margin-bottom: 1.5em;
+}
+
+.admonition.warning {
+    border-color: #ff6b6b;
+    background-color: rgba(255, 107, 107, 0.1);
+}
+
+.admonition.tip {
+    border-color: #51cf66;
+    background-color: rgba(81, 207, 102, 0.1);
+}
+
+.admonition.note {
+    border-color: #4c8ff0;
+    background-color: rgba(76, 143, 240, 0.1);
+}
+
+/* Tabelas melhoradas */
+.md-typeset table {
+    border-collapse: collapse;
+}
+
+.md-typeset thead tr {
+    background-color: var(--md-default-bg-color);
+}
+
+.md-typeset tbody tr:nth-child(odd) {
+    background-color: var(--md-default-bg-color);
+}
+
+.md-typeset tbody tr:nth-child(even) {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Code blocks */
+.md-typeset code {
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-weight: 500;
+}
+
+.md-typeset pre {
+    border-radius: 4px;
+    padding: 1em;
+}
+
+/* Headers */
+.md-typeset h1 {
+    margin-top: 2em;
+    margin-bottom: 0.5em;
+}
+
+.md-typeset h2 {
+    margin-top: 1.5em;
+    margin-bottom: 0.3em;
+    border-bottom: 2px solid var(--md-accent-fg-color);
+    padding-bottom: 0.5em;
+}
+
+/* Links */
+.md-typeset a {
+    color: var(--md-accent-fg-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.md-typeset a:hover {
+    text-decoration: underline;
+}
+
+/* Badges e emojis */
+.md-typeset p code {
+    white-space: nowrap;
+}
+
+/* Cards customizados */
+.card {
+    border-left: 4px solid var(--md-accent-fg-color);
+    background-color: var(--md-code-bg-color);
+    padding: 1em;
+    border-radius: 4px;
+    margin-bottom: 1em;
+}
+
+/* Responsivo */
+@media (max-width: 600px) {
+    .md-typeset table {
+        font-size: 0.85em;
+    }
+    
+    .md-typeset code {
+        padding: 1px 4px;
+    }
+}
