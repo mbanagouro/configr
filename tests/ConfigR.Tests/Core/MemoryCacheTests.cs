@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using ConfigR.Abstractions;
 using ConfigR.Core;
 using FluentAssertions;
@@ -24,8 +23,8 @@ public sealed class MemoryCacheTests
             ["k2"] = new() { Key = "k2", Value = "v2" }
         };
 
-        cache.SetAll(scope1, entries1);
-        cache.SetAll(scope2, entries2);
+        cache.SetAll(scope1, entries1, TimeSpan.FromMinutes(10));
+        cache.SetAll(scope2, entries2, TimeSpan.FromMinutes(10));
 
         cache.TryGetAll(scope1, out var result1).Should().BeTrue();
         cache.TryGetAll(scope2, out var result2).Should().BeTrue();
@@ -43,7 +42,7 @@ public sealed class MemoryCacheTests
             ["k1"] = new() { Key = "k1", Value = "v1" }
         };
 
-        cache.SetAll("scope", entries);
+        cache.SetAll("scope", entries, TimeSpan.FromMinutes(10));
         cache.Clear("scope");
 
         cache.TryGetAll("scope", out _).Should().BeFalse();
@@ -58,11 +57,73 @@ public sealed class MemoryCacheTests
             ["k1"] = new() { Key = "k1", Value = "v1" }
         };
 
-        cache.SetAll("s1", entries);
-        cache.SetAll("s2", entries);
+        cache.SetAll("s1", entries, TimeSpan.FromMinutes(10));
+        cache.SetAll("s2", entries, TimeSpan.FromMinutes(10));
         cache.ClearAll();
 
         cache.TryGetAll("s1", out _).Should().BeFalse();
         cache.TryGetAll("s2", out _).Should().BeFalse();
+    }
+
+    [Fact]
+    public void Cache_WithNullDuration_DoesNotCache()
+    {
+        var cache = new MemoryConfigCache();
+        var entries = new Dictionary<string, ConfigEntry>
+        {
+            ["k1"] = new() { Key = "k1", Value = "v1" }
+        };
+
+        cache.SetAll("scope", entries, cacheDuration: null);
+
+        cache.TryGetAll("scope", out _).Should().BeFalse();
+    }
+
+    [Fact]
+    public void Cache_WithZeroDuration_DoesNotCache()
+    {
+        var cache = new MemoryConfigCache();
+        var entries = new Dictionary<string, ConfigEntry>
+        {
+            ["k1"] = new() { Key = "k1", Value = "v1" }
+        };
+
+        cache.SetAll("scope", entries, TimeSpan.Zero);
+
+        cache.TryGetAll("scope", out _).Should().BeFalse();
+    }
+
+    [Fact]
+    public async Task Cache_ExpiredEntry_ReturnsNotFound()
+    {
+        var cache = new MemoryConfigCache();
+        var entries = new Dictionary<string, ConfigEntry>
+        {
+            ["k1"] = new() { Key = "k1", Value = "v1" }
+        };
+
+        // Cache com duração muito curta
+        cache.SetAll("scope", entries, TimeSpan.FromMilliseconds(50));
+
+        // Aguarda expirar
+        await Task.Delay(100);
+
+        cache.TryGetAll("scope", out _).Should().BeFalse();
+    }
+
+    [Fact]
+    public void Cache_NotExpiredEntry_ReturnsFound()
+    {
+        var cache = new MemoryConfigCache();
+        var entries = new Dictionary<string, ConfigEntry>
+        {
+            ["k1"] = new() { Key = "k1", Value = "v1" }
+        };
+
+        cache.SetAll("scope", entries, TimeSpan.FromMinutes(10));
+
+        cache.TryGetAll("scope", out var result).Should().BeTrue();
+        result.Should().ContainKey("k1");
+        result["k1"].Value.Should().Be("v1");
     }
 }

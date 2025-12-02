@@ -1,7 +1,5 @@
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using ConfigR.Abstractions;
+using System.Collections.Concurrent;
 
 namespace ConfigR.Core;
 
@@ -26,17 +24,11 @@ public sealed class MemoryConfigCache : IConfigCache
     /// </summary>
     /// <param name="scope">The scope key.</param>
     /// <param name="entries">The cached configuration entries if found.</param>
-    /// <param name="cacheDuration">The duration the cache should be valid for. If null or zero, cache is not used.</param>
     /// <returns>True if the entries were found in the cache and are not expired; otherwise, false.</returns>
-    public bool TryGetAll(string scope, out IReadOnlyDictionary<string, ConfigEntry> entries, TimeSpan? cacheDuration = null)
+    public bool TryGetAll(string scope, out IReadOnlyDictionary<string, ConfigEntry> entries)
     {
         scope ??= string.Empty;
         entries = null!;
-
-        if (cacheDuration == null || cacheDuration == TimeSpan.Zero)
-        {
-            return false;
-        }
 
         if (!_cache.TryGetValue(scope, out var cacheEntry))
         {

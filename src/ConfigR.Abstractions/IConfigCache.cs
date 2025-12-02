@@ -10,9 +10,8 @@ public interface IConfigCache
     /// </summary>
     /// <param name="scope">The scope key.</param>
     /// <param name="entries">The cached configuration entries if found.</param>
-    /// <param name="cacheDuration">The duration the cache should be valid for. If null or zero, cache is not used.</param>
-    /// <returns>True if the entries were found in the cache; otherwise, false.</returns>
-    bool TryGetAll(string scope, out IReadOnlyDictionary<string, ConfigEntry> entries, TimeSpan? cacheDuration = null);
+    /// <returns>True if the entries were found in the cache and are not expired; otherwise, false.</returns>
+    bool TryGetAll(string scope, out IReadOnlyDictionary<string, ConfigEntry> entries);
 
     /// <summary>
     /// Caches all configuration entries for a given scope.

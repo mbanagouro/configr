@@ -294,20 +294,27 @@ Interface para implementação customizada de cache.
 
 ### TryGetAll
 
+Tenta recuperar todas as entradas de cache para um escopo.
+
 ```csharp
-bool TryGetAll(string scope, out IReadOnlyDictionary<string, ConfigEntry> entries, TimeSpan? cacheDuration = null);
+bool TryGetAll(string scope, out IReadOnlyDictionary<string, ConfigEntry> entries);
 ```
 
 **Parâmetros:**
 - `scope` - Chave do escopo
 - `entries` - Saída com as entradas em cache
-- `cacheDuration` - Duração configurada para validação de expiração
 
 **Retorno:**
 - `true` se encontrado em cache e não expirado
 - `false` se não encontrado ou expirado
 
+**Comportamento:**
+- Verifica automaticamente a expiração baseada na duração definida em `SetAll`
+- Remove automaticamente entradas expiradas do cache
+
 ### SetAll
+
+Armazena todas as entradas de configuração para um escopo no cache.
 
 ```csharp
 void SetAll(string scope, IReadOnlyDictionary<string, ConfigEntry> entries, TimeSpan? cacheDuration = null);
@@ -316,23 +323,40 @@ void SetAll(string scope, IReadOnlyDictionary<string, ConfigEntry> entries, Time
 **Parâmetros:**
 - `scope` - Chave do escopo
 - `entries` - Entradas a cachear
-- `cacheDuration` - Duração do cache. Se `null` ou `TimeSpan.Zero`, não caches.
+- `cacheDuration` - Duração do cache. Se `null` ou `TimeSpan.Zero`, não armazena no cache.
+
+**Comportamento:**
+- Define o tempo de expiração baseado em `cacheDuration`
+- Se `cacheDuration` for `null` ou `TimeSpan.Zero`, o cache é desabilitado para essa entrada
 
 ### Clear
+
+Limpa cache de um escopo específico.
 
 ```csharp
 void Clear(string scope);
 ```
 
-Limpa cache de um escopo específico.
+**Uso:**
+```csharp
+// Invalida cache após salvar
+await configR.SaveAsync(config);
+_cache.Clear(scopeKey); // Chamado automaticamente
+```
 
 ### ClearAll
+
+Limpa todo o cache.
 
 ```csharp
 void ClearAll();
 ```
 
-Limpa todo o cache.
+**Uso:**
+```csharp
+// Útil em cenários de teste ou reset completo
+_cache.ClearAll();
+```
 
 ---
 

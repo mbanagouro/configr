@@ -58,7 +58,7 @@ public sealed class DefaultConfigR : IConfigR
         var scopeKey = GetScopeKey(scope);
         var cacheDuration = _options.Value.CacheDuration;
 
-        if (!_cache.TryGetAll(scopeKey, out var entries, cacheDuration))
+        if (!_cache.TryGetAll(scopeKey, out var entries))
         {
             var loaded = await _store.GetAllAsync(scope).ConfigureAwait(false)
                          ?? new Dictionary<string, ConfigEntry>(StringComparer.OrdinalIgnoreCase);
