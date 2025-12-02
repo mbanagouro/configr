@@ -1,90 +1,90 @@
-# DocumentaÁ„o de SeguranÁa - ConfigR
+# Documenta√ß√£o de Seguran√ßa - ConfigR
 
-Esta pasta contÈm toda a documentaÁ„o relacionada ‡ seguranÁa do projeto ConfigR.
-
+Esta pasta cont√©m toda a documenta√ß√£o relacionada √† seguran√ßa do projeto ConfigR.
+ 
 ---
 
-## Documentos DisponÌveis
+## Documentos Dispon√≠veis
 
 ### 1. [SECURITY.md](../../SECURITY.md)
-**PolÌtica Oficial de SeguranÁa**
+**Pol√≠tica Oficial de Seguran√ßa**
 - Como reportar vulnerabilidades
-- Versıes suportadas
+- Vers√µes suportadas
 - Processo de disclosure
-- Melhores pr·ticas de uso
-- ConfiguraÁıes seguras por provider
-- Checklist de seguranÁa
+- Melhores pr√°ticas de uso
+- Configura√ß√µes seguras por provider
+- Checklist de seguran√ßa
 
-**Para:** Todos os usu·rios e contribuidores
+**Para:** Todos os usu√°rios e contribuidores
 
 ---
 
 ### 2. [SECURITY_AUDIT_REPORT.md](../../SECURITY_AUDIT_REPORT.md)
-**RelatÛrio TÈcnico de Auditoria**
+**Relat√≥rio T√©cnico de Auditoria**
 - Vulnerabilidades identificadas (6 categorias)
-- An·lise de severidade (CrÌtica a Baixa)
-- CÛdigo vulner·vel vs corrigido
-- Plano de aÁ„o priorizado
-- MÈtricas e estatÌsticas
-- ReferÍncias tÈcnicas
+- An√°lise de severidade (Cr√≠tica a Baixa)
+- C√≥digo vulner√°vel vs corrigido
+- Plano de a√ß√£o priorizado
+- M√©tricas e estat√≠sticas
+- Refer√™ncias t√©cnicas
 
-**Para:** Equipe de desenvolvimento e seguranÁa
+**Para:** Equipe de desenvolvimento e seguran√ßa
 
 ---
 
 ### 3. [SECURITY_FIXES_SUMMARY.md](../../SECURITY_FIXES_SUMMARY.md)
-**Resumo das CorreÁıes Implementadas**
-- Lista de todas as correÁıes
-- CÛdigo antes vs depois
+**Resumo das Corre√ß√µes Implementadas**
+- Lista de todas as corre√ß√µes
+- C√≥digo antes vs depois
 - Testes implementados
 - Status de cada provider
-- MÈtricas de melhoria
+- M√©tricas de melhoria
 
 **Para:** Desenvolvedores e auditores
 
 ---
 
 ### 4. [SECURITY_IMPLEMENTATION_GUIDE.md](../../SECURITY_IMPLEMENTATION_GUIDE.md)
-**Guia Pr·tico de ImplementaÁ„o**
-- Como testar as correÁıes
+**Guia Pr√°tico de Implementa√ß√£o**
+- Como testar as corre√ß√µes
 - Arquivos modificados
-- PrÛximos passos
-- Como verificar validaÁıes
+- Pr√≥ximos passos
+- Como verificar valida√ß√µes
 - Troubleshooting
 
-**Para:** Desenvolvedores implementando ou revisando cÛdigo
+**Para:** Desenvolvedores implementando ou revisando c√≥digo
 
 ---
 
 ### 5. [SECURITY_CHANGELOG.md](../../SECURITY_CHANGELOG.md)
-**Changelog TÈcnico de SeguranÁa**
-- HistÛrico de correÁıes
-- AlteraÁıes por componente
+**Changelog T√©cnico de Seguran√ßa**
+- Hist√≥rico de corre√ß√µes
+- Altera√ß√µes por componente
 - Breaking changes (nenhum)
 - Disclosure timeline
-- ReferÍncias CVE/CWE
+- Refer√™ncias CVE/CWE
 
-**Para:** Release managers e comunicaÁ„o
+**Para:** Release managers e comunica√ß√£o
 
 ---
 
 ### 6. [SECURITY_EXECUTIVE_SUMMARY.md](../../SECURITY_EXECUTIVE_SUMMARY.md)
 **Resumo Executivo**
-- Sum·rio para stakeholders
-- MÈtricas de impacto
-- Impacto no negÛcio
-- RecomendaÁıes estratÈgicas
+- Sum√°rio para stakeholders
+- M√©tricas de impacto
+- Impacto no neg√≥cio
+- Recomenda√ß√µes estrat√©gicas
 
-**Para:** LideranÁa e tomada de decis„o
+**Para:** Lideran√ßa e tomada de decis√£o
 
 ---
 
 ### 7. [best-practices.md](./best-practices.md)
-**Guia Completo de Boas Pr·ticas**
+**Guia Completo de Boas Pr√°ticas**
 - O que NUNCA fazer (com exemplos)
-- O que SEMPRE fazer (com implementaÁıes)
-- ConfiguraÁıes por ambiente (dev/staging/prod)
-- Exemplos de cÛdigo seguro
+- O que SEMPRE fazer (com implementa√ß√µes)
+- Configura√ß√µes por ambiente (dev/staging/prod)
+- Exemplos de c√≥digo seguro
 - Audit logging e rate limiting
 - Resposta a incidentes
 
@@ -92,81 +92,81 @@ Esta pasta contÈm toda a documentaÁ„o relacionada ‡ seguranÁa do projeto ConfigR
 
 ---
 
-## Guia R·pido por P˙blico
+## Guia R√°pido por P√∫blico
 
-### VocÍ È um Desenvolvedor usando ConfigR?
+### Voc√™ √© um Desenvolvedor usando ConfigR?
 **Leia:**
-1. [SECURITY.md](../../SECURITY.md) - PolÌtica e melhores pr·ticas
-2. [best-practices.md](./best-practices.md) - Exemplos pr·ticos
+1. [SECURITY.md](../../SECURITY.md) - Pol√≠tica e melhores pr√°ticas
+2. [best-practices.md](./best-practices.md) - Exemplos pr√°ticos
 
-### VocÍ È um Contribuidor do ConfigR?
+### Voc√™ √© um Contribuidor do ConfigR?
 **Leia:**
 1. [SECURITY.md](../../SECURITY.md) - Como reportar
 2. [SECURITY_IMPLEMENTATION_GUIDE.md](../../SECURITY_IMPLEMENTATION_GUIDE.md) - Como implementar
 3. [SECURITY_FIXES_SUMMARY.md](../../SECURITY_FIXES_SUMMARY.md) - O que foi feito
 
-### VocÍ È da Equipe de SeguranÁa?
+### Voc√™ √© da Equipe de Seguran√ßa?
 **Leia:**
 1. [SECURITY_AUDIT_REPORT.md](../../SECURITY_AUDIT_REPORT.md) - Auditoria completa
-2. [SECURITY_FIXES_SUMMARY.md](../../SECURITY_FIXES_SUMMARY.md) - CorreÁıes implementadas
-3. [SECURITY_CHANGELOG.md](../../SECURITY_CHANGELOG.md) - HistÛrico tÈcnico
+2. [SECURITY_FIXES_SUMMARY.md](../../SECURITY_FIXES_SUMMARY.md) - Corre√ß√µes implementadas
+3. [SECURITY_CHANGELOG.md](../../SECURITY_CHANGELOG.md) - Hist√≥rico t√©cnico
 
-### VocÍ È um Stakeholder/Gestor?
+### Voc√™ √© um Stakeholder/Gestor?
 **Leia:**
 1. [SECURITY_EXECUTIVE_SUMMARY.md](../../SECURITY_EXECUTIVE_SUMMARY.md) - Resumo executivo
 
-### VocÍ È do Time de Release/ComunicaÁ„o?
+### Voc√™ √© do Time de Release/Comunica√ß√£o?
 **Leia:**
 1. [SECURITY_CHANGELOG.md](../../SECURITY_CHANGELOG.md) - Para release notes
 2. [SECURITY_EXECUTIVE_SUMMARY.md](../../SECURITY_EXECUTIVE_SUMMARY.md) - Para comunicados
 
 ---
 
-## Õndice de Conte˙do
+## √çndice de Conte√∫do
 
 ### Vulnerabilidades
-- **SQL Injection** - SECURITY_AUDIT_REPORT.md - SeÁ„o 1
-- **Denial of Service** - SECURITY_AUDIT_REPORT.md - SeÁ„o 2
-- **Connection Strings Expostas** - SECURITY_AUDIT_REPORT.md - SeÁ„o 3
-- **Timing Attacks** - SECURITY_AUDIT_REPORT.md - SeÁ„o 4
-- **Logs SensÌveis** - SECURITY_AUDIT_REPORT.md - SeÁ„o 5
-- **Rate Limiting** - SECURITY_AUDIT_REPORT.md - SeÁ„o 6
+- **SQL Injection** - SECURITY_AUDIT_REPORT.md - Se√ß√£o 1
+- **Denial of Service** - SECURITY_AUDIT_REPORT.md - Se√ß√£o 2
+- **Connection Strings Expostas** - SECURITY_AUDIT_REPORT.md - Se√ß√£o 3
+- **Timing Attacks** - SECURITY_AUDIT_REPORT.md - Se√ß√£o 4
+- **Logs Sens√≠veis** - SECURITY_AUDIT_REPORT.md - Se√ß√£o 5
+- **Rate Limiting** - SECURITY_AUDIT_REPORT.md - Se√ß√£o 6
 
-### CorreÁıes
-- **ValidaÁ„o SQL** - SECURITY_FIXES_SUMMARY.md - ValidaÁıes Implementadas - 1
-- **Limites de Tamanho** - SECURITY_FIXES_SUMMARY.md - ValidaÁıes Implementadas - 2
-- **ValidaÁ„o de Prefixos** - SECURITY_FIXES_SUMMARY.md - ValidaÁıes Implementadas - 3
+### Corre√ß√µes
+- **Valida√ß√£o SQL** - SECURITY_FIXES_SUMMARY.md - Valida√ß√µes Implementadas - 1
+- **Limites de Tamanho** - SECURITY_FIXES_SUMMARY.md - Valida√ß√µes Implementadas - 2
+- **Valida√ß√£o de Prefixos** - SECURITY_FIXES_SUMMARY.md - Valida√ß√µes Implementadas - 3
 
-### Exemplos de CÛdigo
-- **SQL Injection Prevention** - best-practices.md - SeÁ„o 1
-- **DoS Prevention** - best-practices.md - SeÁ„o 2
+### Exemplos de C√≥digo
+- **SQL Injection Prevention** - best-practices.md - Se√ß√£o 1
+- **DoS Prevention** - best-practices.md - Se√ß√£o 2
 - **Audit Logging** - best-practices.md - Monitoramento
 - **Rate Limiting** - best-practices.md - Rate Limiting
-- **ConfiguraÁ„o Segura** - best-practices.md - Por Ambiente
+- **Configura√ß√£o Segura** - best-practices.md - Por Ambiente
 
 ### Testes
-- **Testes de SeguranÁa** - SECURITY_IMPLEMENTATION_GUIDE.md - Como Testar
+- **Testes de Seguran√ßa** - SECURITY_IMPLEMENTATION_GUIDE.md - Como Testar
 - **Teste Manual** - SECURITY_IMPLEMENTATION_GUIDE.md - Teste Manual
-- **CI/CD** - best-practices.md - PrÛximas AÁıes
+- **CI/CD** - best-practices.md - Pr√≥ximas A√ß√µes
 
 ---
 
-## InÌcio R·pido
+## In√≠cio R√°pido
 
 ### Eu quero entender o que foi corrigido
 1. Leia o [SECURITY_EXECUTIVE_SUMMARY.md](../../SECURITY_EXECUTIVE_SUMMARY.md)
 2. Para mais detalhes: [SECURITY_FIXES_SUMMARY.md](../../SECURITY_FIXES_SUMMARY.md)
 
-### Eu quero usar ConfigR com seguranÁa
+### Eu quero usar ConfigR com seguran√ßa
 1. Leia o [SECURITY.md](../../SECURITY.md)
-2. Siga as pr·ticas em [best-practices.md](./best-practices.md)
+2. Siga as pr√°ticas em [best-practices.md](./best-practices.md)
 
-### Eu quero contribuir com cÛdigo
-1. Leia o [SECURITY.md](../../SECURITY.md) - SeÁ„o de ContribuiÁ„o
+### Eu quero contribuir com c√≥digo
+1. Leia o [SECURITY.md](../../SECURITY.md) - Se√ß√£o de Contribui√ß√£o
 2. Siga o [SECURITY_IMPLEMENTATION_GUIDE.md](../../SECURITY_IMPLEMENTATION_GUIDE.md)
 
 ### Eu quero reportar uma vulnerabilidade
-1. **N√O abra issue p˙blica**
+1. **N√ÉO abra issue p√∫blica**
 2. Siga o processo em [SECURITY.md](../../SECURITY.md) - Reportando Vulnerabilidades
 3. Email: security@configr.dev
 
@@ -175,36 +175,36 @@ Esta pasta contÈm toda a documentaÁ„o relacionada ‡ seguranÁa do projeto ConfigR
 ## Vulnerabilidades Conhecidas
 
 ### Corrigidas
-- **SQL Injection** (CrÌtica) - Corrigida em v1.x.x
+- **SQL Injection** (Cr√≠tica) - Corrigida em v1.x.x
 - **Denial of Service** (Alta) - Corrigida em v1.x.x
 
-### Em DocumentaÁ„o
-- **Connection Strings Expostas** (MÈdia) - Documentado em SECURITY.md
-- **Timing Attacks** (MÈdia) - Documentado em best-practices.md
-- **Logs SensÌveis** (MÈdia) - Documentado em best-practices.md
+### Em Documenta√ß√£o
+- **Connection Strings Expostas** (M√©dia) - Documentado em SECURITY.md
+- **Timing Attacks** (M√©dia) - Documentado em best-practices.md
+- **Logs Sens√≠veis** (M√©dia) - Documentado em best-practices.md
 
 ### Baixa Prioridade
 - **Rate Limiting** - Documentado com exemplos
 
 ---
 
-## EstatÌsticas de SeguranÁa
+## Estat√≠sticas de Seguran√ßa
 
 ```
-Vulnerabilidades CrÌticas:     0
+Vulnerabilidades Cr√≠ticas:     0
 Vulnerabilidades Altas:         0
-Vulnerabilidades MÈdias:        3 (documentadas)
+Vulnerabilidades M√©dias:        3 (documentadas)
 Vulnerabilidades Baixas:        1 (documentada)
 
 Providers Protegidos:           6/6
-Cobertura de ValidaÁ„o:         100%
-Testes de SeguranÁa:            10+
-P·ginas de DocumentaÁ„o:        50+
+Cobertura de Valida√ß√£o:         100%
+Testes de Seguran√ßa:            10+
+P√°ginas de Documenta√ß√£o:        50+
 ```
 
 ---
 
-## PolÌtica de SeguranÁa
+## Pol√≠tica de Seguran√ßa
 
 ### Supported Versions
 | Version | Supported          |
@@ -221,28 +221,28 @@ P·ginas de DocumentaÁ„o:        50+
 
 ## Contatos
 
-**SeguranÁa:** security@configr.dev  
+**Seguran√ßa:** security@configr.dev  
 **Issues:** https://github.com/mbanagouro/configr/issues  
 **Discussions:** https://github.com/mbanagouro/configr/discussions  
 **Documentation:** https://mbanagouro.github.io/configr
 
 ---
 
-## AtualizaÁıes
+## Atualiza√ß√µes
 
-Este conjunto de documentos È atualizado sempre que:
-- Novas vulnerabilidades s„o descobertas
-- CorreÁıes s„o implementadas
-- Melhores pr·ticas evoluem
-- Novos providers s„o adicionados
+Este conjunto de documentos √© atualizado sempre que:
+- Novas vulnerabilidades s√£o descobertas
+- Corre√ß√µes s√£o implementadas
+- Melhores pr√°ticas evoluem
+- Novos providers s√£o adicionados
 
-**⁄ltima atualizaÁ„o:** Janeiro 2025
+**√öltima atualiza√ß√£o:** Janeiro 2025
 
 ---
 
-## Checklist de SeguranÁa
+## Checklist de Seguran√ßa
 
-Antes de usar ConfigR em produÁ„o:
+Antes de usar ConfigR em produ√ß√£o:
 
 - [ ] Li SECURITY.md
 - [ ] Li best-practices.md
@@ -250,9 +250,9 @@ Antes de usar ConfigR em produÁ„o:
 - [ ] Removi senhas hardcoded
 - [ ] Implementei audit logging
 - [ ] Configurei rate limiting
-- [ ] Validei configuraÁıes
-- [ ] Revisei cÛdigo de seguranÁa
-- [ ] Executei testes de seguranÁa
+- [ ] Validei configura√ß√µes
+- [ ] Revisei c√≥digo de seguran√ßa
+- [ ] Executei testes de seguran√ßa
 - [ ] Configurei monitoramento
 
 ---
@@ -277,8 +277,8 @@ Antes de usar ConfigR em produÁ„o:
 
 **Mantido por:** ConfigR Security Team  
 **Status:** Ativo e Atualizado  
-**Confidencialidade:** P˙blico
+**Confidencialidade:** P√∫blico
 
 ---
 
-*Este README È parte da documentaÁ„o oficial de seguranÁa do ConfigR.*
+*Este README √© parte da documenta√ß√£o oficial de seguran√ßa do ConfigR.*
