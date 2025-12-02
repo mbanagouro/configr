@@ -17,17 +17,27 @@ Crie seus próprios providers de armazenamento para o ConfigR.
 // ConfigR.Abstractions
 public interface IConfigStore
 {
-    Task<string?> GetAsync(string key, string? scope = null);
-    Task SaveAsync(string key, string value, string? scope = null);
-    Task DeleteAsync(string key, string? scope = null);
-    Task<IEnumerable<ConfigItem>> GetAllAsync(string? scope = null);
+    /// <summary>
+    /// Gets a configuration entry by key and optional scope.
+    /// </summary>
+    Task<ConfigEntry?> GetAsync(string key, string? scope = null);
+
+    /// <summary>
+    /// Gets all configuration entries for a given scope.
+    /// </summary>
+    Task<IReadOnlyDictionary<string, ConfigEntry>> GetAllAsync(string? scope = null);
+
+    /// <summary>
+    /// Inserts or updates configuration entries.
+    /// </summary>
+    Task UpsertAsync(IEnumerable<ConfigEntry> entries, string? scope = null);
 }
 
-public class ConfigItem
+public sealed class ConfigEntry
 {
-    public string Key { get; set; }
-    public string Value { get; set; }
-    public string? Scope { get; set; }
+    public string? Key { get; init; }
+    public string? Value { get; init; }
+    public string? Scope { get; init; }
 }
 ```
 
@@ -47,16 +57,16 @@ public class CustomConfigStore : IConfigStore
         _logger = logger;
     }
 
-    public async Task<string?> GetAsync(string key, string? scope = null)
+    public async Task<ConfigEntry?> GetAsync(string key, string? scope = null)
     {
         try
         {
             _logger.LogInformation($"Getting config: {key}, scope: {scope}");
             
             // Sua lógica de leitura aqui
-            var value = await FetchFromCustomStore(key, scope);
+            var entry = await FetchFromCustomStore(key, scope);
             
-            return value;
+            return entry;
         }
         catch (Exception ex)
         {
@@ -65,55 +75,56 @@ public class CustomConfigStore : IConfigStore
         }
     }
 
-    public async Task SaveAsync(string key, string value, string? scope = null)
+    public async Task<IReadOnlyDictionary<string, ConfigEntry>> GetAllAsync(string? scope = null)
     {
         try
         {
-            _logger.LogInformation($"Saving config: {key}, scope: {scope}");
+            _logger.LogInformation($"Getting all configs for scope: {scope}");
             
-            // Sua lógica de escrita aqui
-            await WriteToCustomStore(key, value, scope);
+            // Sua lógica para buscar todas as entradas
+            var entries = await FetchAllFromCustomStore(scope);
+            
+            return entries;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, $"Error saving config: {key}");
+            _logger.LogError(ex, "Error getting all configs");
             throw;
         }
     }
 
-    public async Task DeleteAsync(string key, string? scope = null)
+    public async Task UpsertAsync(IEnumerable<ConfigEntry> entries, string? scope = null)
     {
-        // Implementar conforme necessário
-        await RemoveFromCustomStore(key, scope);
-    }
-
-    public async Task<IEnumerable<ConfigItem>> GetAllAsync(string? scope = null)
-    {
-        // Implementar para listar todas as configs
-        return await FetchAllFromCustomStore(scope);
+        try
+        {
+            _logger.LogInformation($"Upserting configs for scope: {scope}");
+            
+            // Sua lógica de escrita aqui
+            await WriteToCustomStore(entries, scope);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error upserting configs");
+            throw;
+        }
     }
 
     // Seus métodos privados aqui
-    private async Task<string?> FetchFromCustomStore(string key, string? scope)
+    private async Task<ConfigEntry?> FetchFromCustomStore(string key, string? scope)
     {
         // TODO: Implementar
         return null;
     }
 
-    private async Task WriteToCustomStore(string key, string value, string? scope)
+    private async Task<IReadOnlyDictionary<string, ConfigEntry>> FetchAllFromCustomStore(string? scope)
     {
         // TODO: Implementar
+        return new Dictionary<string, ConfigEntry>();
     }
 
-    private async Task RemoveFromCustomStore(string key, string? scope)
+    private async Task WriteToCustomStore(IEnumerable<ConfigEntry> entries, string? scope)
     {
         // TODO: Implementar
-    }
-
-    private async Task<IEnumerable<ConfigItem>> FetchAllFromCustomStore(string? scope)
-    {
-        // TODO: Implementar
-        return Enumerable.Empty<ConfigItem>();
     }
 }
 ```
@@ -177,46 +188,53 @@ builder.Services
 ## 📝 Exemplo Completo: Provider em Memória
 
 ```csharp
+using System.Collections.Concurrent;
+using ConfigR.Abstractions;
+
 // Simples provider que armazena tudo na memória
 public class InMemoryConfigStore : IConfigStore
 {
-    private readonly Dictionary<string, ConfigItem> _store 
-        = new();
+    private readonly ConcurrentDictionary<string, ConfigEntry> _store 
+        = new(StringComparer.OrdinalIgnoreCase);
 
-    public Task<string?> GetAsync(string key, string? scope = null)
+    public Task<ConfigEntry?> GetAsync(string key, string? scope = null)
     {
         var fullKey = BuildKey(key, scope);
-        var value = _store.TryGetValue(fullKey, out var item) 
-            ? item.Value 
-            : null;
-        return Task.FromResult(value);
+        _store.TryGetValue(fullKey, out var entry);
+        return Task.FromResult<ConfigEntry?>(entry);
     }
 
-    public Task SaveAsync(string key, string value, string? scope = null)
+    public Task<IReadOnlyDictionary<string, ConfigEntry>> GetAllAsync(string? scope = null)
     {
-        var fullKey = BuildKey(key, scope);
-        _store[fullKey] = new ConfigItem 
-        { 
-            Key = key, 
-            Value = value, 
-            Scope = scope 
-        };
+        if (scope is null)
+        {
+            // Retorna todas as entradas
+            return Task.FromResult<IReadOnlyDictionary<string, ConfigEntry>>(
+                new Dictionary<string, ConfigEntry>(_store));
+        }
+
+        // Filtra entradas pelo scope
+        var prefix = $"{scope}:";
+        var filtered = _store
+            .Where(kvp => kvp.Key.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+            .ToDictionary(
+                kvp => kvp.Key.Substring(prefix.Length),
+                kvp => kvp.Value,
+                StringComparer.OrdinalIgnoreCase
+            );
+
+        return Task.FromResult<IReadOnlyDictionary<string, ConfigEntry>>(filtered);
+    }
+
+    public Task UpsertAsync(IEnumerable<ConfigEntry> entries, string? scope = null)
+    {
+        foreach (var entry in entries)
+        {
+            var fullKey = BuildKey(entry.Key ?? "", scope);
+            _store[fullKey] = entry;
+        }
+       
         return Task.CompletedTask;
-    }
-
-    public Task DeleteAsync(string key, string? scope = null)
-    {
-        var fullKey = BuildKey(key, scope);
-        _store.Remove(fullKey);
-        return Task.CompletedTask;
-    }
-
-    public Task<IEnumerable<ConfigItem>> GetAllAsync(string? scope = null)
-    {
-        var items = _store.Values
-            .Where(i => scope == null || i.Scope == scope)
-            .ToList();
-        return Task.FromResult(items.AsEnumerable());
     }
 
     private static string BuildKey(string key, string? scope)
@@ -257,29 +275,57 @@ public class CustomConfigStoreTests
     public async Task GetAsync_ShouldReturnValue()
     {
         // Arrange
-        await _store.SaveAsync("key1", "value1");
+        var entry = new ConfigEntry 
+        { 
+            Key = "key1", 
+            Value = "value1" 
+        };
+        await _store.UpsertAsync(new[] { entry });
 
         // Act
         var result = await _store.GetAsync("key1");
 
         // Assert
-        Assert.AreEqual("value1", result);
+        Assert.IsNotNull(result);
+        Assert.AreEqual("value1", result.Value);
     }
 
     [Test]
-    public async Task GetAsync_WithScope_ShouldIsolateValues()
+    public async Task GetAllAsync_WithScope_ShouldReturnFilteredEntries()
     {
         // Arrange
-        await _store.SaveAsync("key1", "value1", scope: "scope1");
-        await _store.SaveAsync("key1", "value2", scope: "scope2");
+        var entries = new[]
+        {
+            new ConfigEntry { Key = "key1", Value = "value1" },
+            new ConfigEntry { Key = "key2", Value = "value2" }
+        };
+        await _store.UpsertAsync(entries, scope: "scope1");
 
         // Act
-        var result1 = await _store.GetAsync("key1", "scope1");
-        var result2 = await _store.GetAsync("key1", "scope2");
+        var result = await _store.GetAllAsync("scope1");
 
         // Assert
-        Assert.AreEqual("value1", result1);
-        Assert.AreEqual("value2", result2);
+        Assert.AreEqual(2, result.Count);
+        Assert.IsTrue(result.ContainsKey("key1"));
+        Assert.AreEqual("value1", result["key1"].Value);
+    }
+
+    [Test]
+    public async Task UpsertAsync_ShouldUpdateExistingEntry()
+    {
+        // Arrange
+        var entry1 = new ConfigEntry { Key = "key1", Value = "value1" };
+        await _store.UpsertAsync(new[] { entry1 });
+
+        // Act
+        var entry2 = new ConfigEntry { Key = "key1", Value = "updated" };
+        await _store.UpsertAsync(new[] { entry2 });
+
+        var result = await _store.GetAsync("key1");
+
+        // Assert
+        Assert.IsNotNull(result);
+        Assert.AreEqual("updated", result.Value);
     }
 }
 ```
