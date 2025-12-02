@@ -119,26 +119,55 @@ Interface de baixo nível para implementação de providers.
 
 ### GetAsync
 
-```csharp
-Task<string?> GetAsync(string key, string? scope = null);
-```
-
-### SaveAsync
+Obtém uma entrada de configuração por chave e escopo opcional.
 
 ```csharp
-Task SaveAsync(string key, string value, string? scope = null);
+Task<ConfigEntry?> GetAsync(string key, string? scope = null);
 ```
 
-### DeleteAsync
+**Parâmetros:**
+- `key` - Chave da configuração
+- `scope` (optional) - Escopo opcional
 
-```csharp
-Task DeleteAsync(string key, string? scope = null);
-```
+**Retorno:**
+- `ConfigEntry` se encontrado
+- `null` se não encontrado
 
 ### GetAllAsync
 
+Obtém todas as entradas de configuração para um escopo.
+
 ```csharp
-Task<IEnumerable<ConfigItem>> GetAllAsync(string? scope = null);
+Task<IReadOnlyDictionary<string, ConfigEntry>> GetAllAsync(string? scope = null);
+```
+
+**Parâmetros:**
+- `scope` (optional) - Escopo opcional
+
+**Retorno:**
+- Dicionário somente leitura com todas as entradas do escopo
+
+### UpsertAsync
+
+Insere ou atualiza entradas de configuração.
+
+```csharp
+Task UpsertAsync(IEnumerable<ConfigEntry> entries, string? scope = null);
+```
+
+**Parâmetros:**
+- `entries` - Coleção de entradas a serem inseridas/atualizadas
+- `scope` (optional) - Escopo opcional
+
+**ConfigEntry:**
+
+```csharp
+public sealed class ConfigEntry
+{
+    public string? Key { get; init; }
+    public string? Value { get; init; }
+    public string? Scope { get; init; }
+}
 ```
 
 ---
@@ -182,7 +211,7 @@ Inclui:
 - `IConfigR` interface
 - DI extensions
 - Cache em memória com duração configurável
-- Serializadores padrão
+- Serializador JSON padrão (System.Text.Json)
 
 ### Providers
 
@@ -307,36 +336,37 @@ Limpa todo o cache.
 
 ---
 
-## 🚨 Exceções
+## 🔄 Serialização
 
-### ConfigNotFoundException
+ConfigR usa `System.Text.Json` para serializar/desserializar valores. O serializador padrão está em `ConfigR.Core.DefaultConfigSerializer`.
 
-Lançada quando uma configuração não é encontrada e não pode ser criada.
+### IConfigSerializer
 
 ```csharp
-try
+public interface IConfigSerializer
 {
-    var config = await configR.GetAsync<MyConfig>();
-}
-catch (ConfigNotFoundException ex)
-{
-    Console.WriteLine($"Config not found: {ex.Message}");
+    string Serialize(object? value);
+    object? Deserialize(string serializedValue, Type targetType);
 }
 ```
 
-### SerializationException
+**Comportamento Padrão:**
+- Usa `JsonSerializerOptions.Web` como base
+- Null retorna string vazia na serialização
+- String vazia/null retorna valor padrão na desserialização
+- Suporta tipos complexos e coleções
 
-Lançada quando há erro na serialização/desserialização.
+**Exemplo de Serialização:**
 
 ```csharp
-try
-{
-    await configR.SaveAsync(config);
-}
-catch (SerializationException ex)
-{
-    Console.WriteLine($"Serialization error: {ex.Message}");
-}
+var config = new CheckoutConfig 
+{ 
+    MaxItems = 50,
+    Tags = new List<string> { "tag1", "tag2" }
+};
+
+// Internamente serializado como JSON
+// {"MaxItems":50,"Tags":["tag1","tag2"]}
 ```
 
 ---
