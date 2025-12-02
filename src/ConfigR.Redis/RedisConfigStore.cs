@@ -1,12 +1,13 @@
 ﻿using ConfigR.Abstractions;
 using Microsoft.Extensions.Options;
 using StackExchange.Redis;
+using System.Buffers;
 using System.Text.RegularExpressions;
 
 namespace ConfigR.Redis;
 
 /// <summary>
-/// Redis implementation of the configuration store.
+/// Redis implementation of the configuration store with low-allocation optimizations.
 /// </summary>
 public sealed class RedisConfigStore : IConfigStore
 {
@@ -93,15 +94,71 @@ public sealed class RedisConfigStore : IConfigStore
     }
 
     /// <summary>
-    /// Formats a configuration key using the key prefix and scope.
+    /// Formats a configuration key using the key prefix and scope with minimal allocations.
+    /// Uses Span<char> and ArrayPool for efficient string building.
     /// </summary>
     /// <param name="key">The configuration key.</param>
     /// <param name="scope">The optional scope.</param>
     /// <returns>The formatted Redis key.</returns>
     private string FormatKey(string key, string? scope)
     {
-        scope ??= DefaultScope;
-        return $"{_options.KeyPrefix}:{scope}:{key}";
+        var effectiveScope = scope ?? DefaultScope;
+        var prefix = _options.KeyPrefix;
+        
+        // Calculate total length: prefix + ':' + scope + ':' + key
+        var totalLength = prefix.Length + 1 + effectiveScope.Length + 1 + key.Length;
+        
+        // Use stack allocation for small keys
+        Span<char> buffer = stackalloc char[256];
+        
+        if (totalLength <= buffer.Length)
+        {
+            // Fast path: use stack allocation
+            return BuildKeyOnStack(buffer[..totalLength], prefix.AsSpan(), effectiveScope.AsSpan(), key.AsSpan());
+        }
+        
+        // Slow path: use ArrayPool for larger keys
+        var rentedArray = ArrayPool<char>.Shared.Rent(totalLength);
+        try
+        {
+            var poolBuffer = rentedArray.AsSpan(0, totalLength);
+            return BuildKeyOnStack(poolBuffer, prefix.AsSpan(), effectiveScope.AsSpan(), key.AsSpan());
+        }
+        finally
+        {
+            ArrayPool<char>.Shared.Return(rentedArray);
+        }
+    }
+    
+    /// <summary>
+    /// Builds a Redis key on stack/pool buffer without intermediate allocations.
+    /// </summary>
+    private static string BuildKeyOnStack(
+        Span<char> buffer,
+        ReadOnlySpan<char> prefix,
+        ReadOnlySpan<char> scope,
+        ReadOnlySpan<char> key)
+    {
+        var position = 0;
+        
+        // Copy prefix
+        prefix.CopyTo(buffer[position..]);
+        position += prefix.Length;
+        
+        // Add separator
+        buffer[position++] = ':';
+        
+        // Copy scope
+        scope.CopyTo(buffer[position..]);
+        position += scope.Length;
+        
+        // Add separator
+        buffer[position++] = ':';
+        
+        // Copy key
+        key.CopyTo(buffer[position..]);
+        
+        return new string(buffer);
     }
 
     /// <summary>
@@ -120,7 +177,9 @@ public sealed class RedisConfigStore : IConfigStore
         ValidateInputSizes(key, scope);
         
         var db = _redis.GetDatabase();
-        var value = await db.StringGetAsync(FormatKey(key, scope));
+        var redisKey = FormatKey(key, scope);
+        var value = await db.StringGetAsync(redisKey);
+        
         if (!value.HasValue)
         {
             return null;
@@ -144,30 +203,70 @@ public sealed class RedisConfigStore : IConfigStore
         var db = _redis.GetDatabase();
         var server = _redis.GetServer(_redis.GetEndPoints().First());
 
-        scope ??= DefaultScope;
-
-        var prefix = $"{_options.KeyPrefix}:{scope}:";
+        var effectiveScope = scope ?? DefaultScope;
+        
+        // Build prefix using Span to avoid allocations
+        var prefix = BuildScopePrefix(_options.KeyPrefix, effectiveScope);
 
         var keys = server.Keys(pattern: prefix + "*").ToArray();
 
-        var result = new Dictionary<string, ConfigEntry>();
+        var result = new Dictionary<string, ConfigEntry>(keys.Length);
 
         foreach (var key in keys)
         {
             var value = await db.StringGetAsync(key);
             if (value.HasValue)
             {
-                var keyName = key.ToString().Replace(prefix, "");
+                var keyString = key.ToString();
+                var keyName = ExtractKeyFromRedisKey(keyString.AsSpan(), prefix.AsSpan());
+                
                 result[keyName] = new ConfigEntry
                 {
                     Key = keyName,
                     Value = value!,
-                    Scope = scope
+                    Scope = effectiveScope
                 };
             }
         }
 
         return result;
+    }
+    
+    /// <summary>
+    /// Builds scope prefix for pattern matching.
+    /// </summary>
+    private static string BuildScopePrefix(string prefix, string scope)
+    {
+        var totalLength = prefix.Length + 1 + scope.Length + 1;
+        
+        Span<char> buffer = stackalloc char[128];
+        
+        if (totalLength <= buffer.Length)
+        {
+            var span = buffer[..totalLength];
+            prefix.AsSpan().CopyTo(span);
+            span[prefix.Length] = ':';
+            scope.AsSpan().CopyTo(span[(prefix.Length + 1)..]);
+            span[totalLength - 1] = ':';
+            return new string(span);
+        }
+        
+        // Fallback for very long prefixes
+        return $"{prefix}:{scope}:";
+    }
+    
+    /// <summary>
+    /// Extracts the key name from a full Redis key without allocations.
+    /// </summary>
+    private static string ExtractKeyFromRedisKey(ReadOnlySpan<char> redisKey, ReadOnlySpan<char> prefix)
+    {
+        if (redisKey.StartsWith(prefix))
+        {
+            var keyPart = redisKey[prefix.Length..];
+            return new string(keyPart);
+        }
+        
+        return new string(redisKey);
     }
 
     /// <summary>
@@ -196,7 +295,8 @@ public sealed class RedisConfigStore : IConfigStore
             ValidateInputSizes(entry.Key, effectiveScope);
             ValidateValueSize(entry.Value, entry.Key);
             
-            await db.StringSetAsync(FormatKey(entry.Key, effectiveScope), entry.Value ?? string.Empty);
+            var redisKey = FormatKey(entry.Key, effectiveScope);
+            await db.StringSetAsync(redisKey, entry.Value ?? string.Empty);
         }
     }
 }

@@ -7,12 +7,13 @@ using Raven.Client.Documents.Session;
 using Raven.Client.Exceptions.Database;
 using Raven.Client.ServerWide;
 using Raven.Client.ServerWide.Operations;
+using System.Buffers;
 using System.Text.RegularExpressions;
 
 namespace ConfigR.RavenDB;
 
 /// <summary>
-/// RavenDB implementation of the configuration store.
+/// RavenDB implementation of the configuration store with low-allocation optimizations.
 /// </summary>
 public sealed class RavenDbConfigStore : IConfigStore
 {
@@ -26,6 +27,8 @@ public sealed class RavenDbConfigStore : IConfigStore
     private const int MaxValueSize = 100 * 1024 * 1024;
     private const int MaxKeySize = 256;
     private const int MaxScopeSize = 128;
+    
+    private const string DefaultScopeSegment = "__default__";
 
     /// <summary>
     /// Initializes a new instance of the <see cref="RavenDbConfigStore"/> class.
@@ -123,7 +126,8 @@ public sealed class RavenDbConfigStore : IConfigStore
     }
 
     /// <summary>
-    /// Builds the RavenDB document identifier for a given key and scope.
+    /// Builds the RavenDB document identifier for a given key and scope using Span for efficiency.
+    /// Format: {prefix}/{scope}/{key}
     /// </summary>
     /// <param name="key">The configuration key.</param>
     /// <param name="scope">The optional scope.</param>
@@ -138,8 +142,63 @@ public sealed class RavenDbConfigStore : IConfigStore
         
         ValidateInputSizes(key, scope);
 
-        var scopeSegment = scope is null ? "__default__" : scope;
-        return $"{_options.KeyPrefix}/{scopeSegment}/{key}";
+        var scopeSegment = scope ?? DefaultScopeSegment;
+        var prefix = _options.KeyPrefix;
+        
+        // Calculate total length: prefix + '/' + scopeSegment + '/' + key
+        var totalLength = prefix.Length + 1 + scopeSegment.Length + 1 + key.Length;
+        
+        // Use stack allocation for small IDs (common case)
+        Span<char> buffer = stackalloc char[256];
+        
+        if (totalLength <= buffer.Length)
+        {
+            // Fast path: use stack allocation
+            return BuildIdOnStack(buffer[..totalLength], prefix.AsSpan(), scopeSegment.AsSpan(), key.AsSpan());
+        }
+        
+        // Slow path: use ArrayPool for larger IDs
+        var rentedArray = ArrayPool<char>.Shared.Rent(totalLength);
+        try
+        {
+            var poolBuffer = rentedArray.AsSpan(0, totalLength);
+            return BuildIdOnStack(poolBuffer, prefix.AsSpan(), scopeSegment.AsSpan(), key.AsSpan());
+        }
+        finally
+        {
+            ArrayPool<char>.Shared.Return(rentedArray);
+        }
+    }
+    
+    /// <summary>
+    /// Builds a document ID on stack/pool buffer without intermediate allocations.
+    /// </summary>
+    private static string BuildIdOnStack(
+        Span<char> buffer,
+        ReadOnlySpan<char> prefix,
+        ReadOnlySpan<char> scopeSegment,
+        ReadOnlySpan<char> key)
+    {
+        var position = 0;
+        
+        // Copy prefix
+        prefix.CopyTo(buffer[position..]);
+        position += prefix.Length;
+        
+        // Add separator
+        buffer[position++] = '/';
+        
+        // Copy scope segment
+        scopeSegment.CopyTo(buffer[position..]);
+        position += scopeSegment.Length;
+        
+        // Add separator
+        buffer[position++] = '/';
+        
+        // Copy key
+        key.CopyTo(buffer[position..]);
+        
+        return new string(buffer);
     }
 
     /// <summary>
@@ -166,8 +225,9 @@ public sealed class RavenDbConfigStore : IConfigStore
         
         using var session = OpenSession();
 
+        var documentId = BuildDocumentId(key, scope);
         var document = await session
-            .LoadAsync<RavenConfigDocument>(BuildDocumentId(key, scope))
+            .LoadAsync<RavenConfigDocument>(documentId)
             .ConfigureAwait(false);
 
         if (document is null)
@@ -208,7 +268,7 @@ public sealed class RavenDbConfigStore : IConfigStore
 
         var documents = await query.ToListAsync().ConfigureAwait(false);
 
-        var dict = new Dictionary<string, ConfigEntry>(StringComparer.OrdinalIgnoreCase);
+        var dict = new Dictionary<string, ConfigEntry>(documents.Count, StringComparer.OrdinalIgnoreCase);
 
         foreach (var doc in documents)
         {
@@ -250,16 +310,18 @@ public sealed class RavenDbConfigStore : IConfigStore
             ValidateInputSizes(entry.Key, scopeToUse);
             ValidateValueSize(entry.Value, entry.Key);
 
+            var documentId = BuildDocumentId(entry.Key, scopeToUse);
+            
             var document = new RavenConfigDocument
             {
-                Id = BuildDocumentId(entry.Key, scopeToUse),
+                Id = documentId,
                 Key = entry.Key,
                 Value = entry.Value ?? string.Empty,
                 Scope = scopeToUse
             };
 
             await session
-                .StoreAsync(document, document.Id)
+                .StoreAsync(document, documentId)
                 .ConfigureAwait(false);
         }
 
