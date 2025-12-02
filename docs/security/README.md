@@ -1,12 +1,12 @@
-# ?? Documentação de Segurança - ConfigR
+# Documentação de Segurança - ConfigR
 
 Esta pasta contém toda a documentação relacionada à segurança do projeto ConfigR.
 
 ---
 
-## ?? Documentos Disponíveis
+## Documentos Disponíveis
 
-### 1. [SECURITY.md](../../SECURITY.md) ?
+### 1. [SECURITY.md](../../SECURITY.md)
 **Política Oficial de Segurança**
 - Como reportar vulnerabilidades
 - Versões suportadas
@@ -19,7 +19,7 @@ Esta pasta contém toda a documentação relacionada à segurança do projeto ConfigR
 
 ---
 
-### 2. [SECURITY_AUDIT_REPORT.md](../../SECURITY_AUDIT_REPORT.md) ??
+### 2. [SECURITY_AUDIT_REPORT.md](../../SECURITY_AUDIT_REPORT.md)
 **Relatório Técnico de Auditoria**
 - Vulnerabilidades identificadas (6 categorias)
 - Análise de severidade (Crítica a Baixa)
@@ -32,7 +32,7 @@ Esta pasta contém toda a documentação relacionada à segurança do projeto ConfigR
 
 ---
 
-### 3. [SECURITY_FIXES_SUMMARY.md](../../SECURITY_FIXES_SUMMARY.md) ?
+### 3. [SECURITY_FIXES_SUMMARY.md](../../SECURITY_FIXES_SUMMARY.md)
 **Resumo das Correções Implementadas**
 - Lista de todas as correções
 - Código antes vs depois
@@ -44,7 +44,7 @@ Esta pasta contém toda a documentação relacionada à segurança do projeto ConfigR
 
 ---
 
-### 4. [SECURITY_IMPLEMENTATION_GUIDE.md](../../SECURITY_IMPLEMENTATION_GUIDE.md) ???
+### 4. [SECURITY_IMPLEMENTATION_GUIDE.md](../../SECURITY_IMPLEMENTATION_GUIDE.md)
 **Guia Prático de Implementação**
 - Como testar as correções
 - Arquivos modificados
@@ -56,7 +56,7 @@ Esta pasta contém toda a documentação relacionada à segurança do projeto ConfigR
 
 ---
 
-### 5. [SECURITY_CHANGELOG.md](../../SECURITY_CHANGELOG.md) ??
+### 5. [SECURITY_CHANGELOG.md](../../SECURITY_CHANGELOG.md)
 **Changelog Técnico de Segurança**
 - Histórico de correções
 - Alterações por componente
@@ -68,7 +68,7 @@ Esta pasta contém toda a documentação relacionada à segurança do projeto ConfigR
 
 ---
 
-### 6. [SECURITY_EXECUTIVE_SUMMARY.md](../../SECURITY_EXECUTIVE_SUMMARY.md) ??
+### 6. [SECURITY_EXECUTIVE_SUMMARY.md](../../SECURITY_EXECUTIVE_SUMMARY.md)
 **Resumo Executivo**
 - Sumário para stakeholders
 - Métricas de impacto
@@ -79,7 +79,7 @@ Esta pasta contém toda a documentação relacionada à segurança do projeto ConfigR
 
 ---
 
-### 7. [best-practices.md](./best-practices.md) ??
+### 7. [best-practices.md](./best-practices.md)
 **Guia Completo de Boas Práticas**
 - O que NUNCA fazer (com exemplos)
 - O que SEMPRE fazer (com implementações)
@@ -92,66 +92,66 @@ Esta pasta contém toda a documentação relacionada à segurança do projeto ConfigR
 
 ---
 
-## ?? Guia Rápido por Público
+## Guia Rápido por Público
 
-### ????? Você é um Desenvolvedor usando ConfigR?
+### Você é um Desenvolvedor usando ConfigR?
 **Leia:**
 1. [SECURITY.md](../../SECURITY.md) - Política e melhores práticas
 2. [best-practices.md](./best-practices.md) - Exemplos práticos
 
-### ?? Você é um Contribuidor do ConfigR?
+### Você é um Contribuidor do ConfigR?
 **Leia:**
 1. [SECURITY.md](../../SECURITY.md) - Como reportar
 2. [SECURITY_IMPLEMENTATION_GUIDE.md](../../SECURITY_IMPLEMENTATION_GUIDE.md) - Como implementar
 3. [SECURITY_FIXES_SUMMARY.md](../../SECURITY_FIXES_SUMMARY.md) - O que foi feito
 
-### ??? Você é da Equipe de Segurança?
+### Você é da Equipe de Segurança?
 **Leia:**
 1. [SECURITY_AUDIT_REPORT.md](../../SECURITY_AUDIT_REPORT.md) - Auditoria completa
 2. [SECURITY_FIXES_SUMMARY.md](../../SECURITY_FIXES_SUMMARY.md) - Correções implementadas
 3. [SECURITY_CHANGELOG.md](../../SECURITY_CHANGELOG.md) - Histórico técnico
 
-### ?? Você é um Stakeholder/Gestor?
+### Você é um Stakeholder/Gestor?
 **Leia:**
 1. [SECURITY_EXECUTIVE_SUMMARY.md](../../SECURITY_EXECUTIVE_SUMMARY.md) - Resumo executivo
 
-### ?? Você é do Time de Release/Comunicação?
+### Você é do Time de Release/Comunicação?
 **Leia:**
 1. [SECURITY_CHANGELOG.md](../../SECURITY_CHANGELOG.md) - Para release notes
 2. [SECURITY_EXECUTIVE_SUMMARY.md](../../SECURITY_EXECUTIVE_SUMMARY.md) - Para comunicados
 
 ---
 
-## ?? Índice de Conteúdo
+## Índice de Conteúdo
 
 ### Vulnerabilidades
-- **SQL Injection** - SECURITY_AUDIT_REPORT.md ? Seção 1
-- **Denial of Service** - SECURITY_AUDIT_REPORT.md ? Seção 2
-- **Connection Strings Expostas** - SECURITY_AUDIT_REPORT.md ? Seção 3
-- **Timing Attacks** - SECURITY_AUDIT_REPORT.md ? Seção 4
-- **Logs Sensíveis** - SECURITY_AUDIT_REPORT.md ? Seção 5
-- **Rate Limiting** - SECURITY_AUDIT_REPORT.md ? Seção 6
+- **SQL Injection** - SECURITY_AUDIT_REPORT.md - Seção 1
+- **Denial of Service** - SECURITY_AUDIT_REPORT.md - Seção 2
+- **Connection Strings Expostas** - SECURITY_AUDIT_REPORT.md - Seção 3
+- **Timing Attacks** - SECURITY_AUDIT_REPORT.md - Seção 4
+- **Logs Sensíveis** - SECURITY_AUDIT_REPORT.md - Seção 5
+- **Rate Limiting** - SECURITY_AUDIT_REPORT.md - Seção 6
 
 ### Correções
-- **Validação SQL** - SECURITY_FIXES_SUMMARY.md ? Validações Implementadas ? 1
-- **Limites de Tamanho** - SECURITY_FIXES_SUMMARY.md ? Validações Implementadas ? 2
-- **Validação de Prefixos** - SECURITY_FIXES_SUMMARY.md ? Validações Implementadas ? 3
+- **Validação SQL** - SECURITY_FIXES_SUMMARY.md - Validações Implementadas - 1
+- **Limites de Tamanho** - SECURITY_FIXES_SUMMARY.md - Validações Implementadas - 2
+- **Validação de Prefixos** - SECURITY_FIXES_SUMMARY.md - Validações Implementadas - 3
 
 ### Exemplos de Código
-- **SQL Injection Prevention** - best-practices.md ? Seção 1
-- **DoS Prevention** - best-practices.md ? Seção 2
-- **Audit Logging** - best-practices.md ? Monitoramento
-- **Rate Limiting** - best-practices.md ? Rate Limiting
-- **Configuração Segura** - best-practices.md ? Por Ambiente
+- **SQL Injection Prevention** - best-practices.md - Seção 1
+- **DoS Prevention** - best-practices.md - Seção 2
+- **Audit Logging** - best-practices.md - Monitoramento
+- **Rate Limiting** - best-practices.md - Rate Limiting
+- **Configuração Segura** - best-practices.md - Por Ambiente
 
 ### Testes
-- **Testes de Segurança** - SECURITY_IMPLEMENTATION_GUIDE.md ? Como Testar
-- **Teste Manual** - SECURITY_IMPLEMENTATION_GUIDE.md ? Teste Manual
-- **CI/CD** - best-practices.md ? Próximas Ações
+- **Testes de Segurança** - SECURITY_IMPLEMENTATION_GUIDE.md - Como Testar
+- **Teste Manual** - SECURITY_IMPLEMENTATION_GUIDE.md - Teste Manual
+- **CI/CD** - best-practices.md - Próximas Ações
 
 ---
 
-## ?? Início Rápido
+## Início Rápido
 
 ### Eu quero entender o que foi corrigido
 1. Leia o [SECURITY_EXECUTIVE_SUMMARY.md](../../SECURITY_EXECUTIVE_SUMMARY.md)
@@ -172,39 +172,39 @@ Esta pasta contém toda a documentação relacionada à segurança do projeto ConfigR
 
 ---
 
-## ?? Vulnerabilidades Conhecidas
+## Vulnerabilidades Conhecidas
 
-### Corrigidas ?
+### Corrigidas
 - **SQL Injection** (Crítica) - Corrigida em v1.x.x
 - **Denial of Service** (Alta) - Corrigida em v1.x.x
 
-### Em Documentação ??
+### Em Documentação
 - **Connection Strings Expostas** (Média) - Documentado em SECURITY.md
 - **Timing Attacks** (Média) - Documentado em best-practices.md
 - **Logs Sensíveis** (Média) - Documentado em best-practices.md
 
-### Baixa Prioridade ??
+### Baixa Prioridade
 - **Rate Limiting** - Documentado com exemplos
 
 ---
 
-## ?? Estatísticas de Segurança
+## Estatísticas de Segurança
 
 ```
-Vulnerabilidades Críticas:     0 ?
-Vulnerabilidades Altas:         0 ?
-Vulnerabilidades Médias:        3 ?? (documentadas)
-Vulnerabilidades Baixas:        1 ?? (documentada)
+Vulnerabilidades Críticas:     0
+Vulnerabilidades Altas:         0
+Vulnerabilidades Médias:        3 (documentadas)
+Vulnerabilidades Baixas:        1 (documentada)
 
-Providers Protegidos:           6/6 ?
-Cobertura de Validação:         100% ?
-Testes de Segurança:            10+ ?
-Páginas de Documentação:        50+ ?
+Providers Protegidos:           6/6
+Cobertura de Validação:         100%
+Testes de Segurança:            10+
+Páginas de Documentação:        50+
 ```
 
 ---
 
-## ?? Política de Segurança
+## Política de Segurança
 
 ### Supported Versions
 | Version | Supported          |
@@ -219,7 +219,7 @@ Páginas de Documentação:        50+ ?
 
 ---
 
-## ?? Contatos
+## Contatos
 
 **Segurança:** security@configr.dev  
 **Issues:** https://github.com/mbanagouro/configr/issues  
@@ -228,7 +228,7 @@ Páginas de Documentação:        50+ ?
 
 ---
 
-## ?? Atualizações
+## Atualizações
 
 Este conjunto de documentos é atualizado sempre que:
 - Novas vulnerabilidades são descobertas
@@ -240,7 +240,7 @@ Este conjunto de documentos é atualizado sempre que:
 
 ---
 
-## ? Checklist de Segurança
+## Checklist de Segurança
 
 Antes de usar ConfigR em produção:
 
@@ -257,7 +257,7 @@ Antes de usar ConfigR em produção:
 
 ---
 
-## ?? Recursos Adicionais
+## Recursos Adicionais
 
 ### OWASP
 - [OWASP Top 10](https://owasp.org/Top10/)
