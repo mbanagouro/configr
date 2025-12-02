@@ -1,7 +1,7 @@
-# Guia de Boas Práticas de Segurança - ConfigR
+# Guia de Boas PrÃ¡ticas de SeguranÃ§a - ConfigR
 
-Este documento fornece orientações essenciais para uso seguro do ConfigR em ambientes de produção.
-
+Este documento fornece orientaÃ§Ãµes essenciais para uso seguro do ConfigR em ambientes de produÃ§Ã£o.
+ 
 ---
 
 ## O QUE NUNCA FAZER
@@ -9,7 +9,7 @@ Este documento fornece orientações essenciais para uso seguro do ConfigR em ambi
 ### 1. Armazenar Senhas ou Secrets
 
 ```csharp
-// NUNCA FAÇA ISSO
+// NUNCA FAÃ‡A ISSO
 public class DatabaseConfig
 {
     public string ConnectionString { get; set; }
@@ -18,10 +18,10 @@ public class DatabaseConfig
 }
 ```
 
-**Por quê?**
-- ConfigR não criptografa dados por padrão
+**Por quÃª?**
+- ConfigR nÃ£o criptografa dados por padrÃ£o
 - Dados ficam em texto plano no banco
-- Violação de compliance (PCI-DSS, SOC 2, ISO 27001)
+- ViolaÃ§Ã£o de compliance (PCI-DSS, SOC 2, ISO 27001)
 
 **Use em vez disso:**
 ```csharp
@@ -39,7 +39,7 @@ builder.Configuration.AddSecretsManager();
 builder.Configuration.AddVaultConfiguration(...);
 ```
 
-### 2. Expor APIs de Configuração Sem Autenticação
+### 2. Expor APIs de ConfiguraÃ§Ã£o Sem AutenticaÃ§Ã£o
 
 ```csharp
 // PERIGOSO - Qualquer um pode modificar
@@ -51,7 +51,7 @@ public async Task UpdateConfig([FromBody] MyConfig config)
 }
 ```
 
-**Use autenticação forte:**
+**Use autenticaÃ§Ã£o forte:**
 ```csharp
 [HttpPost("config")]
 [Authorize(Policy = "AdminOnly")]
@@ -72,7 +72,7 @@ public async Task UpdateConfig([FromBody] MyConfig config)
 ### 3. Usar Connection Strings com Senhas Hardcoded
 
 ```json
-// NÃO FAZER
+// NÃƒO FAZER
 {
   "ConnectionStrings": {
     "ConfigR": "Server=prod.db.com;User=admin;Password=Pass123!;"
@@ -86,7 +86,7 @@ dotnet user-secrets init
 dotnet user-secrets set "ConnectionStrings:ConfigR" "Server=localhost;..."
 ```
 
-**Use Variáveis de Ambiente (Produção):**
+**Use VariÃ¡veis de Ambiente (ProduÃ§Ã£o):**
 ```bash
 # Linux/Docker
 export ConnectionStrings__ConfigR="Server=prod;..."
@@ -107,7 +107,7 @@ export ConnectionStrings__ConfigR="Server=prod;..."
 ### 4. Armazenar PII (Dados Pessoais)
 
 ```csharp
-// VIOLAÇÃO DE LGPD/GDPR
+// VIOLAÃ‡ÃƒO DE LGPD/GDPR
 public class UserConfig
 {
     public string CPF { get; set; }           // NUNCA!
@@ -116,10 +116,10 @@ public class UserConfig
 }
 ```
 
-**Por quê?**
-- ConfigR não tem recursos de anonimização
-- Violação de LGPD/GDPR
-- Não tem auditoria de acesso a PII
+**Por quÃª?**
+- ConfigR nÃ£o tem recursos de anonimizaÃ§Ã£o
+- ViolaÃ§Ã£o de LGPD/GDPR
+- NÃ£o tem auditoria de acesso a PII
 
 **Use sistemas apropriados:**
 - Customer Data Platforms (CDPs)
@@ -198,7 +198,7 @@ public class AuditConfigR : IConfigR
 builder.Services.AddSingleton<IConfigR, AuditConfigR>();
 ```
 
-### 3. Usar TLS/SSL para Conexões de Banco
+### 3. Usar TLS/SSL para ConexÃµes de Banco
 
 ```csharp
 // SQL Server
@@ -245,17 +245,17 @@ builder.Services.AddRateLimiter(options =>
 public async Task UpdateConfig([FromBody] MyConfig config) { }
 ```
 
-### 5. Princípio do Menor Privilégio (Database)
+### 5. PrincÃ­pio do Menor PrivilÃ©gio (Database)
 
 ```sql
--- SQL Server: Criar usuário com permissões mínimas
+-- SQL Server: Criar usuÃ¡rio com permissÃµes mÃ­nimas
 CREATE LOGIN configr_app WITH PASSWORD = 'StrongPassword!123';
 CREATE USER configr_app FOR LOGIN configr_app;
 
 -- Apenas SELECT, INSERT, UPDATE na tabela ConfigR
 GRANT SELECT, INSERT, UPDATE ON dbo.ConfigR TO configr_app;
 
--- Remover permissões perigosas
+-- Remover permissÃµes perigosas
 REVOKE DELETE, DROP, ALTER, CREATE FROM configr_app;
 DENY CONTROL ON DATABASE::configr TO configr_app;
 
@@ -284,7 +284,7 @@ Log.Logger = new LoggerConfiguration()
     .Enrich.WithProperty("Application", "ConfigR")
     .CreateLogger();
 
-// Alert em modificações
+// Alert em modificaÃ§Ãµes
 public class AlertingConfigR : IConfigR
 {
     private readonly IConfigR _inner;
@@ -294,7 +294,7 @@ public class AlertingConfigR : IConfigR
     {
         await _inner.SaveAsync(config);
         
-        // Alertar time de segurança
+        // Alertar time de seguranÃ§a
         await _alertService.SendAlertAsync(new Alert
         {
             Severity = AlertSeverity.Warning,
@@ -307,7 +307,7 @@ public class AlertingConfigR : IConfigR
 
 ---
 
-## Configurações de Segurança por Ambiente
+## ConfiguraÃ§Ãµes de SeguranÃ§a por Ambiente
 
 ### Desenvolvimento
 
@@ -340,7 +340,7 @@ public class AlertingConfigR : IConfigR
 // Use Azure Key Vault ou AWS Secrets Manager para connection string
 ```
 
-### Produção
+### ProduÃ§Ã£o
 
 ```csharp
 // appsettings.Production.json
@@ -353,15 +353,15 @@ public class AlertingConfigR : IConfigR
 }
 
 // Todas as secrets em Key Vault/Secrets Manager
-// Managed Identity para autenticação
-// TLS obrigatório
+// Managed Identity para autenticaÃ§Ã£o
+// TLS obrigatÃ³rio
 // Rate limiting ativo
-// Audit logging obrigatório
+// Audit logging obrigatÃ³rio
 ```
 
 ---
 
-## Testes de Segurança
+## Testes de SeguranÃ§a
 
 ```csharp
 public class SecurityTests
@@ -404,25 +404,25 @@ public class SecurityTests
 
 ---
 
-## Checklist de Segurança
+## Checklist de SeguranÃ§a
 
-Antes de implantar em produção:
+Antes de implantar em produÃ§Ã£o:
 
-- [ ] Connection strings não têm senhas hardcoded
-- [ ] TLS/SSL habilitado em todas as conexões
-- [ ] Usuário de banco com permissões mínimas
-- [ ] Autenticação obrigatória em endpoints de config
-- [ ] Autorização baseada em roles (Admin, Operator, etc)
-- [ ] Validação de entrada implementada
+- [ ] Connection strings nÃ£o tÃªm senhas hardcoded
+- [ ] TLS/SSL habilitado em todas as conexÃµes
+- [ ] UsuÃ¡rio de banco com permissÃµes mÃ­nimas
+- [ ] AutenticaÃ§Ã£o obrigatÃ³ria em endpoints de config
+- [ ] AutorizaÃ§Ã£o baseada em roles (Admin, Operator, etc)
+- [ ] ValidaÃ§Ã£o de entrada implementada
 - [ ] Audit logging configurado
 - [ ] Rate limiting ativo
 - [ ] Monitoramento e alertas configurados
 - [ ] Secrets em Key Vault/Secrets Manager
 - [ ] Backups configurados
 - [ ] Plano de resposta a incidentes documentado
-- [ ] Testes de segurança automatizados
-- [ ] Revisão de código focada em segurança
-- [ ] Documentação de segurança atualizada
+- [ ] Testes de seguranÃ§a automatizados
+- [ ] RevisÃ£o de cÃ³digo focada em seguranÃ§a
+- [ ] DocumentaÃ§Ã£o de seguranÃ§a atualizada
 
 ---
 
@@ -438,18 +438,18 @@ Antes de implantar em produção:
 
 2. **Investigar**
    - Revisar audit logs
-   - Verificar configurações modificadas recentemente
+   - Verificar configuraÃ§Ãµes modificadas recentemente
    - Identificar acessos suspeitos
 
 3. **Remediar**
    - Rotacionar todas as credenciais
-   - Restaurar configurações de backup
-   - Aplicar patches de segurança
+   - Restaurar configuraÃ§Ãµes de backup
+   - Aplicar patches de seguranÃ§a
 
 4. **Documentar**
    - Post-mortem
-   - Lições aprendidas
-   - Melhorias necessárias
+   - LiÃ§Ãµes aprendidas
+   - Melhorias necessÃ¡rias
 
 ---
 
@@ -462,11 +462,11 @@ Antes de implantar em produção:
 
 ---
 
-## Contato de Segurança
+## Contato de SeguranÃ§a
 
 **Email:** michel@leanwork.com.br
 **Security Advisories:** https://github.com/mbanagouro/configr/security
 
 ---
 
-**Lembre-se:** Segurança é um processo contínuo, não um produto final!
+**Lembre-se:** SeguranÃ§a Ã© um processo contÃ­nuo, nÃ£o um produto final!
