@@ -1,15 +1,15 @@
-# ??? Guia de Boas Práticas de Segurança - ConfigR
+# Guia de Boas Práticas de Segurança - ConfigR
 
 Este documento fornece orientações essenciais para uso seguro do ConfigR em ambientes de produção.
 
 ---
 
-## ?? O QUE NUNCA FAZER
+## O QUE NUNCA FAZER
 
-### 1. ? Armazenar Senhas ou Secrets
+### 1. Armazenar Senhas ou Secrets
 
 ```csharp
-// ? NUNCA FAÇA ISSO
+// NUNCA FAÇA ISSO
 public class DatabaseConfig
 {
     public string ConnectionString { get; set; }
@@ -23,7 +23,7 @@ public class DatabaseConfig
 - Dados ficam em texto plano no banco
 - Violação de compliance (PCI-DSS, SOC 2, ISO 27001)
 
-**? Use em vez disso:**
+**Use em vez disso:**
 ```csharp
 // Azure Key Vault
 builder.Configuration.AddAzureKeyVault(
@@ -39,10 +39,10 @@ builder.Configuration.AddSecretsManager();
 builder.Configuration.AddVaultConfiguration(...);
 ```
 
-### 2. ? Expor APIs de Configuração Sem Autenticação
+### 2. Expor APIs de Configuração Sem Autenticação
 
 ```csharp
-// ? PERIGOSO - Qualquer um pode modificar
+// PERIGOSO - Qualquer um pode modificar
 [HttpPost("config")]
 [AllowAnonymous]  // NUNCA!
 public async Task UpdateConfig([FromBody] MyConfig config)
@@ -51,7 +51,7 @@ public async Task UpdateConfig([FromBody] MyConfig config)
 }
 ```
 
-**? Use autenticação forte:**
+**Use autenticação forte:**
 ```csharp
 [HttpPost("config")]
 [Authorize(Policy = "AdminOnly")]
@@ -69,10 +69,10 @@ public async Task UpdateConfig([FromBody] MyConfig config)
 }
 ```
 
-### 3. ? Usar Connection Strings com Senhas Hardcoded
+### 3. Usar Connection Strings com Senhas Hardcoded
 
 ```json
-// ? NÃO FAZER
+// NÃO FAZER
 {
   "ConnectionStrings": {
     "ConfigR": "Server=prod.db.com;User=admin;Password=Pass123!;"
@@ -80,13 +80,13 @@ public async Task UpdateConfig([FromBody] MyConfig config)
 }
 ```
 
-**? Use User Secrets (Desenvolvimento):**
+**Use User Secrets (Desenvolvimento):**
 ```bash
 dotnet user-secrets init
 dotnet user-secrets set "ConnectionStrings:ConfigR" "Server=localhost;..."
 ```
 
-**? Use Variáveis de Ambiente (Produção):**
+**Use Variáveis de Ambiente (Produção):**
 ```bash
 # Linux/Docker
 export ConnectionStrings__ConfigR="Server=prod;..."
@@ -95,7 +95,7 @@ export ConnectionStrings__ConfigR="Server=prod;..."
 # Configure em Application Settings
 ```
 
-**? Use Managed Identity:**
+**Use Managed Identity:**
 ```csharp
 // Azure SQL com Managed Identity
 "Server=myserver.database.windows.net;Authentication=Active Directory Default;Database=configr;"
@@ -104,10 +104,10 @@ export ConnectionStrings__ConfigR="Server=prod;..."
 "Server=mydb.region.rds.amazonaws.com;Integrated Security=true;..."
 ```
 
-### 4. ? Armazenar PII (Dados Pessoais)
+### 4. Armazenar PII (Dados Pessoais)
 
 ```csharp
-// ? VIOLAÇÃO DE LGPD/GDPR
+// VIOLAÇÃO DE LGPD/GDPR
 public class UserConfig
 {
     public string CPF { get; set; }           // NUNCA!
@@ -121,16 +121,16 @@ public class UserConfig
 - Violação de LGPD/GDPR
 - Não tem auditoria de acesso a PII
 
-**? Use sistemas apropriados:**
+**Use sistemas apropriados:**
 - Customer Data Platforms (CDPs)
 - Bancos de dados com criptografia em campo
 - Sistemas com consent management
 
 ---
 
-## ? O QUE SEMPRE FAZER
+## O QUE SEMPRE FAZER
 
-### 1. ? Validar Todas as Entradas
+### 1. Validar Todas as Entradas
 
 ```csharp
 using System.ComponentModel.DataAnnotations;
@@ -161,7 +161,7 @@ public async Task<IActionResult> UpdateConfig([FromBody] CheckoutConfig config)
 }
 ```
 
-### 2. ? Implementar Audit Logging
+### 2. Implementar Audit Logging
 
 ```csharp
 public class AuditConfigR : IConfigR
@@ -198,7 +198,7 @@ public class AuditConfigR : IConfigR
 builder.Services.AddSingleton<IConfigR, AuditConfigR>();
 ```
 
-### 3. ? Usar TLS/SSL para Conexões de Banco
+### 3. Usar TLS/SSL para Conexões de Banco
 
 ```csharp
 // SQL Server
@@ -217,7 +217,7 @@ builder.Services.AddSingleton<IConfigR, AuditConfigR>();
 "prod.redis.com:6380,ssl=true,password=..."
 ```
 
-### 4. ? Implementar Rate Limiting
+### 4. Implementar Rate Limiting
 
 ```csharp
 using Microsoft.AspNetCore.RateLimiting;
@@ -245,7 +245,7 @@ builder.Services.AddRateLimiter(options =>
 public async Task UpdateConfig([FromBody] MyConfig config) { }
 ```
 
-### 5. ? Princípio do Menor Privilégio (Database)
+### 5. Princípio do Menor Privilégio (Database)
 
 ```sql
 -- SQL Server: Criar usuário com permissões mínimas
@@ -270,7 +270,7 @@ GRANT SELECT, INSERT, UPDATE ON configr.configr TO configr_app;
 REVOKE DELETE, DROP, TRUNCATE ON configr.configr FROM configr_app;
 ```
 
-### 6. ? Monitoramento e Alertas
+### 6. Monitoramento e Alertas
 
 ```csharp
 // Application Insights
@@ -307,7 +307,7 @@ public class AlertingConfigR : IConfigR
 
 ---
 
-## ?? Configurações de Segurança por Ambiente
+## Configurações de Segurança por Ambiente
 
 ### Desenvolvimento
 
@@ -361,7 +361,7 @@ public class AlertingConfigR : IConfigR
 
 ---
 
-## ?? Testes de Segurança
+## Testes de Segurança
 
 ```csharp
 public class SecurityTests
@@ -404,7 +404,7 @@ public class SecurityTests
 
 ---
 
-## ?? Checklist de Segurança
+## Checklist de Segurança
 
 Antes de implantar em produção:
 
@@ -426,7 +426,7 @@ Antes de implantar em produção:
 
 ---
 
-## ?? Resposta a Incidentes
+## Resposta a Incidentes
 
 ### Se suspeitar de comprometimento:
 
@@ -453,7 +453,7 @@ Antes de implantar em produção:
 
 ---
 
-## ?? Recursos Adicionais
+## Recursos Adicionais
 
 - [OWASP Top 10](https://owasp.org/Top10/)
 - [.NET Security Best Practices](https://docs.microsoft.com/en-us/dotnet/standard/security/)
@@ -462,7 +462,7 @@ Antes de implantar em produção:
 
 ---
 
-## ?? Contato de Segurança
+## Contato de Segurança
 
 **Email:** michel@leanwork.com.br
 **Security Advisories:** https://github.com/mbanagouro/configr/security
