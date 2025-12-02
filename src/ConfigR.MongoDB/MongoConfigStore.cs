@@ -12,6 +12,11 @@ namespace ConfigR.MongoDB;
 public sealed class MongoConfigStore : IConfigStore
 {
     private readonly IMongoCollection<BsonDocument> _collection;
+    
+    // Tamanho máximo para valores de configuração (100MB)
+    private const int MaxValueSize = 100 * 1024 * 1024;
+    private const int MaxKeySize = 256;
+    private const int MaxScopeSize = 128;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MongoConfigStore"/> class.
@@ -37,6 +42,39 @@ public sealed class MongoConfigStore : IConfigStore
         _collection = database.GetCollection<BsonDocument>(value.Collection);
 
         EnsureIndexes();
+    }
+    
+    /// <summary>
+    /// Valida o tamanho do valor para prevenir ataques de negação de serviço.
+    /// </summary>
+    private static void ValidateValueSize(string? value, string key)
+    {
+        if (value?.Length > MaxValueSize)
+        {
+            throw new ArgumentException(
+                $"Configuration value for key '{key}' exceeds maximum allowed size of {MaxValueSize} bytes.",
+                nameof(value));
+        }
+    }
+    
+    /// <summary>
+    /// Valida tamanhos de key e scope.
+    /// </summary>
+    private static void ValidateInputSizes(string? key, string? scope)
+    {
+        if (key?.Length > MaxKeySize)
+        {
+            throw new ArgumentException(
+                $"Configuration key '{key}' exceeds maximum allowed length of {MaxKeySize} characters.",
+                nameof(key));
+        }
+        
+        if (scope?.Length > MaxScopeSize)
+        {
+            throw new ArgumentException(
+                $"Scope '{scope}' exceeds maximum allowed length of {MaxScopeSize} characters.",
+                nameof(scope));
+        }
     }
 
     /// <summary>
@@ -66,6 +104,13 @@ public sealed class MongoConfigStore : IConfigStore
     /// <returns>The configuration entry if found; otherwise, null.</returns>
     public async Task<ConfigEntry?> GetAsync(string key, string? scope = null)
     {
+        if (string.IsNullOrWhiteSpace(key))
+        {
+            throw new ArgumentException("Key must be provided.", nameof(key));
+        }
+        
+        ValidateInputSizes(key, scope);
+        
         var filter = BuildFilter(key, scope);
 
         var doc = await _collection
@@ -80,7 +125,7 @@ public sealed class MongoConfigStore : IConfigStore
         {
             Key = doc.TryGetValue("Key", out BsonValue? keyValue) ? keyValue.AsString : null,
             Value = doc.TryGetValue("Value", out BsonValue? value) ? value.AsString : null,
-            Scope = doc.TryGetValue("Scope", out BsonValue? scopeValue) ? value.AsString : null
+            Scope = doc.TryGetValue("Scope", out BsonValue? scopeValue) ? scopeValue.AsString : null
         };
     }
 
@@ -91,6 +136,8 @@ public sealed class MongoConfigStore : IConfigStore
     /// <returns>A read-only dictionary of configuration entries.</returns>
     public async Task<IReadOnlyDictionary<string, ConfigEntry>> GetAllAsync(string? scope = null)
     {
+        ValidateInputSizes(null, scope);
+        
         var filter = scope is null
             ? Builders<BsonDocument>.Filter.Eq("Scope", BsonNull.Value)
             : Builders<BsonDocument>.Filter.Eq("Scope", scope);
@@ -134,23 +181,30 @@ public sealed class MongoConfigStore : IConfigStore
     /// <param name="scope">The optional scope.</param>
     /// <returns>A task representing the asynchronous upsert operation.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="entries"/> is null.</exception>
+    /// <exception cref="ArgumentException">Thrown when entry validation fails.</exception>
     public async Task UpsertAsync(IEnumerable<ConfigEntry> entries, string? scope = null)
     {
         ArgumentNullException.ThrowIfNull(entries);
 
         foreach (var entry in entries)
         {
-            if (entry is null)
+            if (entry is null || string.IsNullOrWhiteSpace(entry.Key))
             {
                 continue;
             }
+            
+            var effectiveScope = scope ?? entry.Scope;
+            
+            // Validar tamanhos
+            ValidateInputSizes(entry.Key, effectiveScope);
+            ValidateValueSize(entry.Value, entry.Key);
 
-            var filter = BuildFilter(entry?.Key, scope);
+            var filter = BuildFilter(entry.Key, effectiveScope);
 
             var update = Builders<BsonDocument>.Update
-                .Set("Key", entry?.Key)
-                .Set("Value", entry?.Value)
-                .Set("Scope", entry?.Scope);
+                .Set("Key", entry.Key)
+                .Set("Value", entry.Value ?? string.Empty)
+                .Set("Scope", effectiveScope);
 
             var options = new FindOneAndUpdateOptions<BsonDocument>
             {

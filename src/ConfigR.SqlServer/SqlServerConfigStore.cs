@@ -2,6 +2,7 @@ using ConfigR.Abstractions;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Options;
 using System.Data;
+using System.Text.RegularExpressions;
 
 namespace ConfigR.SqlServer;
 
@@ -14,6 +15,12 @@ public sealed class SqlServerConfigStore : IConfigStore
     private readonly string _fullTableName;
     private readonly SemaphoreSlim _initSemaphore = new(1, 1);
     private bool _initialized;
+    
+    // Regex para validar identificadores SQL seguros (schema/table)
+    private static readonly Regex SafeSqlIdentifierRegex = new(@"^[a-zA-Z_][a-zA-Z0-9_]{0,127}$", RegexOptions.Compiled);
+    
+    // Tamanho máximo para valores de configuração (100MB)
+    private const int MaxValueSize = 100 * 1024 * 1024;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SqlServerConfigStore"/> class.
@@ -34,8 +41,38 @@ public sealed class SqlServerConfigStore : IConfigStore
 
         var schema = string.IsNullOrWhiteSpace(_options.Schema) ? "dbo" : _options.Schema;
         var table = string.IsNullOrWhiteSpace(_options.Table) ? "ConfigR" : _options.Table;
+        
+        // Validar schema e table para prevenir SQL injection
+        ValidateSqlIdentifier(schema, nameof(_options.Schema));
+        ValidateSqlIdentifier(table, nameof(_options.Table));
 
         _fullTableName = $"[{schema}].[{table}]";
+    }
+    
+    /// <summary>
+    /// Valida que um identificador SQL é seguro e não contém caracteres maliciosos.
+    /// </summary>
+    private static void ValidateSqlIdentifier(string identifier, string parameterName)
+    {
+        if (!SafeSqlIdentifierRegex.IsMatch(identifier))
+        {
+            throw new ArgumentException(
+                $"Invalid SQL identifier '{identifier}'. Only alphanumeric characters and underscores are allowed, and it must start with a letter or underscore.",
+                parameterName);
+        }
+    }
+    
+    /// <summary>
+    /// Valida o tamanho do valor para prevenir ataques de negação de serviço.
+    /// </summary>
+    private static void ValidateValueSize(string value, string key)
+    {
+        if (value?.Length > MaxValueSize)
+        {
+            throw new ArgumentException(
+                $"Configuration value for key '{key}' exceeds maximum allowed size of {MaxValueSize} bytes.",
+                nameof(value));
+        }
     }
 
     /// <summary>
@@ -144,6 +181,7 @@ public sealed class SqlServerConfigStore : IConfigStore
     /// <param name="scope">The optional scope.</param>
     /// <returns>A task representing the asynchronous upsert operation.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="entries"/> is null.</exception>
+    /// <exception cref="ArgumentException">Thrown when entry validation fails.</exception>
     public async Task UpsertAsync(IEnumerable<ConfigEntry> entries, string? scope = null)
     {
         ArgumentNullException.ThrowIfNull(entries);
@@ -193,8 +231,30 @@ public sealed class SqlServerConfigStore : IConfigStore
                     {
                         continue;
                     }
+                    
+                    // Validar tamanho da chave
+                    if (entry.Key.Length > 256)
+                    {
+                        throw new ArgumentException(
+                            $"Configuration key '{entry.Key}' exceeds maximum allowed length of 256 characters.",
+                            nameof(entries));
+                    }
 
                     var effectiveScope = scope ?? entry.Scope;
+                    
+                    // Validar tamanho do scope
+                    if (effectiveScope?.Length > 128)
+                    {
+                        throw new ArgumentException(
+                            $"Scope '{effectiveScope}' exceeds maximum allowed length of 128 characters.",
+                            nameof(scope));
+                    }
+                    
+                    // Validar tamanho do valor
+                    if (entry.Value != null)
+                    {
+                        ValidateValueSize(entry.Value, entry.Key);
+                    }
 
                     keyParam.Value = entry.Key;
                     valueParam.Value = (object?)entry.Value ?? string.Empty;

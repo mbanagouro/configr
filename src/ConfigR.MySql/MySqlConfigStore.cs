@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using MySqlConnector;
 using System.Data;
+using System.Text.RegularExpressions;
 
 namespace ConfigR.MySql;
 
@@ -11,6 +12,14 @@ namespace ConfigR.MySql;
 public sealed class MySqlConfigStore : IConfigStore
 {
     private readonly MySqlConfigStoreOptions _options;
+    
+    // Regex para validar identificadores SQL seguros
+    private static readonly Regex SafeSqlIdentifierRegex = new(@"^[a-zA-Z_][a-zA-Z0-9_]{0,64}$", RegexOptions.Compiled);
+    
+    // Tamanho máximo para valores de configuração (100MB)
+    private const int MaxValueSize = 100 * 1024 * 1024;
+    private const int MaxKeySize = 255;
+    private const int MaxScopeSize = 255;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MySqlConfigStore"/> class.
@@ -20,6 +29,10 @@ public sealed class MySqlConfigStore : IConfigStore
     public MySqlConfigStore(IOptions<MySqlConfigStoreOptions> options)
     {
         _options = options.Value ?? throw new ArgumentNullException(nameof(options));
+        
+        // Validar nome da tabela para prevenir SQL injection
+        ValidateSqlIdentifier(_options.Table, nameof(_options.Table));
+        
         EnsureTable();
     }
 
@@ -27,6 +40,57 @@ public sealed class MySqlConfigStore : IConfigStore
     /// Gets the configured table name.
     /// </summary>
     private string Table => _options.Table;
+    
+    /// <summary>
+    /// Valida que um identificador SQL é seguro e não contém caracteres maliciosos.
+    /// </summary>
+    private static void ValidateSqlIdentifier(string identifier, string parameterName)
+    {
+        if (string.IsNullOrWhiteSpace(identifier))
+        {
+            throw new ArgumentException("SQL identifier cannot be null or empty.", parameterName);
+        }
+        
+        if (!SafeSqlIdentifierRegex.IsMatch(identifier))
+        {
+            throw new ArgumentException(
+                $"Invalid SQL identifier '{identifier}'. Only alphanumeric characters and underscores are allowed, must start with a letter or underscore, and be max 64 characters.",
+                parameterName);
+        }
+    }
+    
+    /// <summary>
+    /// Valida o tamanho do valor para prevenir ataques de negação de serviço.
+    /// </summary>
+    private static void ValidateValueSize(string? value, string key)
+    {
+        if (value?.Length > MaxValueSize)
+        {
+            throw new ArgumentException(
+                $"Configuration value for key '{key}' exceeds maximum allowed size of {MaxValueSize} bytes.",
+                nameof(value));
+        }
+    }
+    
+    /// <summary>
+    /// Valida tamanhos de key e scope.
+    /// </summary>
+    private static void ValidateInputSizes(string key, string? scope)
+    {
+        if (key.Length > MaxKeySize)
+        {
+            throw new ArgumentException(
+                $"Configuration key '{key}' exceeds maximum allowed length of {MaxKeySize} characters.",
+                nameof(key));
+        }
+        
+        if (scope?.Length > MaxScopeSize)
+        {
+            throw new ArgumentException(
+                $"Scope '{scope}' exceeds maximum allowed length of {MaxScopeSize} characters.",
+                nameof(scope));
+        }
+    }
 
     /// <summary>
     /// Ensures that the configuration table exists in the database, creating it if necessary.
@@ -64,6 +128,8 @@ public sealed class MySqlConfigStore : IConfigStore
     /// <returns>The configuration entry if found; otherwise, null.</returns>
     public async Task<ConfigEntry?> GetAsync(string key, string? scope = null)
     {
+        ValidateInputSizes(key, scope);
+        
         await using var conn = new MySqlConnection(_options.ConnectionString);
         await conn.OpenAsync();
 
@@ -151,10 +217,21 @@ public sealed class MySqlConfigStore : IConfigStore
 
         foreach (var entry in entries)
         {
+            if (string.IsNullOrWhiteSpace(entry.Key))
+            {
+                continue;
+            }
+            
+            var effectiveScope = scope ?? entry.Scope;
+            
+            // Validar tamanhos
+            ValidateInputSizes(entry.Key, effectiveScope);
+            ValidateValueSize(entry.Value, entry.Key);
+            
             cmd.Parameters.Clear();
             cmd.Parameters.AddWithValue("@key", entry.Key);
-            cmd.Parameters.AddWithValue("@value", entry.Value);
-            cmd.Parameters.AddWithValue("@scope", DbNullIfNull(scope));
+            cmd.Parameters.AddWithValue("@value", entry.Value ?? string.Empty);
+            cmd.Parameters.AddWithValue("@scope", DbNullIfNull(effectiveScope));
             
             await cmd.ExecuteNonQueryAsync();
         }

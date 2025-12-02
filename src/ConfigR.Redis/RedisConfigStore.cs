@@ -1,6 +1,7 @@
 ﻿using ConfigR.Abstractions;
 using Microsoft.Extensions.Options;
 using StackExchange.Redis;
+using System.Text.RegularExpressions;
 
 namespace ConfigR.Redis;
 
@@ -11,6 +12,14 @@ public sealed class RedisConfigStore : IConfigStore
 {
     private readonly RedisConfigStoreOptions _options;
     private readonly IConnectionMultiplexer _redis;
+    
+    // Regex para validar prefixos seguros
+    private static readonly Regex SafeKeyPrefixRegex = new(@"^[a-zA-Z0-9_\-:]{1,100}$", RegexOptions.Compiled);
+    
+    // Tamanho máximo para valores de configuração (100MB)
+    private const int MaxValueSize = 100 * 1024 * 1024;
+    private const int MaxKeySize = 256;
+    private const int MaxScopeSize = 128;
 
     /// <summary>
     /// Default scope value used when no scope is provided.
@@ -29,6 +38,58 @@ public sealed class RedisConfigStore : IConfigStore
     {
         _options = options.Value ?? throw new ArgumentNullException(nameof(options));
         _redis = redis ?? throw new ArgumentNullException(nameof(redis));
+        
+        // Validar key prefix
+        if (!string.IsNullOrWhiteSpace(_options.KeyPrefix))
+        {
+            ValidateKeyPrefix(_options.KeyPrefix);
+        }
+    }
+    
+    /// <summary>
+    /// Valida que um prefixo de chave é seguro.
+    /// </summary>
+    private static void ValidateKeyPrefix(string prefix)
+    {
+        if (!SafeKeyPrefixRegex.IsMatch(prefix))
+        {
+            throw new ArgumentException(
+                $"Invalid key prefix '{prefix}'. Only alphanumeric characters, underscores, hyphens, and colons are allowed (max 100 characters).",
+                nameof(prefix));
+        }
+    }
+    
+    /// <summary>
+    /// Valida o tamanho do valor para prevenir ataques de negação de serviço.
+    /// </summary>
+    private static void ValidateValueSize(string? value, string key)
+    {
+        if (value?.Length > MaxValueSize)
+        {
+            throw new ArgumentException(
+                $"Configuration value for key '{key}' exceeds maximum allowed size of {MaxValueSize} bytes.",
+                nameof(value));
+        }
+    }
+    
+    /// <summary>
+    /// Valida tamanhos de key e scope.
+    /// </summary>
+    private static void ValidateInputSizes(string key, string? scope)
+    {
+        if (key.Length > MaxKeySize)
+        {
+            throw new ArgumentException(
+                $"Configuration key '{key}' exceeds maximum allowed length of {MaxKeySize} characters.",
+                nameof(key));
+        }
+        
+        if (scope?.Length > MaxScopeSize)
+        {
+            throw new ArgumentException(
+                $"Scope '{scope}' exceeds maximum allowed length of {MaxScopeSize} characters.",
+                nameof(scope));
+        }
     }
 
     /// <summary>
@@ -51,6 +112,13 @@ public sealed class RedisConfigStore : IConfigStore
     /// <returns>The configuration entry if found; otherwise, null.</returns>
     public async Task<ConfigEntry?> GetAsync(string key, string? scope = null)
     {
+        if (string.IsNullOrWhiteSpace(key))
+        {
+            throw new ArgumentException("Key must be provided.", nameof(key));
+        }
+        
+        ValidateInputSizes(key, scope);
+        
         var db = _redis.GetDatabase();
         var value = await db.StringGetAsync(FormatKey(key, scope));
         if (!value.HasValue)
@@ -108,13 +176,27 @@ public sealed class RedisConfigStore : IConfigStore
     /// <param name="entries">The configuration entries to upsert.</param>
     /// <param name="scope">The optional scope.</param>
     /// <returns>A task representing the asynchronous upsert operation.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="entries"/> is null.</exception>
     public async Task UpsertAsync(IEnumerable<ConfigEntry> entries, string? scope = null)
     {
+        ArgumentNullException.ThrowIfNull(entries);
+        
         var db = _redis.GetDatabase();
 
         foreach (var entry in entries)
         {
-            await db.StringSetAsync(FormatKey(entry.Key, scope), entry.Value);
+            if (string.IsNullOrWhiteSpace(entry.Key))
+            {
+                continue;
+            }
+            
+            var effectiveScope = scope ?? entry.Scope;
+            
+            // Validar tamanhos
+            ValidateInputSizes(entry.Key, effectiveScope);
+            ValidateValueSize(entry.Value, entry.Key);
+            
+            await db.StringSetAsync(FormatKey(entry.Key, effectiveScope), entry.Value ?? string.Empty);
         }
     }
 }

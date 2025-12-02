@@ -1,6 +1,7 @@
 ﻿using ConfigR.Abstractions;
 using Microsoft.Extensions.Options;
 using Npgsql;
+using System.Text.RegularExpressions;
 
 namespace ConfigR.Npgsql;
 
@@ -10,6 +11,12 @@ namespace ConfigR.Npgsql;
 public sealed class NpgsqlConfigStore : IConfigStore
 {
     private readonly NpgsqlConfigStoreOptions _options;
+    
+    // Regex para validar identificadores SQL seguros (PostgreSQL permite até 63 caracteres)
+    private static readonly Regex SafeSqlIdentifierRegex = new(@"^[a-zA-Z_][a-zA-Z0-9_]{0,62}$", RegexOptions.Compiled);
+    
+    // Tamanho máximo para valores de configuração (100MB)
+    private const int MaxValueSize = 100 * 1024 * 1024;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="NpgsqlConfigStore"/> class.
@@ -20,9 +27,44 @@ public sealed class NpgsqlConfigStore : IConfigStore
     {
         _options = options.Value
             ?? throw new ArgumentNullException(nameof(options));
+        
+        // Validar schema e table para prevenir SQL injection
+        ValidateSqlIdentifier(_options.Schema, nameof(_options.Schema));
+        ValidateSqlIdentifier(_options.Table, nameof(_options.Table));
 
         if (_options.AutoCreateTable)
             EnsureTable();
+    }
+    
+    /// <summary>
+    /// Valida que um identificador SQL é seguro e não contém caracteres maliciosos.
+    /// </summary>
+    private static void ValidateSqlIdentifier(string identifier, string parameterName)
+    {
+        if (string.IsNullOrWhiteSpace(identifier))
+        {
+            throw new ArgumentException("SQL identifier cannot be null or empty.", parameterName);
+        }
+        
+        if (!SafeSqlIdentifierRegex.IsMatch(identifier))
+        {
+            throw new ArgumentException(
+                $"Invalid SQL identifier '{identifier}'. Only alphanumeric characters and underscores are allowed, must start with a letter or underscore, and be max 63 characters.",
+                parameterName);
+        }
+    }
+    
+    /// <summary>
+    /// Valida o tamanho do valor para prevenir ataques de negação de serviço.
+    /// </summary>
+    private static void ValidateValueSize(string? value, string key)
+    {
+        if (value?.Length > MaxValueSize)
+        {
+            throw new ArgumentException(
+                $"Configuration value for key '{key}' exceeds maximum allowed size of {MaxValueSize} bytes.",
+                nameof(value));
+        }
     }
 
     /// <summary>
@@ -151,10 +193,20 @@ public sealed class NpgsqlConfigStore : IConfigStore
 
                 foreach (var entry in entries)
                 {
+                    if (string.IsNullOrWhiteSpace(entry.Key))
+                    {
+                        continue;
+                    }
+                    
+                    var effectiveScope = scope ?? entry.Scope;
+                    
+                    // Validar tamanho do valor
+                    ValidateValueSize(entry.Value, entry.Key);
+                    
                     cmd.Parameters.Clear();
                     cmd.Parameters.AddWithValue("key", entry.Key);
                     cmd.Parameters.AddWithValue("value", entry.Value ?? (object)DBNull.Value);
-                    cmd.Parameters.AddWithValue("scope", (object?)(scope ?? entry.Scope) ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("scope", (object?)effectiveScope ?? DBNull.Value);
 
                     await cmd.ExecuteNonQueryAsync();
                 }
