@@ -219,10 +219,6 @@ builder.Services.AddConfigR(options =>
 {
     options.CacheDuration = TimeSpan.FromMinutes(10);
     options.DefaultScope = () => "Default";
-    options.JsonSerializerOptions = new JsonSerializerOptions 
-    { 
-        PropertyNameCaseInsensitive = true 
-    };
 });
 ```
 
@@ -232,7 +228,6 @@ builder.Services.AddConfigR(options =>
 |---|---|---|---|
 | `CacheDuration` | `TimeSpan?` | `TimeSpan.FromMinutes(10)` | Duração do cache em memória. `null` ou `TimeSpan.Zero` desabilita o cache. |
 | `DefaultScope` | `Func<string>` | `() => "Default"` | Função que retorna o escopo padrão para configurações. |
-| `JsonSerializerOptions` | `JsonSerializerOptions` | Padrão do .NET | Opções de serialização JSON customizadas. |
 
 **Exemplos:**
 

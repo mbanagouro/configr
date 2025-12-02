@@ -28,7 +28,6 @@
 - 🚀 **Cache em memória** - Otimização de performance integrada
 - 🧩 **Providers plugáveis** - Múltiplos opções de armazenamento
 - 🧱 **Scopes multi-tenant** - Configurações isoladas por tenant
-- 🔧 **Serialização customizável** - Formatação flexível de dados
 - 🧠 **Zero mágica** - Sem reflection pesada ou comportamentos implícitos
 
 ### Casos de Uso
@@ -255,4 +254,4 @@ MIT License - consulte o arquivo [LICENSE](LICENSE) para detalhes.
 CTO na Leanwork · Arquiteto e Especialista em ASP.NET
 
 - GitHub: https://github.com/mbanagouro
-- YouTube: https://youtube.com/@aspnetpro
+- YouTube: https://youtube.com/@aspnetpro- YouTube: https://youtube.com/@aspnetpro

@@ -236,22 +236,7 @@ Tempo 0:16 → GET (cache miss) → Lê banco (cache foi invalidado)
 
 ⚠️ **Aviso:** `TimeSpan.Zero` desabilita completamente o cache, o que pode sobrecarregar o banco de dados em aplicações com alto tráfego. Use com cuidado!
 
-### 📋 Configurar Serialização
-
-```csharp
-builder.Services
-    .AddConfigR(options =>
-    {
-        options.JsonSerializerOptions = new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true,
-            WriteIndented = false
-        };
-    })
-    .UseSqlServer(builder.Configuration.GetConnectionString("ConfigR"));
-```
-
-### 🔀 Configuração Combinada
+### 🔀 Configuração de Escopo Padrão
 
 ```csharp
 builder.Services
@@ -259,12 +244,6 @@ builder.Services
     {
         // Cache
         options.CacheDuration = TimeSpan.FromMinutes(5);
-        
-        // Serialização
-        options.JsonSerializerOptions = new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true
-        };
         
         // Escopo padrão
         options.DefaultScope = () => "Global";
